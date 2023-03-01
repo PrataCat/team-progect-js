@@ -1,6 +1,5 @@
 // ------------Lyosha, Yura, Dima--------------
-
-// import axios from "axios"; // не работает
+import axios from 'axios';
 
 const box = document.querySelector('.box-news');
 
@@ -9,18 +8,15 @@ const ENDPOINT = 'https://api.nytimes.com/svc/';
 
 async function getPopularNews() {
   const URL = `${ENDPOINT}mostpopular/v2/viewed/1.json?api-key=${KEY}`;
-
-  const response = await fetch(URL);
-  const data = await response.json();
-
-  return data.results;
+  const {
+    data: { results },
+  } = await axios.get(URL);
+  return results;
 }
 
 async function fetchPopularNews() {
   try {
     const results = await getPopularNews();
-    console.log('fetchPopularNews  results:', results);
-
     createPopularNewsCollection(results);
   } catch (error) {
     console.log(error);
@@ -35,15 +31,14 @@ function createPopularNewsCollection(arr) {
       const { abstract, title, url, published_date, media, section, id } = el;
       const foto = media[0]['media-metadata'][2].url;
       const data = published_date.split('-').reverse().join('/');
-
       return `<li class="box-news__item" id="${id}">
       <p class="box-news__section">${section}</p>
-      <span class="box-news__reading">Already read<svg width="18"
-              height="18"
-            >
-              <use
-                href="./image/symbol-defs.svg"
-              ></use></span>
+          <div class="box-news___wrap-reading">
+            <span class="box-news__reading">Alredy read</span>
+            <svg class="icon" width="18" height="18">
+              <use href="#icon-check"></use>
+            </svg> 
+          </div>
           <article>
             <div class="box-news__thumb">
               <img class="box-news__img" src="${foto}" loading="lazy" alt="${section}" width='440'/>
@@ -54,7 +49,6 @@ function createPopularNewsCollection(arr) {
           <p class="box-news__text">${
             abstract.length > 120 ? abstract.slice(0, 110) + '...' : abstract
           }</p>
-
           <div class="box-news__wrap">
             <p class="box-news__data">${data}</p>
             <a href="${url}" class="box-news__link" target="_blank" rel="noopener noreferrer nofollow">Read more</a>
