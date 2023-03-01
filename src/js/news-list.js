@@ -3,8 +3,11 @@ import axios from 'axios';
 
 const box = document.querySelector('.box-news');
 
+const STORAGE_KEY_READ = 'Read';
+
 const KEY = 'MaRHlqb5GkKZRi8GP7IZNIuwteQG5wDA';
 const ENDPOINT = 'https://api.nytimes.com/svc/';
+const arr = [1, 2, 3, 4, 5];
 
 async function getPopularNews() {
   const URL = `${ENDPOINT}mostpopular/v2/viewed/1.json?api-key=${KEY}`;
@@ -31,7 +34,7 @@ function createPopularNewsCollection(arr) {
       const { abstract, title, url, published_date, media, section, id } = el;
       const foto = media[0]['media-metadata'][2].url;
       const data = published_date.split('-').reverse().join('/');
-      return `<li class="box-news__item" id="${id}">
+      return `<li class="box-news__item" data-id="${id}">
       <p class="box-news__section">${section}</p>
           <div class="box-news___wrap-reading">
             <span class="box-news__reading">Alredy read</span>
@@ -57,7 +60,7 @@ function createPopularNewsCollection(arr) {
           </div>
           <div class="box-news__wrap">
             <p class="box-news__data">${data}</p>
-            <a href="${url}" class="box-news__link" target="_blank" rel="noopener noreferrer nofollow">Read more</a>
+            <a href="${url}" id="${id}" class="box-news__link" target="_blank" rel="noopener noreferrer nofollow">Read more</a>
           </div>
           </article>
         </li>`;
@@ -65,4 +68,30 @@ function createPopularNewsCollection(arr) {
     .join('');
 
   box.insertAdjacentHTML('beforeend', markupNewsCollection);
+
+  const item = document.querySelector('.box-news__item');
+  // console.log(item);
+  // onGetEl(arr);
+
+  // localStorage.setItem(STORAGE_KEY_READ, JSON.stringify(arr));
 }
+// function onClickReadMore(arr) {}
+
+// const item = document.querySelector('.box-news__item');
+// item.addEventListener('click', e => {
+//   if (e.target === btnRead) {
+//     localStorage.setItem(STORAGE_KEY_READ, JSON.stringify(item));
+//   }
+// });
+// console.log(item);
+
+// const btnRead = document.querySelector('.box-news__link');
+
+function onGetEl(e) {
+  if (e.target.nodeName === 'A') {
+    console.log(e.target);
+  }
+  // localStorage.setItem(STORAGE_KEY_READ, JSON.stringify(item));
+}
+
+box.addEventListener('click', onGetEl);
