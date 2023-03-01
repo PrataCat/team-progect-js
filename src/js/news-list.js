@@ -46,9 +46,15 @@ function createPopularNewsCollection(arr) {
           <div class="box-news__wrap-title">
             <h2 class="box-news__titel">${title}</h2>
           </div>
-          <p class="box-news__text">${
-            abstract.length > 120 ? abstract.slice(0, 110) + '...' : abstract
-          }</p>
+          <div class="box-news__wrap-text">
+            <p class="box-news__text">
+              ${
+                abstract.length > 120
+                  ? abstract.slice(0, 110) + '...'
+                  : abstract
+              }
+            </p>
+          </div>
           <div class="box-news__wrap">
             <p class="box-news__data">${data}</p>
             <a href="${url}" class="box-news__link" target="_blank" rel="noopener noreferrer nofollow">Read more</a>
