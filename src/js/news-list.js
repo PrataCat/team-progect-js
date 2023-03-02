@@ -1,11 +1,30 @@
 // ------------Lyosha, Yura, Dima--------------
 import axios from 'axios';
+import debounce from 'lodash.debounce';
 
 const box = document.querySelector('.box-news');
 let arrCurrentNews = [];
 
 const KEY = 'MaRHlqb5GkKZRi8GP7IZNIuwteQG5wDA';
 const ENDPOINT = 'https://api.nytimes.com/svc/';
+
+let page = 1;
+let perPage = 4;
+
+if (
+  document.documentElement.clientWidth > 768 &&
+  document.documentElement.clientWidth < 1280
+) {
+  perPage = 7;
+  fetchPopularNews();
+  console.log('Это статика');
+  return;
+} else if (document.documentElement.clientWidth > 1280) {
+  perPage = 8;
+  fetchPopularNews();
+  console.log('Это статика - 2');
+  return;
+}
 
 fetchPopularNews();
 
@@ -21,10 +40,36 @@ async function fetchPopularNews() {
   try {
     const results = await getPopularNews();
 
-    createPopularNewsCollection(results);
+    displayItems(results);
+    // createPopularNewsCollection(results);
   } catch (error) {
     console.log(error);
   }
+}
+
+window.addEventListener('resize', trackForResize);
+
+function trackForResize(e) {
+  const width = document.documentElement.clientWidth;
+  console.log('width - ', width);
+  if (width > 768 && width < 1280) {
+    console.log('trackForResize');
+    perPage = 7;
+    fetchPopularNews();
+  } else if (width > 1280) {
+    perPage = 8;
+    fetchPopularNews();
+  }
+}
+
+function displayItems(arr) {
+  const start = (page - 1) * perPage; // 0
+  const end = start + perPage; // 5
+  const paginatedEl = arr.slice(start, end);
+  console.log('paginatedEl - ', paginatedEl);
+  // console.log(arr);
+  // console.log(paginatedEl);
+  createPopularNewsCollection(paginatedEl);
 }
 
 function createPopularNewsCollection(arr) {
@@ -82,21 +127,6 @@ function onClick(e) {
   let currentId = null;
 
   console.dir(e.target);
-  // if (e.target.nodeName === 'SPAN') {
-  //   console.log('Мы нажали на SPAN');
-
-  //   const currentLi = e.target.closest('li');
-
-  //   newsToRead.id = +currentLi.dataset.id;
-  //   newsToRead.makupNews = currentLi.innerHTML;
-
-  //   const dateNow = new Date()
-  //     .toLocaleString()
-  //     .slice(0, 10)
-  //     .split('.')
-  //     .join('/');
-  //   console.log('dateNow - ', dateNow);
-  // }
 
   if (e.target.classList.value === 'box-news__link') {
     console.log('Мы нажали на Read more !');
@@ -116,7 +146,7 @@ function onClick(e) {
         save(ff, el);
 
         const currentLi = e.target.closest('li');
-        currentLi.classList.add('active')
+        currentLi.classList.add('active');
 
         return;
       }
