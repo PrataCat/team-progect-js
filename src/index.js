@@ -1,7 +1,6 @@
 // import { initializeApp } from 'firebase/app';
 // import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // // import { getFirestore, collection, getDocs, getDoc } from 'firebase/firestore';
-
 // // import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
 // // import {
 // //   getAuth,
