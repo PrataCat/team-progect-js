@@ -172,7 +172,7 @@ li.active .box-news___wrap-reading {
   }
 }
 
-li.active .overlay{
+li.active .overlay {
   transform: translatex(0);
   pointer-events: none;
 }
@@ -197,7 +197,6 @@ li.active .overlay{
   align-items: center;
   justify-content: center;
   min-width: 126px;
-  max-width: 168px;
   height: 28px;
   background: #ffffff;
   border-radius: 20px;
@@ -215,4 +214,14 @@ li.active .overlay{
 
 .box-news__favorite-svg {
   fill: none;
+  width: auto;
+  height: auto;
+}
+
+.favorite-p {
+  padding-left: 6px;
+}
+
+.favorite-svg {
+  padding-right: 6px;
 }

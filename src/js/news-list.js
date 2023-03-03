@@ -11,20 +11,20 @@ const ENDPOINT = 'https://api.nytimes.com/svc/';
 let page = 1;
 let perPage = 4;
 
-if (
-  document.documentElement.clientWidth > 768 &&
-  document.documentElement.clientWidth < 1280
-) {
-  perPage = 7;
-  fetchPopularNews();
-  console.log('Это статика');
-  return;
-} else if (document.documentElement.clientWidth > 1280) {
-  perPage = 8;
-  fetchPopularNews();
-  console.log('Это статика - 2');
-  return;
-}
+// if (
+//   document.documentElement.clientWidth > 768 &&
+//   document.documentElement.clientWidth < 1280
+// ) {
+//   perPage = 7;
+//   fetchPopularNews();
+//   console.log('Это статика');
+//   return;
+// } else if (document.documentElement.clientWidth > 1280) {
+//   perPage = 8;
+//   fetchPopularNews();
+//   console.log('Это статика - 2');
+//   return;
+// }
 
 fetchPopularNews();
 
@@ -49,20 +49,20 @@ async function fetchPopularNews() {
   }
 }
 
-window.addEventListener('resize', trackForResize);
+// window.addEventListener('resize', trackForResize);
 
-function trackForResize(e) {
-  const width = document.documentElement.clientWidth;
-  console.log('width - ', width);
-  if (width > 768 && width < 1280) {
-    console.log('trackForResize');
-    perPage = 7;
-    fetchPopularNews();
-  } else if (width > 1280) {
-    perPage = 8;
-    fetchPopularNews();
-  }
-}
+// function trackForResize(e) {
+//   const width = document.documentElement.clientWidth;
+//   console.log('width - ', width);
+//   if (width > 768 && width < 1280) {
+//     console.log('trackForResize');
+//     perPage = 7;
+//     fetchPopularNews();
+//   } else if (width > 1280) {
+//     perPage = 8;
+//     fetchPopularNews();
+//   }
+// }
 
 function displayItems(arr) {
   const start = (page - 1) * perPage; // 0
@@ -71,7 +71,7 @@ function displayItems(arr) {
   console.log('paginatedEl - ', paginatedEl);
   // console.log(arr);
   // console.log(paginatedEl);
-   createPopularNewsCollection(paginatedEl); 
+  createPopularNewsCollection(paginatedEl);
 }
 
 function createPopularNewsCollection(arr) {
@@ -126,6 +126,7 @@ function createPopularNewsCollection(arr) {
   box.insertAdjacentHTML('beforeend', markupNewsCollection);
   arrCurrentNews = arr;
   // console.log('arrCurrentNews - ', arrCurrentNews);
+}
 
 box.addEventListener('click', onClick);
 
@@ -162,34 +163,30 @@ function onClick(e) {
 box.addEventListener('click', onButtonFavorite);
 
 function onButtonFavorite(e) {
-  const favButton = e.target.closest('BUTTON');
-  console.dir(favButton);
-  // const favLi = favButton.closest('li');
-  const favP = favButton.querySelector('.box-news__favorite-p');
-  const favSvg = favButton.querySelector('.box-news__favorite-svg');
-  favSvg.style.fill = 'none';
-
-  if (!favButton.classList.contains('box-news__favorite-btn')) {
-    return;
-  }
-
-  if (favButton.classList.contains('favorite')) {
-    favButton.classList.remove('favorite');
-    favP.textContent = 'Add to Favorite';
+  if (e.target.closest('BUTTON')) {
+    const favButton = e.target.closest('BUTTON');
+    // const favLi = favButton.closest('li');
+    const favP = favButton.querySelector('.box-news__favorite-p');
+    const favSvg = favButton.querySelector('.box-news__favorite-svg');
     favSvg.style.fill = 'none';
-  } else {
-    favButton.classList.add('favorite');
-    favP.textContent = 'Remove from Favorite';
-    favSvg.style.fill = '#4B48DA';
-  }
-}
-
-function save(key, value) {
-  try {
-    const serializedState = JSON.stringify(value);
-    localStorage.setItem(key, serializedState);
-  } catch (error) {
-    console.error('Set state error: ', error.message);
+    if (
+      !e.target.closest('BUTTON').classList.contains('box-news__favorite-btn')
+    ) {
+      return;
+    }
+    if (favButton.classList.contains('favorite')) {
+      favButton.classList.remove('favorite');
+      favP.classList.remove('favorite-p');
+      favSvg.classList.remove('favorite-svg');
+      favP.textContent = 'Add to Favorite';
+      favSvg.style.fill = 'none';
+    } else {
+      favButton.classList.add('favorite');
+      favP.classList.add('favorite-p');
+      favSvg.classList.add('favorite-svg');
+      favP.textContent = 'Remove from Favorite';
+      favSvg.style.fill = '#4B48DA';
+    }
   }
 }
 
@@ -209,15 +206,6 @@ function onClick(e) {
       if (el.id === currentId) {
         console.log('el - ', el);
         console.log('Вызываем функцию - READ и передаем el !!');
-
-        const ff = new Date()
-          .toLocaleString()
-          .slice(0, 10)
-          .split('.')
-          .join('/');
-        // console.log('dateNow - ', dateNow);
-        save(ff, el);
-
         const currentLi = e.target.closest('li');
         currentLi.classList.add('active');
 
@@ -226,21 +214,3 @@ function onClick(e) {
     }
   }
 }
-
-function save(key, value) {
-  try {
-    const serializedState = JSON.stringify(value);
-    localStorage.setItem(key, serializedState);
-  } catch (error) {
-    console.error('Set state error: ', error.message);
-  }
-}
-
-// function load(key) {
-//   try {
-//     const serializedState = localStorage.getItem(key);
-//     return serializedState === null ? undefined : JSON.parse(serializedState);
-//   } catch (error) {
-//     console.error('Get state error: ', error.message);
-//   }
-// }
