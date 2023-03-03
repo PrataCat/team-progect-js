@@ -1,0 +1,417 @@
+/* Reset styles */
+
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+address,
+img,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+article,
+footer,
+header,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+footer,
+header,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/*  -----------------------  Container  -----------------------  */
+
+.container {
+  margin: 0 auto;
+  max-width: 320px;
+  padding: 0 16px;
+
+  @media screen and (min-width: 768px) {
+    max-width: 768px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    max-width: 1280px;
+  }
+}
+
+/*  ----------------------  Header  --------------------------  */
+
+.header {
+  position: relative;
+  z-index: 2;
+  height: 82px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #f4f4f4;
+
+  @media screen and (min-width: 768px) {
+    position: static;
+    height: 106px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    height: 114px;
+  }
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+
+  padding: 24px 16px;
+}
+
+/*  ----------------------  Logo  -------------------------  */
+
+.logo {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  color: #111321;
+
+  margin-right: auto;
+
+  @media screen and (min-width: 768px) {
+    margin-right: 0;
+  }
+}
+
+/*  --------------------------  Menu button  -----------------------  */
+
+.menu-btn {
+  width: 24px;
+  height: 24px;
+  margin-left: 14px;
+  padding: 2px;
+
+  position: relative;
+  z-index: auto;
+  overflow: hidden;
+
+  border: none;
+  background-color: transparent;
+  
+  color: #111321;
+
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+}
+
+.menu-btn__line {
+  width: 18px;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #222222;
+  transition: transform 500ms, top 500ms;
+}
+.menu-btn__line--1 {
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center;
+}
+
+.menu-btn__line--2 {
+  top: calc(50% - 6px);
+}
+.menu-btn__line--3 {
+  top: calc(50% + 6px);
+}
+
+// Transform button when menu isActive
+
+.menu-btn.isActive {
+  & .menu-btn__line--1 {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  & .menu-btn__line--2 {
+    top: 50%;
+    transform: translate(-50%, 0%) rotate(45deg);
+  }
+
+  & .menu-btn__line--3 {
+    top: 50%;
+    transform: translate(-50%, 0%) rotate(-45deg);
+  }
+}
+
+/*  -----------------------  Navbar -----------------------  */
+
+.nav {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    margin-left: 48px;
+    display: flex;
+    align-items: center;
+    gap: 44px;
+  }
+}
+
+.nav__item {
+  display: flex;
+}
+
+.nav__link {
+  display: block;
+}
+
+/*  ----------------------  Search form  ---------------------------  */
+
+.search-form {
+  margin-left: auto;
+
+  position: relative;
+  z-index: 2;
+
+  @media screen and (min-width: 768px) {
+    position: static;
+  }
+}
+
+.search-form__btn {
+  padding: 0;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background-color: #f4f4f4;
+
+  .search-form.isShown & {
+    left: 5px;
+    transform: translate(0, -50%);
+  }
+
+  @media screen and(min-width: 768px) {
+    transform: none;
+  }
+}
+
+.search-form__icon {
+
+
+  fill: currentColor;
+}
+
+.search-form__input {
+  width: 30px;
+  height: 30px;
+
+  border: 1px solid #111321;
+  border-radius: 15px;
+
+  background-color: #f4f4f4;
+
+  opacity: 0;
+
+  transition: opacity 250ms ease, width 250ms ease 250ms;
+
+  @media screen and (max-width: 767px) {
+    .search-form.isShown & {
+      width: 174px;
+
+      opacity: 1;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 215px;
+  }
+}
+
+/*  ----------------------  Theme-toggler  -----------------------  */
+
+.theme-toggler {
+  position: fixed;
+  bottom: 18px;
+  left: 16px;
+
+  display: flex;
+  gap: 8px;
+
+  @media screen and (max-width: 767px) {
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    margin-left: auto;
+    position: static;
+  }
+}
+
+.theme-toggler__pretext,
+.theme-toggler__posttext {
+  display: none;
+
+  @media screen and (min-width: 1280px) {
+    display: block;
+  }
+}
+
+.theme-toggler__pretext {
+}
+.theme-toggler__posttext {
+}
+
+.theme-toggler__preicon,
+.theme-toggler__posticon {
+  @media screen and (min-width: 1280px) {
+    display: none;
+  }
+}
+.theme-toggler__preicon {
+}
+.theme-toggler__posticon {
+}
+
+.toggler {
+}
+.toggler__icon {
+  height: 20px;
+  width: 40px;
+
+  position: relative;
+
+  background-color: #ffffff;
+  border: 1px solid #4b48db;
+  border-radius: 10px;
+
+  &::after {
+    content: '';
+    height: 16px;
+    width: 16px;
+
+    position: absolute;
+    top: 1px;
+    left: 1px;
+
+    background-color: #4b48d8;
+    border-radius: 8px;
+  }
+}
+
+/*  ------------------------  Mobile Menu  -------------------------  */
+
+.mobile-menu {
+  position: absolute;
+  z-index: 1;
+  top: 82px;
+  bottom: 0;
+  width: 100%;
+
+  background-color: #f4f4f4;
+
+  transform: translateY(-100%);
+  transition: transform 250ms ease;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+  &.isActive {
+    transform: translateY(0);
+  }
+
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+}
+
+.mobile-nav {
+  padding-top: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mobile-nav__item {
+}
+
+.mobile-nav__link {
+  display: block;
+}
+
+.mobile-nav__link:hover,
+.mobile-nav__link:focus {
+  background-color: #4440f6;
+  color: white;
+}
+
+.mobile-nav__container {
+  height: 44px;
+  max-width: 320px;
+  padding: 0 16px;
+  margin: 0 auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.mobile-nav__icon-wrapper {
+  height: 32px;
+  width: 32px;
+
+  color: black;
+  background-color: #4440f6;
+  border-radius: 16px;
+}
+
+.mobile-nav__icon {
+  fill: currentColor;
+}
