@@ -70,14 +70,14 @@ a {
   transform: translateY(-101%);
   transition: transform 0.4s;
 
-  background-color: #fff;
+  background-color: #f8f8f8;
   padding-left: 24px;
 
   &.visible {
     transform: translateY(0%);
     transition: transform 0.4s;
 
-    background-color: #fff;
+    background-color: #f8f8f8;
   }
 }
 
@@ -131,7 +131,7 @@ a {
   letter-spacing: 0.01em;
 
   color: #4440f7;
-  background-color: #fff;
+  background-color: #f8f8f8;
   border: none;
 
   &:hover,

@@ -1,4 +1,18 @@
 // ------------Mihsa & Stas--------------
+
+const KEY = '?api-key=OotKL5nYMsbXFbPHNmmUjf7brVnGZQ8G';
+const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
+
+function onFetchCategories() {
+  return fetch(`${URL}${KEY}`).then(res => {
+    // console.log(res);
+    if (!res.ok) {
+      throw new Error('error');
+    }
+    return res.json();
+  });
+}
+
 const mainCategoryList = document.querySelector('.filter__main-category-list');
 const othersCategoryList = document.querySelector(
   '.filter__others-category-list'
@@ -6,8 +20,6 @@ const othersCategoryList = document.querySelector(
 const othersCategoryLisWrap = document.querySelector(
   '.filter__other-category-wrap'
 );
-const KEY = '?api-key=OotKL5nYMsbXFbPHNmmUjf7brVnGZQ8G';
-const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
 
 onFetchCategories().then(({ results }) => {
   createCategories(results);
@@ -15,6 +27,8 @@ onFetchCategories().then(({ results }) => {
 
 mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
+
+othersCategoryList.addEventListener('click', onSectionSelection); // отримуємо вибраний розділ
 
 function onChooseCategory(event) {
   const categoryBtnArray = document.querySelectorAll(
@@ -37,18 +51,8 @@ function onShowOthersCategories(event) {
   }
 }
 
-function onFetchCategories() {
-  return fetch(`${URL}${KEY}`).then(res => {
-    // console.log(res);
-    if (!res.ok) {
-      throw new Error('error');
-    }
-    return res.json();
-  });
-}
-
 function createCategories(newsArray) {
-  console.log(newsArray);
+  // console.log(newsArray);
   let markupForMainCategoryList = '';
   let markupForOthersCategoryList = '';
   newsArray.map(({ display_name }, index) => {
@@ -61,25 +65,21 @@ function createCategories(newsArray) {
 
   mainCategoryList.innerHTML = markupForMainCategoryList;
 
-  let b = 20;
-  console.log(b);
-
-  if (othersCategoryList.classList.contains('visible')) {
-    let a = 10;
-    console.log(a);
-
-    mainCategoryList.insertAdjacentHTML(
-      'beforeend',
-      `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">Others<svg class="filter__main-category-btn-icon""> <use href="../images/main/symbol-defs-mini.svg#icon-orig-mini-bil-v-z" ></use> </svg>
+  mainCategoryList.insertAdjacentHTML(
+    'beforeend',
+    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn" data-btn >Others<svg class="filter__main-category-btn-icon""> <use href="../images/main/symbol-defs-mini.svg#icon-orig-mini-bil-v-z" ></use> </svg>
 </button></li>`
-    );
-  } else {
-    mainCategoryList.insertAdjacentHTML(
-      'beforeend',
-      `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">Others<svg class="filter__main-category-btn-icon""> <use href="../images/main/symbol-defs-mini.svg#icon-orig-mini-n-z" ></use> </svg>
-</button></li>`
-    );
-  }
-
+  );
   othersCategoryList.innerHTML = markupForOthersCategoryList;
+
+  const btnOthers = document.querySelector('.others-btn');
+  let removeBtnOther = btnOthers.textContent;
+  console.log('test control =>', removeBtnOther);
+}
+
+function onSectionSelection(e) {
+  let section = e.target.textContent;
+
+  othersCategoryList.firstChild.textContent = section;
+  console.log(section);
 }
