@@ -1,177 +1,148 @@
 // ------Klimenko-----
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
-}
-
-
-
-ul {
-  list-style: none;
- 
-}
-
 .box {
-  display: flex;
-  /* flex-wrap: wrap;
-  gap: 30px; */
-  margin-left: 50px 50px;
- 
-  width: 395px;
-  height: 675px;
+  position: relative;
+  //  display: flex;
+  // margin-left: 50px 50px;
+  // width: 395px;
+  // height: 675px;
   border: 2px;
-  background-color: #4440F6;
-  text-align: center;
+  background-color: var(--accent-secondary-color);
+  // text-align: center;
   justify-content: center;
 }
 
-.item{
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 395px;
-  height: 675px;
+.box-weather__item{
+    display: flex;
+  // flex-direction: column;
+   flex-wrap: wrap;
+  //  align-items: center;
+  // width: 395px;
+  // height: 675px;
   border: 2px;
+  @media screen and (max-width: 767px) {
+    margin-bottom: 28px;
+    height: 630px;
+  }
+  @media screen and (min-width: 768px) {
+    width: calc((100% - 30px) / 2);
+  }
+  @media screen and (min-width: 1280px) {
+    width: calc((100% - 64px) / 3);
+  }
+
 }
 .weather-temp{
-  font-family: 'Roboto',sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  font-family: var(--third-font);
   font-size: 64px;
   line-height: 75px;
-  color: #FFFFFF;
-  position: absolute;
+  color: var(--secondary-light-color);
+ 
   width: 96px;
   height: 75px;
-  left: 0px;
-  top: 5px;
-  margin-left: 53px;
-  margin-top: 45px;
+ margin-left: 53px;
+ margin-top: 45px;
 
 
 }
 
-.weather-temp::before{
-  padding-right: 8px;
-  position: absolute;
+.weather-temp::after{
+  margin-left: 8px;
+ margin-top: 45px;
+  
   width: 81px;
   height: 0px;
-  left: 44px;
-  top: 38px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid var(--secondary-light-color);
   transform: rotate(90deg); 
   content: "";
-  background: rgba(254, 254, 255, 0.3);
+  background:  var(--weather-btn-color);
 }
 .weather-city-group{
-  display: block;
+   
+  margin-left: 8px;
+  margin-top: 40px;
+  height: 84px;
 }
 
  .weather-main{
-  position: absolute;
+
+  margin-left: 7px;
+  
   width: 99px;
   height: 42px;
-  left: 172px;
-  top: 40px;
-  
-  font-family: 'Roboto',sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  font-family: var(--third-font);
   font-size: 36px;
   line-height: 42px;
-  
-  color: #FFFFFF;
+  color: var(--secondary-light-color);
  }
 
  .weather-icon {
-  position: absolute;
-  /* width: 165px;
+   position: absolute;
+  display: flex;
+   width: 165px;
   height: 165px;
-  left: 115px;
-  top: 215px; */
-
-  width: 265px;
-  height: 265px;
-  left: 65px;
-  top: 165px;
-  
   mix-blend-mode: normal;
+   margin-top: 215px;
  }
  .weather-day{
   position: absolute;
   width: 199px;
   height: 42px;
-  left: 90px;
-  top: 461px;
-  
-  font-family: 'Roboto',sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  margin-top:461px;
+  font-family: var(--third-font);
   font-size: 36px;
   line-height: 42px;
   text-align: center;
   overflow-wrap: break-word ;
-
-  color: #FFFFFF;
-
+  color: var(--secondary-light-color);
+  text-align: center;
+  justify-content: center;
  }
  
  .weather-data{
-  position: absolute;
+   position: absolute;
   width: 209px;
   height: 42px;
-  left: 90px;
-  top: 503px;
-  
-  font-family: 'Roboto',sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  margin-top:503px;
+  font-family: var(--third-font);
   font-size: 36px;
   line-height: 42px;
   text-align: center;
-  overflow-wrap: break-word ;
+  //  overflow-wrap: break-word ;
 
-  color: #FFFFFF;
+  color: var(--secondary-light-color);
  }
 
 .btn__select-city{
 
-  position: absolute;
+  // position: absolute;
   width: 177px;
   height: 42px;
-  left: 165px;
-  top: 82px;
   border: none;
-  background: rgba(254, 254, 255, 0.3);
+  background:  var(--weather-btn-color);
   border-radius: 10px;
-  font-family: 'Roboto',sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  font-family: var(--third-font);
   font-size: 20px;
   line-height: 23px;
-   color: #FFFFFF;
+   color: var(--secondary-light-color);
     cursor: pointer;
 }
 
 .weather-week{
-  position: absolute;
+   position: absolute;
   width: 177px;
   height: 42px;
-  left: 109px;
-  top: 573px;
+  margin-top:573px;
   border: none;
-  background: rgba(254, 254, 255, 0.3);
+  background: var(--weather-btn-color);
   border-radius: 10px;
-font-family: 'Roboto',sans-serif;
-font-style: normal;
-font-weight: 400;
+font-family: var(--third-font);
 font-size: 20px;
 line-height: 23px;
 cursor: pointer;
-color: #FFFFFF;
+color: var(--secondary-light-color);
 
 }
+
+
+// ========

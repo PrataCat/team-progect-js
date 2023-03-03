@@ -69,7 +69,7 @@ function displayItems(arr) {
   console.log('paginatedEl - ', paginatedEl);
   // console.log(arr);
   // console.log(paginatedEl);
-  createPopularNewsCollection(paginatedEl);
+   createPopularNewsCollection(paginatedEl); 
 }
 
 function createPopularNewsCollection(arr) {
