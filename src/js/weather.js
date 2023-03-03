@@ -1,47 +1,24 @@
 //------Tanya,
  //  ============== по умолчанию
-//  async function fetchWeatherCity(q){ 
-//   const URL = `http://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&q=Kyiv&units=metric` 
-
-//   const response = await fetch(URL);
-//     if (!response.ok) {
-//      throw new Error('Error');
-//     }
-//      const data = await response.json();
-//      return data;
-//   };
-
-
 fetchWeatherCity().then((data) =>{
-  console.log(data);
+  // console.log(data);
   createCard(data);
 })
 
 // ======== запрос разрешения геолокации
-// export default weatherBlock;
-// function weatherBlock(){
  navigator.geolocation.getCurrentPosition(position => {
-   console.log(position.coords)
+  //  console.log(position.coords)
   if (position.coords = true) {
    const { latitude, longitude } = position.coords;
   let lat = `${latitude}`;
   let lon = `${longitude}`;
   fetchWeather(lat, lon).then((data) =>{
     box.firstChild.remove()
-    console.log(data);
+    // console.log(data);
     createCard(data);
-    
   });
-
-//  }else {
-//   fetchWeatherCity().then((data) =>{
-//     console.log(data);
-//     createCard(data);
-    
-//   });
  }
 });
-// };
  // ===========  по геолокации
  const KEY = 'а66723ff7785b663e20297f90d8a0e90'
  async function fetchWeather(lat, lon){ 
@@ -58,7 +35,6 @@ fetchWeatherCity().then((data) =>{
  //  ============== по умолчанию
 async function fetchWeatherCity(q){ 
   const URL = `http://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&q=Kyiv&units=metric` 
-
   const response = await fetch(URL);
     if (!response.ok) {
      throw new Error('Error');
@@ -68,15 +44,15 @@ async function fetchWeatherCity(q){
   };
   // ============== CARD
   function createCard(arr){
-    console.log(arr.dt.toString());
-   console.log(arr.id);
-   console.log(Math.floor(arr.main.temp));
-   console.log(arr.weather[0].main);
-   console.log(arr.weather[0].icon);
+  //   console.log(arr.dt.toString());
+  //  console.log(arr.id);
+  //  console.log(Math.floor(arr.main.temp));
+  //  console.log(arr.weather[0].main);
+  //  console.log(arr.weather[0].icon);
    const temp = Math.floor(arr.main.temp);
-   console.log(arr.name)
+  //  console.log(arr.name)
    const d1 = new Date();
-   console.log(d1.toUTCString());
+  //  console.log(d1.toUTCString());
    const marcup =
           `<li class="box-weather__item box " data-id= "${arr.id}">
                <p class="weather-temp">${temp}&deg</p>
@@ -92,13 +68,12 @@ async function fetchWeatherCity(q){
            </li>`
     box.insertAdjacentHTML("afterbegin" ,marcup);
   } 
- 
-  
+
   function onError(err) {
     console.error(err);
   }
   
-
+export {createCard};
 
 
 

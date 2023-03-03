@@ -2,27 +2,18 @@
 
 .box {
   position: relative;
-  //  display: flex;
-  // margin-left: 50px 50px;
-  // width: 395px;
-  // height: 675px;
   border: 2px;
   background-color: var(--accent-secondary-color);
-  // text-align: center;
   justify-content: center;
 }
 
 .box-weather__item{
     display: flex;
-  // flex-direction: column;
-   flex-wrap: wrap;
-  //  align-items: center;
-  // width: 395px;
-  // height: 675px;
-  border: 2px;
+    flex-wrap: wrap;
+    border: 2px;
   @media screen and (max-width: 767px) {
     margin-bottom: 28px;
-    height: 630px;
+    height: 469px;
   }
   @media screen and (min-width: 768px) {
     width: calc((100% - 30px) / 2);
@@ -37,19 +28,15 @@
   font-size: 64px;
   line-height: 75px;
   color: var(--secondary-light-color);
- 
   width: 96px;
   height: 75px;
- margin-left: 53px;
- margin-top: 45px;
-
-
+  margin-left: 53px;
+  margin-top: 45px;
 }
 
 .weather-temp::after{
   margin-left: 8px;
- margin-top: 45px;
-  
+  margin-top: 45px;
   width: 81px;
   height: 0px;
   border: 1px solid var(--secondary-light-color);
@@ -57,17 +44,14 @@
   content: "";
   background:  var(--weather-btn-color);
 }
-.weather-city-group{
-   
+.weather-city-group{ 
   margin-left: 8px;
   margin-top: 40px;
   height: 84px;
 }
 
  .weather-main{
-
   margin-left: 7px;
-  
   width: 99px;
   height: 42px;
   font-family: var(--third-font);
@@ -78,10 +62,10 @@
 
  .weather-icon {
    position: absolute;
-  display: flex;
+   display: flex;
    width: 165px;
-  height: 165px;
-  mix-blend-mode: normal;
+   height: 165px;
+   mix-blend-mode: normal;
    margin-top: 215px;
  }
  .weather-day{
@@ -108,14 +92,11 @@
   font-size: 36px;
   line-height: 42px;
   text-align: center;
-  //  overflow-wrap: break-word ;
-
   color: var(--secondary-light-color);
  }
 
 .btn__select-city{
 
-  // position: absolute;
   width: 177px;
   height: 42px;
   border: none;
@@ -124,8 +105,8 @@
   font-family: var(--third-font);
   font-size: 20px;
   line-height: 23px;
-   color: var(--secondary-light-color);
-    cursor: pointer;
+  color: var(--secondary-light-color);
+  cursor: pointer;
 }
 
 .weather-week{
