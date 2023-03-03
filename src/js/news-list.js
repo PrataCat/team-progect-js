@@ -30,6 +30,8 @@ fetchPopularNews();
 
 async function getPopularNews() {
   const URL = `${ENDPOINT}mostpopular/v2/viewed/1.json?api-key=${KEY}`;
+  // const res = await fetch(URL);
+  // const data = await res.json();
   const {
     data: { results },
   } = await axios.get(URL);
@@ -87,6 +89,12 @@ function createPopularNewsCollection(arr) {
               <use href="#icon-check"></use>
             </svg> 
           </div>
+            <button id="favorite-btn" class="box-news__favorite-btn">
+              <p id="favorite-p" class="box-news__favorite-p">Add to Favorite</p>
+              <svg class="box-news__favorite-svg" width="16" height="16" id="favorite-svg">
+                <use href="#icon-heart"></use>
+              </svg>
+            </button>
           <article>
             <div class="box-news__thumb">
               <img class="box-news__img" src="${foto}" loading="lazy" alt="${section}" width='440'/>
@@ -118,6 +126,71 @@ function createPopularNewsCollection(arr) {
   box.insertAdjacentHTML('beforeend', markupNewsCollection);
   arrCurrentNews = arr;
   // console.log('arrCurrentNews - ', arrCurrentNews);
+
+box.addEventListener('click', onClick);
+
+function onClick(e) {
+  e.preventDefault();
+  let currentId = null;
+
+  if (e.target.classList.value === 'box-news__link') {
+    console.log('Мы нажали на Read more !');
+    currentId = +e.target.id;
+
+    for (const el of arrCurrentNews) {
+      if (el.id === currentId) {
+        console.log('el - ', el);
+        console.log('Вызываем функцию - READ и передаем el !!');
+
+        const ff = new Date()
+          .toLocaleString()
+          .slice(0, 10)
+          .split('.')
+          .join('/');
+        // console.log('dateNow - ', dateNow);
+        save(ff, el);
+
+        const currentLi = e.target.closest('li');
+        currentLi.classList.add('active');
+
+        return;
+      }
+    }
+  }
+}
+
+box.addEventListener('click', onButtonFavorite);
+
+function onButtonFavorite(e) {
+  const favButton = e.target.closest('BUTTON');
+  console.dir(favButton);
+  // const favLi = favButton.closest('li');
+  const favP = favButton.querySelector('.box-news__favorite-p');
+  const favSvg = favButton.querySelector('.box-news__favorite-svg');
+  favSvg.style.fill = 'none';
+
+  if (!favButton.classList.contains('box-news__favorite-btn')) {
+    return;
+  }
+
+  if (favButton.classList.contains('favorite')) {
+    favButton.classList.remove('favorite');
+    favP.textContent = 'Add to Favorite';
+    favSvg.style.fill = 'none';
+  } else {
+    favButton.classList.add('favorite');
+    favP.textContent = 'Remove from Favorite';
+    favSvg.style.fill = '#4B48DA';
+  }
+}
+
+function save(key, value) {
+  try {
+    const serializedState = JSON.stringify(value);
+    localStorage.setItem(key, serializedState);
+  } catch (error) {
+    console.error('Set state error: ', error.message);
+  }
 }
 
 box.addEventListener('click', onClick);

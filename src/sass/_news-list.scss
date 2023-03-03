@@ -188,3 +188,31 @@ li.active .overlay{
   transform: translatex(-100%);
   transition: transform 250ms ease;
 }
+
+.box-news__favorite-btn {
+  position: absolute;
+  top: 355px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 126px;
+  max-width: 168px;
+  height: 28px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: none;
+  gap: 4px;
+}
+
+.box-news__favorite-p {
+  font-family: 'Manrope';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: calc(16 / 12);
+  text-align: center;
+}
+
+.box-news__favorite-svg {
+  fill: none;
+}
