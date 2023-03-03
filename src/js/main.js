@@ -79,7 +79,7 @@ function createCategories(newsArray) {
 
 function onSectionSelection(e) {
   let section = e.target.textContent;
-
-  othersCategoryList.firstChild.textContent = section;
-  console.log(section);
+  const othersLi = mainCategoryList.lastChild;
+  const otherBtn = othersLi.firstChild;
+  otherBtn.textContent = section;
 }
