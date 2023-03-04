@@ -83,9 +83,11 @@ function onShowOthersCategories(event) {
 
 function onSectionSelection(e) {
   let section = e.target.textContent;
+  console.log(e.currentTarget);
   const othersLi = mainCategoryList.lastChild;
   const otherBtn = othersLi.firstChild;
   otherBtn.textContent = section;
+  console.log(section);
 
   if (othersCategoryLisWrap.classList.contains('visible')) {
     othersCategoryList.classList.remove('visible');
