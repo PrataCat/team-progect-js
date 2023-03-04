@@ -102,13 +102,14 @@ a {
   border-radius: 20px;
   cursor: pointer;
 
-  /* + */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 8px 21px;
   gap: 10px;
+
+  background-image: url(../images/symbol-defs-mini.svg#icon-orig-mini-n-z);
 }
 
 .filter__main-category-btn-icon {
