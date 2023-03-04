@@ -13,8 +13,6 @@ async function getCategories() {
     );
     const data = await response.json();
 
-    console.log(data.results);
-
     return data.results;
   } catch (error) {
     console.log(error);
@@ -46,7 +44,7 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
       const resultObj = {
         title,
         abstract,
-        published_date,
+        published_date: dateFormat(published_date),
         url,
         section,
         image_url: multimedia[2].url,
@@ -54,7 +52,7 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
       };
       return resultObj;
     });
-    console.log(normalizedData);
+    // console.log(normalizedData);
     return normalizedData;
   } catch (error) {
     console.log(error);
@@ -91,7 +89,7 @@ async function getMostPopularArticles(days = 7) {
       const resultObj = {
         title,
         abstract,
-        published_date,
+        published_date: dateFormat(published_date),
         url,
         section,
         image_url,
@@ -130,7 +128,7 @@ async function getSearchArticles(query, pub_date, page=0) {
       const resultObj = {
         title: headline.main,
         abstract,
-        published_date: pub_date,
+        published_date: dateFormat(pub_date),
         url: web_url,
         section: subsection_name,
         image_url:
@@ -140,15 +138,22 @@ async function getSearchArticles(query, pub_date, page=0) {
       };
       return resultObj;
     });
+    // console.log(normalizedData)
     return normalizedData;
   } catch (error) {
     console.log(error);
   }
 }
 
-// fetchCategories();
+function dateFormat(str) {
+  return new Date(str).toLocaleString().slice(0, 10).split('.').join('/');
+}
+
+
+// getCategories();
 // getMostPopularArticles();
 // getCategoryArticles('arts');
 // getSearchArticles('politics');
 
-export default { getCategories, getCategoryArticles, getMostPopularArticles, getSearchArticles }
+
+export { getCategories, getCategoryArticles, getMostPopularArticles, getSearchArticles }
