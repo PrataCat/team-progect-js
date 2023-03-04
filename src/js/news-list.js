@@ -1,18 +1,12 @@
 // ------------Lyosha, Yura, Dima--------------
 import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
-
-// ф - ция проверки апишки поп новостей, возвращает нормализованный массив карточек
-// top();
-// async function top() {
-//   const ddd = await getMostPopularArticles();
-//   console.log(ddd);
-// }
-
-// const dd = creatCardMarkup(123)
-// console.log(dd);
+// import { includeFavoriteNew, excludeFavoriteNew } from './favorite';
 
 const box = document.querySelector('.box-news');
+
+box.addEventListener('click', onButtonFavorite);
+box.addEventListener('click', onClickReadMore);
 
 let currentDispleyWidth = checkWidth(); //текущая ширина вью порта
 let arrCurrentNews = []; //копия массива поп новостей (или по категориям, или по серчу)
@@ -32,7 +26,6 @@ async function createNewsCollection(func) {
 
   if (arrCurrentNews.length === 0) {
     arrCurrentNews = await func();
-
     /* если нет - вызываем апи и заполняем массив 
     соответствующими новостями (по категориям или серчу)
     */
@@ -98,9 +91,7 @@ function onResize() {
 
 /*********************** button ********************************/
 
-box.addEventListener('click', onClick);
-
-function onClick(e) {
+function onClickReadMore(e) {
   e.preventDefault();
   // const currentId = e.target.closest('li').dataset.id
   let currentId = null;
@@ -119,7 +110,7 @@ function onClick(e) {
     for (const el of arrCurrentNews) {
       if (el.id === currentId) {
         console.log('Мы нашли ID и вызываем ф-цию READ (include...)');
-        currentLi.classList.add('active');
+        currentLi.classList.add('show');
         return;
       }
       console.log('Все пропало шеф!!!');
@@ -128,34 +119,54 @@ function onClick(e) {
 }
 
 /*********************************************************/
-box.addEventListener('click', onButtonFavorite);
-
 function onButtonFavorite(e) {
   if (e.target.closest('BUTTON')) {
     const favButton = e.target.closest('BUTTON');
-    // const favLi = favButton.closest('li');
+    const favId = favButton.closest('li').dataset.id;
     const favP = favButton.querySelector('.box-news__favorite-p');
     const favSvg = favButton.querySelector('.box-news__favorite-svg');
-    favSvg.style.fill = 'none';
-    if (
-      !e.target.closest('BUTTON').classList.contains('box-news__favorite-btn')
-    ) {
-      return;
-    }
+
     if (favButton.classList.contains('favorite')) {
-      favButton.classList.remove('favorite');
-      favP.classList.remove('favorite-p');
-      favSvg.classList.remove('favorite-svg');
-      favP.textContent = 'Add to Favorite';
-      favSvg.style.fill = 'none';
+      offColorBtn(favButton, favId, favP, favSvg);
     } else {
-      favButton.classList.add('favorite');
-      favP.classList.add('favorite-p');
-      favSvg.classList.add('favorite-svg');
-      favP.textContent = 'Remove from Favorite';
-      favSvg.style.fill = '#4B48DA';
+      onColorBtn(favButton, favId, favP, favSvg);
     }
   }
 }
 
+function offColorBtn(favButton, favId, favP, favSvg) {
+  for (const el of arrCurrentNews) {
+    if (el.id === favId) {
+      // const resaultDel = excludeFavoriteNew(el.id);
+
+      const resaultDel = true;
+      if (resaultDel) {
+        console.log('Удалил');
+        favButton.classList.remove('favorite');
+        favP.classList.remove('favorite-p');
+        favSvg.classList.remove('favorite-svg');
+        favP.textContent = 'Add to Favorite';
+      }
+      return;
+    }
+  }
+}
+
+function onColorBtn(favButton, favId, favP, favSvg) {
+  for (const el of arrCurrentNews) {
+    if (el.id === favId) {
+      // const resaultAdd = excludeFavoriteNew(el);
+
+      const resaultAdd = true;
+      if (resaultAdd) {
+        console.log('Добавил');
+        favButton.classList.add('favorite');
+        favP.classList.add('favorite-p');
+        favSvg.classList.add('favorite-svg');
+        favP.textContent = 'Remove from Favorite';
+      }
+      return;
+    }
+  }
+}
 /***********************************************************/
