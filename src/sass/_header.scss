@@ -1,79 +1,12 @@
-/* Reset styles */
 
-html,
-body,
-div,
-span,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-a,
-address,
-img,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-article,
-footer,
-header,
-menu,
-nav,
-section {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
+/*  my Variables */
 
-footer,
-header,
-menu,
-nav,
-section {
-  display: block;
-}
+$lightBackgroundColor: #f4f4f4;
+$darkBackgroundColor: #2e2e2e;
 
-ol,
-ul {
-  list-style: none;
-}
+$lightPrimaryTextColor: #111321;
+$darkPrimaryTextColor: #f4f4f4;
 
-a {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/*  -----------------------  Container  -----------------------  */
-
-.container {
-  margin: 0 auto;
-  max-width: 320px;
-  padding: 0 16px;
-
-  @media screen and (min-width: 768px) {
-    max-width: 768px;
-  }
-
-  @media screen and (min-width: 1280px) {
-    max-width: 1280px;
-  }
-}
 
 /*  ----------------------  Header  --------------------------  */
 
@@ -82,10 +15,8 @@ img {
   z-index: 2;
   height: 82px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: #f4f4f4;
 
   @media screen and (min-width: 768px) {
-    position: static;
     height: 106px;
   }
 
@@ -99,22 +30,36 @@ img {
   align-items: center;
 
   padding: 24px 16px;
+
+  @media screen and (min-width: 768px) {
+    padding-top: 32px;
+    padding-bottom: 28px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    padding-top: 32px;
+  }
 }
 
 /*  ----------------------  Logo  -------------------------  */
 
 .logo {
-  font-family: 'Manrope';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 33px;
-  color: #111321;
-
   margin-right: auto;
+
+  font-family: Manrope700;
+  font-size: 24px;
+  line-height: calc(32 / 24);
 
   @media screen and (min-width: 768px) {
     margin-right: 0;
+
+    font-size: 32px;
+    line-height: calc(44 / 52);
+  }
+
+  @media screen and (min-width: 1280px) {
+    font-size: 42px;
+    line-height: calc(54 / 42);
   }
 }
 
@@ -132,7 +77,7 @@ img {
 
   border: none;
   background-color: transparent;
-  
+
   color: #111321;
 
   @media screen and (min-width: 768px) {
@@ -186,9 +131,21 @@ img {
 
   @media screen and (min-width: 768px) {
     margin-left: 48px;
+
     display: flex;
-    align-items: center;
+    // align-items: center;
     gap: 44px;
+
+    font-family: Manrope700;
+    font-size: 16px;
+    line-height: calc(22 / 16);
+  }
+
+  @media screen and (min-width: 1280px) {
+    margin-left: 102px;
+
+    font-size: 18px;
+    line-height: calc(25 / 18);
   }
 }
 
@@ -206,22 +163,22 @@ img {
   margin-left: auto;
 
   position: relative;
-  z-index: 2;
 
   @media screen and (min-width: 768px) {
-    position: static;
+  }
+
+  @media screen and (min-width: 1280px) {
   }
 }
 
 .search-form__btn {
+  width: 20px;
+  height: 20px;
   padding: 0;
 
   position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-
-  transform: translate(-50%, -50%);
+  top: 5px;
+  left: 5px;
 
   display: flex;
   align-items: center;
@@ -229,47 +186,47 @@ img {
 
   border: 1px solid transparent;
   border-radius: 50%;
-  background-color: #f4f4f4;
-
-  .search-form.isShown & {
-    left: 5px;
-    transform: translate(0, -50%);
-  }
-
-  @media screen and(min-width: 768px) {
-    transform: none;
-  }
+  background-color: inherit;
 }
 
 .search-form__icon {
-
-
   fill: currentColor;
 }
 
 .search-form__input {
-  width: 30px;
+  width: 175px;
   height: 30px;
+  padding: 5px 5px 5px 48px;
 
   border: 1px solid #111321;
   border-radius: 15px;
 
-  background-color: #f4f4f4;
+  background-color: inherit;
 
-  opacity: 0;
+  opacity: 1;
 
   transition: opacity 250ms ease, width 250ms ease 250ms;
 
-  @media screen and (max-width: 767px) {
-    .search-form.isShown & {
-      width: 174px;
+  // &::placeholder {
+  //   border-right: 1px solid;
+  //   padding-right: 8px;
+  //   margin-right: auto;
+  // }
 
-      opacity: 1;
+  @media screen and (max-width: 767px) {
+    .search-form.isHidden & {
+      width: 30px;
+
+      opacity: 0;
     }
   }
 
   @media screen and (min-width: 768px) {
     width: 215px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 288px;
   }
 }
 
@@ -304,33 +261,61 @@ img {
   }
 }
 
-.theme-toggler__pretext {
-}
-.theme-toggler__posttext {
+.theme-toggler__preinfo {
+  color: #4b48d8;
+
+  transition: color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .theme-toggler.isActive & {
+    color: #5f6775;
+  }
 }
 
-.theme-toggler__preicon,
-.theme-toggler__posticon {
+.theme-toggler__postinfo {
+  color: #5f6775;
+
+  transition: color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .theme-toggler.isActive & {
+    color: #4b48d8;
+  }
+}
+
+.theme-toggler__text {
+  display: none;
+
+  color: inherit;
+  @media screen and (min-width: 1280px) {
+    display: block;
+  }
+}
+
+.theme-toggler__icon {
+  color: inherit;
+  fill: currentColor;
+
   @media screen and (min-width: 1280px) {
     display: none;
   }
 }
-.theme-toggler__preicon {
-}
-.theme-toggler__posticon {
-}
 
-.toggler {
-}
-.toggler__icon {
+.theme-toggler__toggle-icon {
   height: 20px;
   width: 40px;
 
   position: relative;
 
-  background-color: #ffffff;
-  border: 1px solid #4b48db;
+  background-color: #f4f4f4;
+  border: 1px solid var(--accent-third-color);
   border-radius: 10px;
+
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    border 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .theme-toggler.isActive & {
+    background-color: #4b48d8;
+    border: 1px solid #ffffff;
+  }
 
   &::after {
     content: '';
@@ -341,8 +326,18 @@ img {
     top: 1px;
     left: 1px;
 
+    transform: translateX(0);
+
     background-color: #4b48d8;
     border-radius: 8px;
+
+    transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    .theme-toggler.isActive & {
+      transform: translateX(20px);
+      background-color: #ffffff;
+    }
   }
 }
 
@@ -355,7 +350,7 @@ img {
   bottom: 0;
   width: 100%;
 
-  background-color: #f4f4f4;
+  background-color: inherit;
 
   transform: translateY(-100%);
   transition: transform 250ms ease;

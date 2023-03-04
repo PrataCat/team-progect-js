@@ -1,26 +1,37 @@
 <!-- Vlad -->
 <header class="header">
   <div class="container">
+
+    <!-- Logo -->
+
     <a class="logo" href="#">News</a>
+
+    <!-- Nav -->
+
     <ul class="nav">
       <li class="nav__item">
         <a href="./index.html" class="nav__link">Home</a>
       </li>
       <li class="nav__item">
-        <a href="#" class="nav__link">Favorite</a>
+        <a href="./favorite-main.html" class="nav__link">Favorite</a>
       </li>
       <li class="nav__item">
-        <a href="#" class="nav__link">Read</a>
+        <a href="./read-main.html" class="nav__link">Read</a>
       </li>
     </ul>
+
+    <!-- Search form -->
+
     <form class="search-form" id="search-form">
       <button type="button" class="search-form__btn">
         <svg class="search-form__icon" width="20px" height="20px">
           <use href="./images/header-sprite.svg#icon-search"></use>
         </svg>
       </button>
-      <input type="text" class="search-form__input">
+      <input type="text" class="search-form__input" placeholder="Search  |">
     </form>
+
+    <!-- Menu btn -->
 
     <button class="menu-btn">
       <span class="menu-btn__line menu-btn__line--1"></span>
@@ -28,22 +39,30 @@
       <span class="menu-btn__line menu-btn__line--3"></span>
     </button>
 
+    <!-- Theme-toggler -->
+
     <div class="theme-toggler" id="theme-toggler">
-      <span class="theme-toggler__pretext">Light</span>
-      <svg class="theme-toggler__preicon" width="20px" height="20px">
-        <use href="./images/header-sprite.svg#icon-light-theme"></use>
-      </svg>
-      <label class="toggler">
-        <input type="checkbox" />
-        <div class="toggler__icon"></div>
-      </label>
-      <span class="theme-toggler__posttext">Dark</span>
-      <svg class="theme-toggler__posticon" width="20px" height="20px">
-        <use href="./images/header-sprite.svg#icon-dark-theme"></use>
-      </svg>
+      <div class="theme-toggler__preinfo">
+        <svg class="theme-toggler__icon" width="20px" height="20px">
+          <use href="./images/header-sprite.svg#icon-light-theme"></use>
+        </svg>
+        <span class="theme-toggler__text">Light</span>
+      </div>
+
+      <div class="theme-toggler__toggle-icon"></div>
+
+      <div class="theme-toggler__postinfo">
+        <svg class="theme-toggler__icon" width="20px" height="20px">
+          <use href="./images/header-sprite.svg#icon-dark-theme"></use>
+        </svg>
+        <span class="theme-toggler__text">Dark</span>
+      </div>
     </div>
+
   </div>
 </header>
+
+<!-- Mobile menu -->
 <div class="mobile-menu">
   <ul class="mobile-nav">
     <li class="mobile-nav__item">
@@ -84,3 +103,5 @@
     </li>
   </ul>
 </div>
+
+<script type="module" src="./js/header.js"></script>
