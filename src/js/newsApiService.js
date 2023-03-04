@@ -5,7 +5,6 @@ const ArticleSearchEndpoint =
 const MostPopularEndpoint = 'https://api.nytimes.com/svc/mostpopular/v2/viewed';
 const TimesWireEndpoint = 'https://api.nytimes.com/svc/news/v3/content';
 
-
 async function getCategories() {
   try {
     const response = await fetch(
@@ -109,7 +108,9 @@ async function getMostPopularArticles(days = 7) {
 async function fetchSearchArticles(query, pub_date, page) {
   try {
     const pubDate = pub_date ? `&fq=pub_date:${pub_date}` : '';
-    const response = await fetch(`${ArticleSearchEndpoint}?api-key=${API_KEY}&page=${page}&q=${query}${pubDate}`);
+    const response = await fetch(
+      `${ArticleSearchEndpoint}?api-key=${API_KEY}&page=${page}&q=${query}${pubDate}`
+    );
     const data = await response.json();
 
     return data.response.docs;
@@ -118,13 +119,20 @@ async function fetchSearchArticles(query, pub_date, page) {
   }
 }
 
-async function getSearchArticles(query, pub_date, page=0) {
+async function getSearchArticles(query, pub_date, page = 0) {
   try {
     const data = await fetchSearchArticles(query, pub_date, page);
 
     const normalizedData = data.map(item => {
-      const { headline, abstract, pub_date, web_url, subsection_name, multimedia, uri } =
-        item;
+      const {
+        headline,
+        abstract,
+        pub_date,
+        web_url,
+        subsection_name,
+        multimedia,
+        uri,
+      } = item;
       const resultObj = {
         title: headline.main,
         abstract,
@@ -157,3 +165,4 @@ function dateFormat(str) {
 
 
 export { getCategories, getCategoryArticles, getMostPopularArticles, getSearchArticles }
+
