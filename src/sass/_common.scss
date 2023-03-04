@@ -1,1 +1,18 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
+@import './reset';
+@import './fonts';
+
+
+body {
+  font-family: Manrope400;
+  font-size: 16px;
+  background-color: var(--primary-light-color);
+  color: var(--primary-dark-color);
+
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.dark-theme {
+    color: var(--primary-light-color);
+    background-color: var(--dark-theme-body-bg-color);
+  }
+}
