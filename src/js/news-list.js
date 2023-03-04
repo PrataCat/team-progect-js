@@ -32,7 +32,7 @@ async function createNewsCollection(func) {
 
   if (arrCurrentNews.length === 0) {
     arrCurrentNews = await func();
-    
+
     /* если нет - вызываем апи и заполняем массив 
     соответствующими новостями (по категориям или серчу)
     */
@@ -96,7 +96,6 @@ function onResize() {
   }
 }
 
-
 /*********************** button ********************************/
 
 box.addEventListener('click', onClick);
@@ -111,8 +110,8 @@ function onClick(e) {
   if (e.target.tagName === 'A') {
     // console.log('Мы нажали на Read more !');
 
-    currentId = e.target.closest('li').dataset.id
-    currentLi = e.target.closest('li')
+    currentId = e.target.closest('li').dataset.id;
+    currentLi = e.target.closest('li');
 
     console.log(currentLi);
     console.log('currentId - ', currentId);
