@@ -29,6 +29,7 @@ mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
 
 othersCategoryList.addEventListener('click', onSectionSelection); // отримуємо вибраний розділ
+// document.addEventListener('click', onCloseOthersCategoryList); // клік на область віндов
 
 function onChooseCategory(event) {
   const categoryBtnArray = document.querySelectorAll(
@@ -71,15 +72,30 @@ function createCategories(newsArray) {
 </button></li>`
   );
   othersCategoryList.innerHTML = markupForOthersCategoryList;
-
-  const btnOthers = document.querySelector('.others-btn');
-  let removeBtnOther = btnOthers.textContent;
-  console.log('test control =>', removeBtnOther);
 }
 
+// перезаписуємо слово Others і закриваємо меню
 function onSectionSelection(e) {
   let section = e.target.textContent;
+  const othersLi = mainCategoryList.lastChild;
+  const otherBtn = othersLi.firstChild;
+  otherBtn.textContent = section;
 
-  othersCategoryList.firstChild.textContent = section;
-  console.log(section);
+  if (othersCategoryLisWrap.classList.contains('visible')) {
+    othersCategoryList.classList.remove('visible');
+    othersCategoryLisWrap.classList.remove('visible');
+  }
 }
+
+// // закриваємо меню якщо клік був не по меню
+// function onCloseOthersCategoryList() {
+//   if (othersCategoryLisWrap.classList.contains('visible')) {
+//     if (!othersCategoryList || !othersCategoryLisWrap) {
+//       console.log(othersCategoryList);
+//       console.log(othersCategoryLisWrap);
+//       othersCategoryList.classList.remove('visible');
+//       othersCategoryLisWrap.classList.remove('visible');
+//     }
+//   }
+//   console.log('object=>test');
+// }
