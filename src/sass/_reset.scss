@@ -1,30 +1,60 @@
 /* Reset styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-p {
-  margin: 0;
-}
-
-p:last-child {
-  margin-bottom: 0;
-}
-
-ul {
+p,
+a,
+address,
+img,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+article,
+footer,
+header,
+menu,
+nav,
+section {
   margin: 0;
   padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+footer,
+header,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul {
   list-style: none;
 }
 
-a {
-  color: currentColor;
+a, button {
   text-decoration: none;
-}
-
-button {
+  color: inherit;
   cursor: pointer;
 }
 
