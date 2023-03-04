@@ -157,12 +157,14 @@ function dateFormat(str) {
   return new Date(str).toLocaleString().slice(0, 10).split('.').join('/');
 }
 
-
 // getCategories();
 // getMostPopularArticles();
 // getCategoryArticles('arts');
 // getSearchArticles('politics');
 
-
-export { getCategories, getCategoryArticles, getMostPopularArticles, getSearchArticles }
-
+export {
+  getCategories,
+  getCategoryArticles,
+  getMostPopularArticles,
+  getSearchArticles,
+};
