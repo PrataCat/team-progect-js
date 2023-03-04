@@ -1,0 +1,30 @@
+.box-news__btn {
+    position: absolute;
+    // width: 162px;
+    width: auto;
+    height: 28px;
+    top: 355px;
+    right: 12px;
+
+    padding-left: 12px;
+    gap: 4px;
+    display: flex;
+    align-items: center;
+
+    border-radius: 20px;
+
+    background-color: #F4F4F4;
+    color: #111321;
+    font-family: 'Manrope';
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.box-news__btn-icon {
+    color: currentColor;
+    // background-color: lightgrey;
+    background-image: url(../images/akar-icons_heart-filled.svg);
+}
