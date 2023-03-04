@@ -135,3 +135,5 @@ function createPopularNewsCollection(arr) {
 }
 
 createPopularNewsCollection(loadAllFavorites());
+
+// export { excludeFavoriteNew, includeFavoriteNew };
