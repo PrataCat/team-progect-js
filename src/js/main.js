@@ -1,7 +1,21 @@
-// ------------Mihsa & Stas--------------
-
 const KEY = '?api-key=OotKL5nYMsbXFbPHNmmUjf7brVnGZQ8G';
 const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
+const windowInnerWidth = window.innerWidth;
+const mainCategoryList = document.querySelector('.filter__main-category-list');
+const othersCategoryList = document.querySelector(
+  '.filter__others-category-list'
+);
+const othersCategoryLisWrap = document.querySelector(
+  '.filter__other-category-wrap'
+);
+
+onFetchCategories().then(({ results }) => {
+  createCategories(results, windowInnerWidth);
+});
+
+mainCategoryList.addEventListener('click', onChooseCategory);
+mainCategoryList.addEventListener('click', onShowOthersCategories);
+othersCategoryList.addEventListener('click', onSectionSelection);
 
 function onFetchCategories() {
   return fetch(`${URL}${KEY}`).then(res => {
@@ -13,23 +27,35 @@ function onFetchCategories() {
   });
 }
 
-const mainCategoryList = document.querySelector('.filter__main-category-list');
-const othersCategoryList = document.querySelector(
-  '.filter__others-category-list'
-);
-const othersCategoryLisWrap = document.querySelector(
-  '.filter__other-category-wrap'
-);
-
-onFetchCategories().then(({ results }) => {
-  createCategories(results);
-});
-
-mainCategoryList.addEventListener('click', onChooseCategory);
-mainCategoryList.addEventListener('click', onShowOthersCategories);
-
-othersCategoryList.addEventListener('click', onSectionSelection); // отримуємо вибраний розділ
-// document.addEventListener('click', onCloseOthersCategoryList); // клік на область віндов
+function createCategories(newsArray, windowInnerWidth) {
+  // console.log(newsArray);
+  let markupForMainCategoryList = '';
+  let markupForOthersCategoryList = '';
+  if (windowInnerWidth > 767 && windowInnerWidth < 1279) {
+    newsArray.map(({ display_name }, index) => {
+      if (index <= 3) {
+        markupForMainCategoryList += `<li class="filter__main-category-item"><button class="filter__main-category-btn">${display_name}  </button></li>`;
+        return;
+      }
+      markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}</button></li>`;
+    });
+  } else {
+    newsArray.map(({ display_name }, index) => {
+      if (index <= 5) {
+        markupForMainCategoryList += `<li class="filter__main-category-item"><button class="filter__main-category-btn">${display_name}  </button></li>`;
+        return;
+      }
+      markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}</button></li>`;
+    });
+  }
+  mainCategoryList.innerHTML = markupForMainCategoryList;
+  mainCategoryList.insertAdjacentHTML(
+    'beforeend',
+    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">Others<svg class="filter__main-category-btn-icon"> <use href="../images/symbol-defs-mini.svg#icon-orig-mini-n-z"> </use> </svg>
+</button></li>`
+  );
+  othersCategoryList.innerHTML = markupForOthersCategoryList;
+}
 
 function onChooseCategory(event) {
   const categoryBtnArray = document.querySelectorAll(
@@ -47,34 +73,13 @@ function onChooseCategory(event) {
 
 function onShowOthersCategories(event) {
   if (event.target.classList.contains('others-btn')) {
+    event.stopPropagation();
     othersCategoryList.classList.toggle('visible');
     othersCategoryLisWrap.classList.toggle('visible');
+    window.addEventListener('click', onCloseOthersCategories);
   }
 }
 
-function createCategories(newsArray) {
-  // console.log(newsArray);
-  let markupForMainCategoryList = '';
-  let markupForOthersCategoryList = '';
-  newsArray.map(({ display_name }, index) => {
-    if (index <= 5) {
-      markupForMainCategoryList += `<li class="filter__main-category-item"><button class="filter__main-category-btn">${display_name}  </button></li>`;
-      return;
-    }
-    markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}</button></li>`;
-  });
-
-  mainCategoryList.innerHTML = markupForMainCategoryList;
-
-  mainCategoryList.insertAdjacentHTML(
-    'beforeend',
-    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn" data-btn >Others<svg class="filter__main-category-btn-icon""> <use href="../images/main/symbol-defs-mini.svg#icon-orig-mini-bil-v-z" ></use> </svg>
-</button></li>`
-  );
-  othersCategoryList.innerHTML = markupForOthersCategoryList;
-}
-
-// перезаписуємо слово Others і закриваємо меню
 function onSectionSelection(e) {
   let section = e.target.textContent;
   const othersLi = mainCategoryList.lastChild;
@@ -87,15 +92,10 @@ function onSectionSelection(e) {
   }
 }
 
-// // закриваємо меню якщо клік був не по меню
-// function onCloseOthersCategoryList() {
-//   if (othersCategoryLisWrap.classList.contains('visible')) {
-//     if (!othersCategoryList || !othersCategoryLisWrap) {
-//       console.log(othersCategoryList);
-//       console.log(othersCategoryLisWrap);
-//       othersCategoryList.classList.remove('visible');
-//       othersCategoryLisWrap.classList.remove('visible');
-//     }
-//   }
-//   console.log('object=>test');
-// }
+function onCloseOthersCategories() {
+  if (othersCategoryList.classList.contains('visible')) {
+    othersCategoryList.classList.remove('visible');
+    othersCategoryLisWrap.classList.remove('visible');
+    window.removeEventListener('click', onCloseOthersCategories);
+  }
+}

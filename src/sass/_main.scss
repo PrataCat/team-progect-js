@@ -102,13 +102,14 @@ a {
   border-radius: 20px;
   cursor: pointer;
 
-  /* + */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 8px 21px;
   gap: 10px;
+
+  background-image: url(../images/symbol-defs-mini.svg#icon-orig-mini-n-z);
 }
 
 .filter__main-category-btn-icon {
@@ -145,13 +146,4 @@ a {
 // }
 
 // .filter__others-category-item {
-// }
-
-// .backdrop {
-//   position: fixed;
-//   width: 100%;
-//   height: 100%;
-//   top: 0;
-//   left: 0;
-//   opacity: 1;
 // }
