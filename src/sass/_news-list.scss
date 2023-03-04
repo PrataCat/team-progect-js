@@ -17,7 +17,6 @@
   height: 675px;
   position: relative;
   overflow: hidden;
-  // outline: solid 1px red;
   @media screen and (max-width: 767px) {
     margin-bottom: 28px;
     height: 630px;
@@ -65,7 +64,7 @@ li.active .box-news___wrap-reading {
   align-items: center;
   gap: 4px;
   background-color: transparent;
-  z-index: 99999;
+  z-index: 9;
   @media screen and (min-width: 768px) {
     top: 20px;
     right: 20px;
