@@ -1,4 +1,8 @@
-export function onButtonFavorite(e) {
+export { onButtonFavorite };
+import { sendCurrentArray as getArray } from './news-list';
+import { includeFavoriteNew, excludeFavoriteNew } from './library';
+
+function onButtonFavorite(e) {
   if (e.target.closest('BUTTON')) {
     const favButton = e.target.closest('BUTTON');
     const favId = favButton.closest('li').dataset.id;
@@ -14,12 +18,12 @@ export function onButtonFavorite(e) {
 }
 
 function offColorBtn(favButton, favId, favP, favSvg) {
-  for (const el of arrCurrentNews) {
+  for (const el of getArray()) {
     if (el.id === favId) {
-      // const resaultDel = excludeFavoriteNew(el.id);
+      const resultDel = excludeFavoriteNew(el.id);
 
-      const resaultDel = true;
-      if (resaultDel) {
+      // const resultDel = true;
+      if (resultDel) {
         console.log('Удалил');
         favButton.classList.remove('favorite');
         favP.classList.remove('favorite-p');
@@ -32,12 +36,12 @@ function offColorBtn(favButton, favId, favP, favSvg) {
 }
 
 function onColorBtn(favButton, favId, favP, favSvg) {
-  for (const el of arrCurrentNews) {
+  for (const el of getArray()) {
     if (el.id === favId) {
-      // const resaultAdd = excludeFavoriteNew(el);
+      const resultAdd = includeFavoriteNew(el);
 
-      const resaultAdd = true;
-      if (resaultAdd) {
+      // const resultAdd = true;
+      if (resultAdd) {
         console.log('Добавил');
         favButton.classList.add('favorite');
         favP.classList.add('favorite-p');

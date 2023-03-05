@@ -1,6 +1,7 @@
 // ------------Lyosha, Yura, Dima--------------
 import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
+import { onButtonFavorite } from './favorite-btn-action';
 // import { includeFavoriteNew, excludeFavoriteNew } from './favorite';
 
 const box = document.querySelector('.box-news');
@@ -33,7 +34,17 @@ async function createNewsCollection(func) {
   perPage = cardsPerPage(); // замеряем ширину вью порта
 
   const arrForMarkup = displayItems(arrCurrentNews, page, perPage); // массив для рендера на текущую страницу
-  const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+  let cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+
+  // if (currentDispleyWidth > 1280) {
+  //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
+  //   return;
+  // } else if (currentDispleyWidth > 768) {
+  //   cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
+  //   return;
+  // } else {
+  //   cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
+  // }
 
   // // погода cardMarkupArray ('строка разменки погоды') splice(). но условие для мобилки!!!
   renderBoxNewMarkup(cardMarkupArray); // рендер текущей страницы
@@ -56,8 +67,12 @@ function cardsPerPage() {
 
 // ф-ци возвращае ширину вью порта
 function checkWidth() {
-  return document.documentElement.clientWidth;
+  // let jo = document.documentElement.clientWidth;
+  // console.log("checkWidth  jo:", jo)
+
+  return;
 }
+checkWidth();
 
 // ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
 function displayItems(arr, page, perPage) {
@@ -84,89 +99,34 @@ function onResize() {
       (checkWidth() < 768 || checkWidth() >= 1280)) ||
     (currentDispleyWidth >= 1280 && checkWidth() < 1280)
   ) {
-    // page += 1;
     createNewsCollection();
   }
+}
+
+// ф-ция возвращает текущий массив новостей
+export function sendCurrentArray() {
+  return arrCurrentNews;
 }
 
 /*********************** button ********************************/
 
 function onClickReadMore(e) {
   e.preventDefault();
-  // const currentId = e.target.closest('li').dataset.id
-  let currentId = null;
-  let currentLi = null;
-  // console.dir(e.target);
-
   if (e.target.tagName === 'A') {
-    // console.log('Мы нажали на Read more !');
-
-    currentId = e.target.closest('li').dataset.id;
-    currentLi = e.target.closest('li');
-
-    console.log(currentLi);
-    console.log('currentId - ', currentId);
+    let currentId = e.target.closest('li').dataset.id;
+    let currentLi = e.target.closest('li');
+    // console.log('currentId - ', currentId, 'currentLi - ', currentLi);
 
     for (const el of arrCurrentNews) {
+      console.log('el - ', el);
       if (el.id === currentId) {
+        // console.log('el.id - ', el.id);
         console.log('Мы нашли ID и вызываем ф-цию READ (include...)');
         currentLi.classList.add('show');
         return;
       }
-      console.log('Все пропало шеф!!!');
+      console.log('Вышли из функции когда отправили данные');
     }
   }
 }
 
-/*********************************************************/
-function onButtonFavorite(e) {
-  if (e.target.closest('BUTTON')) {
-    const favButton = e.target.closest('BUTTON');
-    const favId = favButton.closest('li').dataset.id;
-    const favP = favButton.querySelector('.box-news__favorite-p');
-    const favSvg = favButton.querySelector('.box-news__favorite-svg');
-
-    if (favButton.classList.contains('favorite')) {
-      offColorBtn(favButton, favId, favP, favSvg);
-    } else {
-      onColorBtn(favButton, favId, favP, favSvg);
-    }
-  }
-}
-
-function offColorBtn(favButton, favId, favP, favSvg) {
-  for (const el of arrCurrentNews) {
-    if (el.id === favId) {
-      // const resaultDel = excludeFavoriteNew(el.id);
-
-      const resaultDel = true;
-      if (resaultDel) {
-        console.log('Удалил');
-        favButton.classList.remove('favorite');
-        favP.classList.remove('favorite-p');
-        favSvg.classList.remove('favorite-svg');
-        favP.textContent = 'Add to Favorite';
-      }
-      return;
-    }
-  }
-}
-
-function onColorBtn(favButton, favId, favP, favSvg) {
-  for (const el of arrCurrentNews) {
-    if (el.id === favId) {
-      // const resaultAdd = excludeFavoriteNew(el);
-
-      const resaultAdd = true;
-      if (resaultAdd) {
-        console.log('Добавил');
-        favButton.classList.add('favorite');
-        favP.classList.add('favorite-p');
-        favSvg.classList.add('favorite-svg');
-        favP.textContent = 'Remove from Favorite';
-      }
-      return;
-    }
-  }
-}
-/***********************************************************/
