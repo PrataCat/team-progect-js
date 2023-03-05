@@ -1,0 +1,73 @@
+// .active {
+//     display: none;
+// }
+
+.span-wrap {
+    display: flex;
+
+    min-width: 100%;
+    border-bottom: 1px solid #929292;
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.arrow {
+    display: inline-block;
+    margin-left: 12px;
+    width: 11px;
+    height: 11px;
+
+    border-bottom: 2px solid #111321;
+    border-right: 2px solid #111321;
+
+    transform-origin: center;
+    transform: rotate(45deg) translateY(-3px);
+    transition: transform 0.5s ease-in;
+    
+}
+
+.arrow-bot {
+    transform-origin: center;
+    transform: rotate(225deg) translateY(-1px) translateX(-5px);
+    transition: transform 0.5s ease-in;
+}
+
+.date-span {
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.71;
+
+    letter-spacing: 0.02em;
+
+    color: #111321;
+}
+
+
+.wrap-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    margin-top: 20px;
+    
+        @media screen and (min-width: 768px) {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+    
+        @media screen and (min-width: 1280px) {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+}
+
+.open {
+    max-height: 5000px;
+    transition: max-height 0.5s ease-in;
+
+}
