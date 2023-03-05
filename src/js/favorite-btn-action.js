@@ -26,8 +26,6 @@ function offColorBtn(favButton, favId, favP, favSvg) {
       if (resultDel) {
         console.log('Удалил');
         favButton.classList.remove('favorite');
-        favP.classList.remove('favorite-p');
-        favSvg.classList.remove('favorite-svg');
         favP.textContent = 'Add to Favorite';
       }
       return;
@@ -35,7 +33,7 @@ function offColorBtn(favButton, favId, favP, favSvg) {
   }
 }
 
-function onColorBtn(favButton, favId, favP, favSvg) {
+export function onColorBtn(favButton, favId, favP, favSvg) {
   for (const el of getArray()) {
     if (el.id === favId) {
       const resultAdd = includeFavoriteNew(el);
@@ -44,8 +42,6 @@ function onColorBtn(favButton, favId, favP, favSvg) {
       if (resultAdd) {
         console.log('Добавил');
         favButton.classList.add('favorite');
-        favP.classList.add('favorite-p');
-        favSvg.classList.add('favorite-svg');
         favP.textContent = 'Remove from Favorite';
       }
       return;

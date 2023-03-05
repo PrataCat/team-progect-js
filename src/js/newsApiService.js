@@ -1,4 +1,5 @@
-const API_KEY = 'xiA2oqSwY7oUdkxynOuoZzJzlQ7EJz4s';
+const API_KEY = '8mekeONZ6nK4i6Y70gCooR8F5X0gOISp';
+// xiA2oqSwY7oUdkxynOuoZzJzlQ7EJz4s
 
 const ArticleSearchEndpoint =
   'https://api.nytimes.com/svc/search/v2/articlesearch.json';
