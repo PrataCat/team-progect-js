@@ -113,11 +113,7 @@
 
 // Sveta add styles for calendar input
 
-// .calendar-label {
-//   margin-left: 111px;
-// }
-
-.calendar-label-text {
+.calendar__label-text {
   margin-right: 37px;
 
   font-family: 'Manrope';
@@ -125,20 +121,20 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 25px;
-  color: #111321;
+  color: var(--primary-dark-color);
 }
 
-.calendar-input--wrap {
+.calendar__input-wrap {
   position: relative;
 }
 
-.calendar-input {
+.calendar__input {
   max-width: 168px;
   min-height: 31px;
 
   padding-left: 46px;
-  border: 1px solid hsl(0, 0%, 0%);
-  border-radius: 20px;
+  border: 1px solid var(--primary-dark-color);
+  border-radius: 15px;
   outline: transparent;
 
   font-family: 'Manrope';
@@ -147,50 +143,52 @@
   font-size: 14px;
   line-height: 21px;
   letter-spacing: 0.02em;
-  color: #111321;
-  opacity: 0.4;
+  color: var(--primary-dark-color);
+  background-color: inherit;
+  transition: background-color var(--timing-function),
+    border var(--timing-function), color var(--timing-function);
+
+  &:focus {
+    border: none;
+
+    color: var(--secondary-light-color);
+    background-color: var(--accent-secondary-color);
+  }
+
+  &::placeholder {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.02em;
+    color: var(--primary-dark-color);
+    opacity: 0.4;
+  }
+
+  &:focus::placeholder {
+    color: var(--secondary-light-color);
+    opacity: 1;
+  }
 }
 
-.calendar-input:focus {
-  border: none;
-
-  color: #ffffff;
-  background-color: #4440f6;
-  opacity: 1;
-}
-
-.calendar-input::placeholder {
-  font-family: 'Manrope';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: 0.02em;
-  color: #111321;
-  opacity: 0.4;
-}
-
-.calendar-input:focus::placeholder {
-  color: #ffffff;
-  opacity: 1;
-}
-
-.calendar__input--icon {
+.calendar__input-icon {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 12px;
-  width: 18px;
-  height: 18px;
+  transform: translateY(-50%);
+  width: 19px;
+  height: 19px;
 
-  fill: #4440f6;
+  fill: var(--accent-secondary-color);
 }
 
-.calendar-btn--icon {
+.calendar__btn-icon {
   position: absolute;
-  width: 15px;
-  height: 15px;
+  top: 5px;
   right: 14px;
-  top: 2px;
+  width: 14px;
+  height: 14px;
   z-index: -1;
   border: none;
 
@@ -198,12 +196,14 @@
   fill: #a2a2a2;
 }
 
-.calendar-input:focus + .calendar__input--icon {
-  fill: #ffffff;
-}
+.calendar__input:focus {
+  + .calendar__input-icon {
+    fill: var(--secondary-light-color);
+  }
 
-.calendar-input:focus ~ .calendar-btn--icon {
-  fill: #ffffff;
-  z-index: 1;
-  transform: rotate(+180deg);
+  ~ .calendar__btn-icon {
+    z-index: 1;
+    transform: rotate(+180deg);
+    fill: var(--secondary-light-color);
+  }
 }
