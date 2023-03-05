@@ -5,15 +5,12 @@ const ArticleSearchEndpoint =
 const MostPopularEndpoint = 'https://api.nytimes.com/svc/mostpopular/v2/viewed';
 const TimesWireEndpoint = 'https://api.nytimes.com/svc/news/v3/content';
 
-
 async function getCategories() {
   try {
     const response = await fetch(
       `${TimesWireEndpoint}/section-list.json?api-key=${API_KEY}`
     );
     const data = await response.json();
-
-    console.log(data.results);
 
     return data.results;
   } catch (error) {
@@ -46,7 +43,7 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
       const resultObj = {
         title,
         abstract,
-        published_date,
+        published_date: dateFormat(published_date),
         url,
         section,
         image_url: multimedia[2].url,
@@ -54,7 +51,7 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
       };
       return resultObj;
     });
-    console.log(normalizedData);
+    // console.log(normalizedData);
     return normalizedData;
   } catch (error) {
     console.log(error);
@@ -91,7 +88,7 @@ async function getMostPopularArticles(days = 7) {
       const resultObj = {
         title,
         abstract,
-        published_date,
+        published_date: dateFormat(published_date),
         url,
         section,
         image_url,
@@ -111,7 +108,9 @@ async function getMostPopularArticles(days = 7) {
 async function fetchSearchArticles(query, pub_date, page) {
   try {
     const pubDate = pub_date ? `&fq=pub_date:${pub_date}` : '';
-    const response = await fetch(`${ArticleSearchEndpoint}?api-key=${API_KEY}&page=${page}&q=${query}${pubDate}`);
+    const response = await fetch(
+      `${ArticleSearchEndpoint}?api-key=${API_KEY}&page=${page}&q=${query}${pubDate}`
+    );
     const data = await response.json();
 
     return data.response.docs;
@@ -120,17 +119,24 @@ async function fetchSearchArticles(query, pub_date, page) {
   }
 }
 
-async function getSearchArticles(query, pub_date, page=0) {
+async function getSearchArticles(query, pub_date, page = 0) {
   try {
     const data = await fetchSearchArticles(query, pub_date, page);
 
     const normalizedData = data.map(item => {
-      const { headline, abstract, pub_date, web_url, subsection_name, multimedia, uri } =
-        item;
+      const {
+        headline,
+        abstract,
+        pub_date,
+        web_url,
+        subsection_name,
+        multimedia,
+        uri,
+      } = item;
       const resultObj = {
         title: headline.main,
         abstract,
-        published_date: pub_date,
+        published_date: dateFormat(pub_date),
         url: web_url,
         section: subsection_name,
         image_url:
@@ -140,15 +146,25 @@ async function getSearchArticles(query, pub_date, page=0) {
       };
       return resultObj;
     });
+    // console.log(normalizedData)
     return normalizedData;
   } catch (error) {
     console.log(error);
   }
 }
 
-// fetchCategories();
+function dateFormat(str) {
+  return new Date(str).toLocaleString().slice(0, 10).split('.').join('/');
+}
+
+// getCategories();
 // getMostPopularArticles();
 // getCategoryArticles('arts');
 // getSearchArticles('politics');
 
-export default { getCategories, getCategoryArticles, getMostPopularArticles, getSearchArticles }
+export {
+  getCategories,
+  getCategoryArticles,
+  getMostPopularArticles,
+  getSearchArticles,
+};

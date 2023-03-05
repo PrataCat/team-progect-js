@@ -1,0 +1,209 @@
+.filter__wrap {
+  position: relative;
+  margin-top: 28px;
+  //   margin-left: 100px;
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter__other-category-wrap {
+  position: absolute;
+  z-index: 10;
+  left: 590px;
+  width: 168px;
+  height: 380px;
+  overflow: hidden;
+  margin-top: 35px;
+
+  border-radius: 20px;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  &.visible {
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+
+.filter__others-category-list {
+  transform: translateY(-101%);
+  transition: transform 0.4s;
+
+  background-color: #f8f8f8;
+  padding-left: 24px;
+
+  &.visible {
+    transform: translateY(0%);
+    transition: transform 0.4s;
+
+    background-color: #f8f8f8;
+  }
+}
+
+.filter__main-category-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 16px;
+}
+
+.filter__main-category-btn {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+
+  color: #4b48db;
+  background-color: #fff;
+  border: 1px solid #4440f7;
+  border-radius: 20px;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 21px;
+  gap: 10px;
+
+  background-image: url(../images/symbol-defs-mini.svg#icon-orig-mini-n-z);
+}
+
+.filter__main-category-btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.active {
+  color: #fff;
+  background: #4440f6;
+}
+
+.filter__others-category-btn {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  text-align: center;
+  letter-spacing: 0.01em;
+
+  color: #4440f7;
+  background-color: #f8f8f8;
+  border: none;
+
+  &:hover,
+  &:focus {
+    text-decoration-line: underline;
+    cursor: pointer;
+  }
+}
+
+// .filter__main-category-item {
+// }
+
+// .filter__others-category-item {
+// }
+
+// Sveta add styles for calendar input
+
+.calendar__label-text {
+  margin-right: 37px;
+
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--primary-dark-color);
+}
+
+.calendar__input-wrap {
+  position: relative;
+}
+
+.calendar__input {
+  max-width: 168px;
+  min-height: 31px;
+
+  padding-left: 46px;
+  border: 1px solid var(--primary-dark-color);
+  border-radius: 15px;
+  outline: transparent;
+
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.02em;
+  color: var(--primary-dark-color);
+  background-color: inherit;
+  transition: background-color var(--timing-function),
+    border var(--timing-function), color var(--timing-function);
+
+  &:focus {
+    border: none;
+
+    color: var(--secondary-light-color);
+    background-color: var(--accent-secondary-color);
+  }
+
+  &::placeholder {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.02em;
+    color: var(--primary-dark-color);
+    opacity: 0.4;
+  }
+
+  &:focus::placeholder {
+    color: var(--secondary-light-color);
+    opacity: 1;
+  }
+}
+
+.calendar__input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 19px;
+  height: 19px;
+
+  fill: var(--accent-secondary-color);
+}
+
+.calendar__btn-icon {
+  position: absolute;
+  top: 5px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  z-index: -1;
+  border: none;
+
+  background-color: transparent;
+  fill: #a2a2a2;
+}
+
+.calendar__input:focus {
+  + .calendar__input-icon {
+    fill: var(--secondary-light-color);
+  }
+
+  ~ .calendar__btn-icon {
+    z-index: 1;
+    transform: rotate(+180deg);
+    fill: var(--secondary-light-color);
+  }
+}
