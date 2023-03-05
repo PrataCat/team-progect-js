@@ -1,7 +1,8 @@
 //------------Oleksiy Zhuravlev-----------
 
+import { excludeFavoriteNew, loadAllFavorites } from './library.js';
+
 // const doubleButton = document.querySelector('.double-first-new');
-// //console.log(doubleButton);
 // doubleButton.addEventListener('click', onDouble);
 
 // function onDouble(params) {
@@ -14,8 +15,6 @@
 //   box.innerHTML = '';
 //   createPopularNewsCollection(loadAllFavorites());
 // }
-
-const FAVORITE_STORAGE_KEY = 'Favorite';
 
 const box = document.querySelector('.box-news');
 
@@ -36,59 +35,18 @@ function onClick(e) {
   }
 }
 
-export function excludeFavoriteNew(newId) {
-  try {
-    const curNewsArray = loadAllFavorites();
-
-    const foundIndex = curNewsArray.findIndex((elm, idx) => elm.id === newId);
-
-    curNewsArray.splice(foundIndex, 1);
-
-    saveFavorites(curNewsArray);
-    return true;
-  } catch (error) {
-    console.error(error.message);
-  }
-  return false;
-}
-
-export function includeFavoriteNew(theNew) {
-  try {
-    const curNewsArray = loadAllFavorites();
-
-    curNewsArray.unshift(theNew);
-
-    saveFavorites(curNewsArray);
-    return true;
-  } catch (error) {
-    console.error(error.message);
-  }
-  return false;
-}
-
-function saveFavorites(arr) {
-  try {
-    const serializedState = JSON.stringify(arr);
-    localStorage.setItem(FAVORITE_STORAGE_KEY, serializedState);
-  } catch (error) {
-    console.error('Set state error: ', error.message);
-  }
-}
-
-function loadAllFavorites() {
-  try {
-    const serializedState = localStorage.getItem(FAVORITE_STORAGE_KEY);
-    return serializedState === null ? undefined : JSON.parse(serializedState);
-  } catch (error) {
-    console.error(error.message);
-  }
-}
-
 function createPopularNewsCollection(arr) {
+  if (typeof arr !== 'object') {
+    return;
+  }
+  if (Array.isArray(arr) === false) {
+    return;
+  }
   const markupNewsCollection = arr
     .map(el => {
       const { abstract, title, url, published_date, media, section, id } = el;
-      const foto = media[0]['media-metadata'][2].url;
+      // const foto = media[0]['media-metadata'][2].url;
+      const foto = media[0] ? media[0]['media-metadata'][2].url : '';
       const data = published_date.split('-').reverse().join('/');
       return `<li class="box-news__item" data-id="${id}">
       <p class="box-news__section">${section}</p>
@@ -135,5 +93,3 @@ function createPopularNewsCollection(arr) {
 }
 
 createPopularNewsCollection(loadAllFavorites());
-
-// export { excludeFavoriteNew, includeFavoriteNew };
