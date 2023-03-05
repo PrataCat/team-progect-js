@@ -11,11 +11,11 @@ export function loadReadStorage() {
 export function writeReadStorage(object) {
   removeFromReadStorage(object);
   const readObj = loadReadStorage();
-  const curDate = getCurrentDate();
-  if (!readObj[curDate]) {
-    readObj[curDate] = [];
+  const currentDate = getCurrentDate();
+  if (!readObj[currentDate]) {
+    readObj[currentDate] = [];
   }
-  readObj[curDate].push(object);
+  readObj[currentDate].push(object);
 
   localStorage.setItem('read', JSON.stringify(readObj));
 }
