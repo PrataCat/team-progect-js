@@ -13,7 +13,7 @@ fetchWeatherCity().then((data) =>{
   let lat = `${latitude}`;
   let lon = `${longitude}`;
   fetchWeather(lat, lon).then((data) =>{
-    box.firstChild.remove()
+     box.firstChild.remove()
     // console.log(data);
     createCard(data);
   });
@@ -22,7 +22,7 @@ fetchWeatherCity().then((data) =>{
  // ===========  по геолокации
  const KEY = 'а66723ff7785b663e20297f90d8a0e90'
  async function fetchWeather(lat, lon){ 
-  const URL = `http://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&lat=${lat}&lon=${lon}&units=metric`
+  const URL = `https://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&lat=${lat}&lon=${lon}&units=metric`
  const response = await fetch(URL);
    if (!response.ok) {
      throw new Error('Error');
@@ -34,7 +34,7 @@ fetchWeatherCity().then((data) =>{
 
  //  ============== по умолчанию
 async function fetchWeatherCity(q){ 
-  const URL = `http://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&q=Kyiv&units=metric` 
+  const URL = `https://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&q=Kyiv&units=metric` 
   const response = await fetch(URL);
     if (!response.ok) {
      throw new Error('Error');
@@ -58,7 +58,11 @@ async function fetchWeatherCity(q){
                <p class="weather-temp">${temp}&deg</p>
              <div class="weather-city-group"> 
                <p class="weather-main">${arr.weather[0].main}</p> 
-               <button class="btn__select-city" type="submit">${arr.name}</button>
+               <form class="search-form">
+               <svg class="icon icon-carbon_location-filled" width="14" height="14">
+               <use href="./header-sprite.svg#icon-carbon_location-filled" width="14" height="14""></use></svg>
+               <input type="text" id="search-box" placeholder="            ${arr.name}"/>
+            </form>
              </div>
         
              <img class="weather-icon" src=" http://openweathermap.org/img/wn/${arr.weather[0].icon}@2x.png" alt="${arr.title}">
@@ -67,10 +71,43 @@ async function fetchWeatherCity(q){
                <button class="weather-week" type="submit"> weather for week</button>
            </li>`
     box.insertAdjacentHTML("afterbegin" ,marcup);
+  // =========== доступ к кнопкам, вешаем слушателей==========
+    // ======город
+    const inputEl = document.getElementById('search-box');
+    // console.log(inputEl);
+    inputEl.addEventListener("input", onSubmitSearchCity);
+   // ======погода на 5 дней
   } 
+  function onSubmitSearchCity(e){
+    e.preventDefault();
+    // console.log('sos')
+    const valueCity = e.currentTarget.value;
+    // console.log(valueCity)
+      if (e.value === '') {
+            const message = ("Поле повинно бути заповнено.")
+            return  alert(message);  
+        } else {
+         (valueCity.length === 0)
+          console.info("no sity");
+        }
+          // console.log('City:', valueCity);
+          const URL = `http://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&q=${valueCity}&units=metric` 
+          //  const URL = `http://api.openweathermap.org/data/2.5/weather?APPID=a66723ff7785b663e20297f90d8a0e90&units=metric&id=700022`
+              fetch(URL).then((res) => {
+                //  console.log(res)
+                 if (!res.ok) {
+                    throw new Error('Error');
+                  }
+                    return res.json();
+                }).then((data) => {
+                      box.firstChild.remove()
+                      // console.log(data);
+                    createCard(data)});
+        
+        }
 
-  function onError(err) {
-    console.error(err);
+  function onError(error) {
+    console.error(error);
   }
   
 export {createCard};

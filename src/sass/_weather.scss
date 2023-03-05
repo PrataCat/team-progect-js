@@ -9,7 +9,7 @@
 
 .box-weather__item{
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     border: 2px;
   @media screen and (max-width: 767px) {
     margin-bottom: 28px;
@@ -32,6 +32,19 @@
   height: 75px;
   margin-left: 53px;
   margin-top: 45px;
+  @media screen and (max-width: 767px) {
+    font-size: 55px;
+    line-height: 64px;
+    width: 60px;
+    height: 64px;
+    margin-left: 0px;
+    margin-top: 40px;
+  }
+  @media screen and (min-width: 768px) {
+    margin-left: 32px;
+    width: 81px;
+  }
+
 }
 
 .weather-temp::after{
@@ -43,11 +56,20 @@
   transform: rotate(90deg); 
   content: "";
   background:  var(--weather-btn-color);
+  @media screen and (max-width: 767px) {
+     margin-top: 37px;
+  }
+
 }
 .weather-city-group{ 
   margin-left: 8px;
   margin-top: 40px;
   height: 84px;
+  @media screen and (max-width: 767px) {
+    // margin-left: 36px;
+     margin-top: 37px;
+     height: 64px;
+  }
 }
 
  .weather-main{
@@ -58,6 +80,13 @@
   font-size: 36px;
   line-height: 42px;
   color: var(--secondary-light-color);
+  @media screen and (max-width: 767px) {
+    // margin-left: 36px;
+    font-size: 24px;
+    line-height: 28px;
+    width: 66px;
+    height: 28px;
+  }
  }
 
  .weather-icon {
@@ -67,6 +96,12 @@
    height: 165px;
    mix-blend-mode: normal;
    margin-top: 215px;
+   @media screen and (max-width: 767px) {
+    // margin-left: 36px;
+     margin-top: 150px;
+     
+  }
+
  }
  .weather-day{
   position: absolute;
@@ -81,6 +116,13 @@
   color: var(--secondary-light-color);
   text-align: center;
   justify-content: center;
+  @media screen and (max-width: 767px) {
+    // margin-left: 36px;
+     margin-top: 319px;
+     font-size: 28px;
+     line-height: 33px;
+  }
+
  }
  
  .weather-data{
@@ -93,10 +135,15 @@
   line-height: 42px;
   text-align: center;
   color: var(--secondary-light-color);
+  @media screen and (max-width: 767px) {
+    // margin-left: 36px;
+     margin-top: 352px;
+     font-size: 28px;
+     line-height: 33px;
+  }
  }
 
-.btn__select-city{
-
+ #search-box{
   width: 177px;
   height: 42px;
   border: none;
@@ -107,7 +154,71 @@
   line-height: 23px;
   color: var(--secondary-light-color);
   cursor: pointer;
+  @media screen and (max-width: 767px) {
+    font-size: 14px;
+    line-height: 16px;
+    width: 121px;
+    height: 34px;
+  }
+ }
+ #search-box:hover{
+  color: #ffffff;
+  background: #a8a8a8;
+ }
+ #search-box:focus,
+ #search-box:active{
+  color: #ffffff;
+  background-color: red;
+  border: none;
+  border-bottom: 2px solid #eee;
+ 
+  background: transparent;
+  outline: none;
+  font-size: 19px;
+ }
+
+ #search-box::placeholder {
+  color: #ffffff;
+  font-family: var(--third-font);
+  margin-left: 50px;
+  font-size: 20px;
+  line-height: 23px;
 }
+
+ #search-box:placeholder-shown {
+  border-color: #111321;
+  
+}
+.icon-carbon_location-filled {
+  display: inline-block;
+  width: 24px;
+  height: 14px;
+    stroke-width: 0;
+   stroke: currentColor;
+   fill: currentColor;  
+   color: #eee;
+  fill:#ffffff;
+  background-color: #111321;
+}
+// .btn__select-city{
+
+//   width: 177px;
+//   height: 42px;
+//   border: none;
+//   background:  var(--weather-btn-color);
+//   border-radius: 10px;
+//   font-family: var(--third-font);
+//   font-size: 20px;
+//   line-height: 23px;
+//   color: var(--secondary-light-color);
+//   cursor: pointer;
+//   @media screen and (max-width: 767px) {
+//     font-size: 14px;
+//     line-height: 16px;
+//     width: 121px;
+//     height: 34px;
+//   }
+// }
 
 .weather-week{
    position: absolute;
@@ -117,13 +228,30 @@
   border: none;
   background: var(--weather-btn-color);
   border-radius: 10px;
-font-family: var(--third-font);
-font-size: 20px;
-line-height: 23px;
-cursor: pointer;
-color: var(--secondary-light-color);
-
+  font-family: var(--third-font);
+  font-size: 20px;
+  line-height: 23px;
+  cursor: pointer;
+  color: var(--secondary-light-color);
+@media screen and (max-width: 767px) {
+    font-size: 14px;
+    line-height: 16px;
+    width: 151px;
+    height: 34px;
+    margin-top:403px;
+}
 }
 
+
+.icon-carbon_location-filled {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  // stroke-width: 0;
+  // stroke: currentColor;
+   fill: currentColor;
+  fill: red;
+  background-color: black;
+}
 
 // ========
