@@ -18,3 +18,24 @@
 .air-datepicker--pointer {
   display: none;
 }
+
+// стилі для сторінки, яка завантажується, якщо нічого не знайдено по вибраній даті
+
+.no-results-header {
+  margin: 121px 366px 40px 366px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 55px;
+  text-align: center;
+  letter-spacing: -0.01em;
+
+  color: #111321;
+}
+
+.no-results-img {
+  margin: 0 339px 372px;
+  width: 600px;
+  height: 478px;
+}
