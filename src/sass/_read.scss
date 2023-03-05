@@ -22,14 +22,35 @@
 
     transform-origin: center;
     transform: rotate(45deg) translateY(-3px);
-    transition: transform 0.5s ease-in;
-    
+    transition: transform 500ms ease-in;
+
+    @media screen and (min-width: 768px) {
+        transform: rotate(45deg) translateY(19px) translateX(-15px);
+        ;
+
+    }
+
+    @media screen and (min-width: 1280px) {
+        transform: rotate(45deg) translateY(4px) translateX(-5px);
+        ;
+
+    }
 }
 
 .arrow-bot {
     transform-origin: center;
     transform: rotate(225deg) translateY(-1px) translateX(-5px);
-    transition: transform 0.5s ease-in;
+    transition: transform 500ms ease-in;
+
+    @media screen and (min-width: 768px) {
+
+        transform: rotate(225deg) translateY(-1px) translateX(-5px);
+    }
+
+    @media screen and (min-width: 1280px) {
+
+        transform: rotate(225deg) translateY(-1px) translateX(-5px);
+    }
 }
 
 .date-span {
