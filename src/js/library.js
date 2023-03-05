@@ -1,8 +1,17 @@
 const FAVORITE_STORAGE_KEY = 'Favorite';
 
 export function includeFavoriteNew(theNew) {
+  console.log(theNew);
   try {
-    const curNewsArray = loadAllFavorites();
+    let curNewsArray = loadAllFavorites();
+    if (
+      typeof curNewsArray !== 'object' ||
+      Array.isArray(curNewsArray) === false
+    ) {
+      curNewsArray = [];
+      console.log(curNewsArray);
+    }
+
     curNewsArray.unshift(theNew);
     saveFavorites(curNewsArray);
     return true;
