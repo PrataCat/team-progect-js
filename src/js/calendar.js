@@ -1,8 +1,7 @@
 //----------Svitlana-------------
 
 //Підключення і налаштування календаря з бібліотеки:
-import notFoundImg from '../images/not-found-img.png';
-import { getMostPopularArticles } from './newsApiService';
+import { sendCurrentArray } from './news-list';
 import { creatCardMarkup } from './creatCardMarkup';
 
 import AirDatepicker from 'air-datepicker';
@@ -21,45 +20,40 @@ new AirDatepicker('#date-picker', {
 
   // функція виконується при кліку по даті:
 
-  onSelect: async function onSelect({ date, formattedDate, datepicker }) {
-    try {
-      box.innerHTML = '';
+  onSelect: function onSelect({ date, formattedDate, datepicker }) {
+    box.innerHTML = '';
 
-      let filteredPopularNews = await filterPopularNewsByDate(formattedDate);
+    let filteredPopularNews = filterPopularNewsByDate(formattedDate);
 
-      if (filteredPopularNews.length === 0) {
-        renderNoNews();
-      } else {
-        const filteredPopularNewsMarkUp = filteredPopularNews.reduce(
-          (acc, popularNews) => creatCardMarkup(popularNews) + acc,
-          ''
-        );
-        box.innerHTML = filteredPopularNewsMarkUp;
-      }
-    } catch (err) {
-      console.log(err);
+    if (filteredPopularNews.length === 0) {
+      renderNoNews(noResultsText);
+    } else {
+      const filteredPopularNewsMarkUp = filteredPopularNews.reduce(
+        (acc, popularNews) => creatCardMarkup(popularNews) + acc,
+        ''
+      );
+      box.innerHTML = filteredPopularNewsMarkUp;
     }
   },
 });
 
 // функція повертає масив обєктів відфільтрованих по вибраній даті:
 
-async function filterPopularNewsByDate(formattedDate) {
-  try {
-    const popularNewsData = await getMostPopularArticles();
-    const filteredPopularNewsData = popularNewsData.filter(popularNews => {
-      return popularNews.published_date === formattedDate;
-    });
+function filterPopularNewsByDate(formattedDate) {
+  const popularNewsData = sendCurrentArray();
+  const filteredPopularNewsData = popularNewsData.filter(popularNews => {
+    return popularNews.published_date === formattedDate;
+  });
 
-    return filteredPopularNewsData;
-  } catch (err) {
-    console.log(err);
-  }
+  return filteredPopularNewsData;
 }
 
+const noResultsText = 'We haven’t found news for the selected date';
 // функція малює розмітку, якщо новини по вибраній даті не знайдені:
 
-function renderNoNews() {
-  const noNewsMarkUp = `<div class="no-results-wrap"><h2 class="no-results-header">We haven’t found news for the selected date</h2> <span class="no-results-bgr"></span></div>`;
+function renderNoNews(noResultsText) {
+  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
   box.innerHTML = noNewsMarkUp;
 }
+
+export { renderNoNews };
