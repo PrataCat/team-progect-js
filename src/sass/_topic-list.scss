@@ -159,6 +159,10 @@
   @media screen and (min-width: 1280px) {
     display: block;
   }
+
+  body.dark-theme & {
+    color: 1px solid var(--secondary-light-color);
+  }
 }
 
 .calendar__input-wrap {
@@ -214,6 +218,10 @@
 
   @media screen and (min-width: 768px) {
     width: 168px;
+  }
+
+  body.dark-theme & {
+    border: 1px solid var(--secondary-light-color);
   }
 }
 
