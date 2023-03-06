@@ -2,8 +2,8 @@
 import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
-import { dadada } from './news-card';
-import { loadAllFavorites } from './library';
+import { onClickReadMore } from './readmore-action';
+import { setFlags } from './actions-with-flags';
 // import { includeFavoriteNew, excludeFavoriteNew } from './favorite';
 
 const box = document.querySelector('.box-news');
@@ -29,6 +29,8 @@ async function createNewsCollection(func) {
 
   if (arrCurrentNews.length === 0) {
     arrCurrentNews = await func();
+    console.log("createNewsCollection  arrCurrentNews:", arrCurrentNews)
+    
     /* если нет - вызываем апи и заполняем массив 
     соответствующими новостями (по категориям или серчу)
     */
@@ -38,26 +40,34 @@ async function createNewsCollection(func) {
   const arrForMarkup = displayItems(arrCurrentNews, page, perPage); // массив для рендера на текущую страницу
   // let cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
 
-  let array = [];
+  // let array = [];
 
-  dadada(arrForMarkup);
+  // dadada(arrForMarkup);
 
-  function dadada(arr) {
-    //   const btn = document.querySelector('.box-news__favorite-btn');
-    const localArr = loadAllFavorites();
-    const newArr = arr.forEach(el => {
-      const local = localArr.some(item => el.id === item.id);
-      if (local) {
-        el.add = true;
-        array.push(el);
-      } else {
-        el.add = false;
-        array.push(el);
-      }
-    });
-  }
+  // function dadada(arr) {
+  //   //   const btn = document.querySelector('.box-news__favorite-btn');
+  //   const localArr = loadAllFavorites();
+  //   const newArr = arr.forEach(el => {
+  //     const local = localArr.some(item => el.id === item.id);
+  //     if (local) {
+  //       el.add = true;
+  //       array.push(el);
+  //     } else {
+  //       el.add = false;
+  //       array.push(el);
+  //     }
+  //   });
+  // }
+  //----------***----------------
 
-  let cardMarkupArray = array.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+  let arrSetFlags = await setFlags(arrForMarkup);
+  console.log('Это лог из основного кода arrSetFlags --- ', arrSetFlags);
+  
+  
+
+  //----------***----------------
+
+  let cardMarkupArray = await arrSetFlags.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
 
   // if (currentDispleyWidth > 1280) {
   //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
@@ -104,13 +114,13 @@ function displayItems(arr, page, perPage) {
 // ф-ция рендера текущих карточек на страницу и изменение кнопок
 function renderBoxNewMarkup(arr) {
   box.insertAdjacentHTML('beforeend', arr.join(''));
-  const favBtn = document.querySelectorAll('.box-news__favorite-btn');
-  for (const btn of favBtn) {
-    if (btn.dataset.status === 'true') {
-      btn.firstElementChild.textContent = 'Remove from Favorite';
-      btn.classList.add('favorite');
-    }
-  }
+  // const favBtn = document.querySelectorAll('.box-news__favorite-btn');
+  // for (const btn of favBtn) {
+  //   if (btn.dataset.status === 'true') {
+  //     btn.firstElementChild.textContent = 'Remove from Favorite';
+  //     btn.classList.add('favorite');
+  //   }
+  // }
   // box.innnerHTML = arr.join('');
 }
 
@@ -134,24 +144,4 @@ export function sendCurrentArray() {
   return arrCurrentNews;
 }
 
-/*********************** button ********************************/
 
-function onClickReadMore(e) {
-  e.preventDefault();
-  if (e.target.tagName === 'A') {
-    let currentId = e.target.closest('li').dataset.id;
-    let currentLi = e.target.closest('li');
-    // console.log('currentId - ', currentId, 'currentLi - ', currentLi);
-
-    for (const el of arrCurrentNews) {
-      console.log('el - ', el);
-      if (el.id === currentId) {
-        // console.log('el.id - ', el.id);
-        console.log('Мы нашли ID и вызываем ф-цию READ (include...)');
-        currentLi.classList.add('show');
-        return;
-      }
-      console.log('Вышли из функции когда отправили данные');
-    }
-  }
-}
