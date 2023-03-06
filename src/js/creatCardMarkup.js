@@ -1,17 +1,14 @@
-function creatCardMarkup(el) {
-  const {
-    abstract,
-    title,
-    url,
-    published_date,
-    image_url,
-    section,
-    id,
-    favor = false,
-    read = false,
-  } = el;
+import { loadAllFavorites } from './library';
+import { loadReadStorage } from './read-library';
 
-  return `<li class="box-news__item ${read ? 'show' : ''}" data-id="${id}">
+function creatCardMarkup(el) {
+  const { abstract, title, url, published_date, image_url, section, id } = el;
+
+  const flags = checkRead(el);
+
+  return `<li class="box-news__item ${
+    flags.read ? 'show' : ''
+  }" data-id="${id}">
       <p class="box-news__section">${section}</p>
           <div class="box-news___wrap-reading">
             <span class="box-news__reading">Alredy read</span>
@@ -19,9 +16,9 @@ function creatCardMarkup(el) {
               <use href="#icon-check"></use>
             </svg> 
           </div>
-          <button class="box-news__favorite-btn ${favor ? 'favorite' : ''}">
+          <button class="box-news__favorite-btn ${flags.fav ? 'favorite' : ''}">
               <p class="box-news__favorite-p"> ${
-                favor ? 'Remove from Favorite' : 'Add to Favorite'
+                flags.fav ? 'Remove from Favorite' : 'Add to Favorite'
               }</p>
               <svg class="box-news__favorite-svg" width="16" height="16"">
                 <use href="#icon-heart"></use>
@@ -55,3 +52,19 @@ function creatCardMarkup(el) {
 }
 
 export { creatCardMarkup };
+
+function checkRead(obj) {
+  let arrFav = loadAllFavorites() || [];
+
+  let objRead = loadReadStorage() || {};
+  let arrRead = Object.values(objRead).flat();
+
+  const answer = arrFav.find(item => obj.id === item.id);
+
+  const reply = arrRead.find(i => obj.id === i.id);
+
+  return (rezult = {
+    fav: answer ? true : false,
+    read: reply ? true : false,
+  });
+}
