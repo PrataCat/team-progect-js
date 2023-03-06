@@ -2,8 +2,8 @@ import { sendCurrentArray as getArray } from './news-list';
 import { loadAllFavorites } from './library';
 import { loadReadStorage } from './read-library';
 
-export async function setFlags() {
-  let arrCurrent = getArray();
+export async function setFlags(arr) {
+  let arrCurrent = arr; //getArray();
   let arrFav = loadAllFavorites();
   let objRead = loadReadStorage();
   let arrRead = Object.values(objRead).flat();
@@ -27,4 +27,3 @@ export async function setFlags() {
   });
   return arrCurrent;
 }
-
