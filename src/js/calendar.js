@@ -34,7 +34,7 @@ new AirDatepicker('#date-picker', {
           (acc, popularNews) => creatCardMarkup(popularNews) + acc,
           ''
         );
-        box.insertAdjacentHTML('beforeend', filteredPopularNewsMarkUp);
+        box.innerHTML = filteredPopularNewsMarkUp;
       }
     } catch (err) {
       console.log(err);
@@ -60,6 +60,6 @@ async function filterPopularNewsByDate(formattedDate) {
 // функція малює розмітку, якщо новини по вибраній даті не знайдені:
 
 function renderNoNews() {
-  const noNewsMarkUp = `<h2 class="no-results-header">We haven’t found news for the selected date</h2> <img class="no-results-img" src="${notFoundImg}" alt="news not found">`;
+  const noNewsMarkUp = `<div class="no-results-wrap"><h2 class="no-results-header">We haven’t found news for the selected date</h2> <span class="no-results-bgr"></span></div>`;
   box.innerHTML = noNewsMarkUp;
 }
