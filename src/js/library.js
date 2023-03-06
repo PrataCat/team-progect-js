@@ -1,7 +1,6 @@
 const FAVORITE_STORAGE_KEY = 'Favorite';
 
 export function includeFavoriteNew(theNew) {
-  console.log(theNew);
   try {
     let curNewsArray = loadAllFavorites();
     if (
