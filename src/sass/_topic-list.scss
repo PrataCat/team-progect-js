@@ -47,15 +47,31 @@
   @media screen and (max-width: 767px) {
     padding: 0px 14px;
   }
+
+  &.active .filter__other-category-wrap .filter__main-category-btn-icon {
+    background-repeat: no-repeat;
+
+    background-image: url();
+  }
 }
 
-.others-btn {
-  background-image: url(../images/symbol-defs-mini.svg#icon-orig-mini-n-z);
+// .others-btn {
+//   background-image: url();
+// }
+
+.filter__main-category-btn-box-icon {
+  width: 14px;
+  height: 14px;
+  display: contents;
 }
 
 .filter__main-category-btn-icon {
-  width: 14px;
-  height: 14px;
+  //   width: 14px;
+  //   height: 8px;
+  //   background-repeat: no-repeat;
+  //   justify-content: center;
+  //   display: flex;
+  background-image: url();
 }
 
 .filter__other-category-wrap {
@@ -159,6 +175,10 @@
   @media screen and (min-width: 1280px) {
     display: block;
   }
+
+  body.dark-theme & {
+    color: 1px solid var(--secondary-light-color);
+  }
 }
 
 .calendar__input-wrap {
@@ -210,6 +230,10 @@
 
   @media screen and (min-width: 768px) {
     width: 168px;
+  }
+
+  body.dark-theme & {
+    border: 1px solid var(--secondary-light-color);
   }
 }
 

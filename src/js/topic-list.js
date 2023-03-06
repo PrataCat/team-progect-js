@@ -76,8 +76,7 @@ function createMarkupForCategories(
   mainCategoryList.innerHTML = markupForMainCategoryList;
   mainCategoryList.insertAdjacentHTML(
     'beforeend',
-    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<svg class="filter__main-category-btn-icon"> <use href="../images/symbol-defs-mini.svg#icon-orig-mini-n-z"> </use> </svg>
-</button></li>`
+    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<div class="filter__main-category-btn-box-icon" width="14" height="14"><span class="filter__main-category-btn-icon" width="14" height="14"></span></div></button></li>`
   );
   othersCategoryList.innerHTML = markupForOthersCategoryList;
 }
