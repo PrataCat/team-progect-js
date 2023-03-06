@@ -6,6 +6,8 @@ import {
 } from './read-library';
 
 import { creatCardMarkup } from './creatCardMarkup';
+import { includeFavoriteNew, excludeFavoriteNew } from './library';
+// import { onButtonFavorite } from './favorite-btn-action';
 
 createReadMarkup();
 
@@ -14,7 +16,7 @@ function createReadMarkup() {
   const keys = Object.keys(readObj);
 
   for (date of keys) {
-    console.log(readObj[date]);
+    // console.log(readObj[date]); // массивы объектов по датам
 
     // Удаление пустого массива из Л.С.
     if (readObj[date].length === 0) {
@@ -29,16 +31,17 @@ function createReadMarkup() {
   for (date of Object.keys(readObj)) {
     const box = document.querySelector(`[data-date="${date}"]`);
     const wrapList = document.getElementById(`${date}`);
-    console.log(wrapList);
     const murkupForBox = createMurkupForBoxItem();
 
-    wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(""));
+    //
+
+    wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(''));
   }
 }
 
 function createDateBox(date) {
   const wrapBox = document.querySelector('.wrap-box');
-  const murkup = `<div data-date="${date}">
+  const murkup = `<div data-date="${date}" class="dateList-wrap">
     <div class="span-wrap">
       <span class="date-span open">${date}<span class="arrow"></span></span>
     </div>
@@ -49,7 +52,7 @@ function createDateBox(date) {
 
   return;
 }
-
+// Массив разметки.
 function createMurkupForBoxItem() {
   const readObj = loadReadStorage();
   const getKeyValue = readObj[date]; //массив из объектов
@@ -58,13 +61,14 @@ function createMurkupForBoxItem() {
     const { abstract, title, url, published_date, image_url, section, id } = el;
     // const foto = media[0] ? media[0]['media-metadata'][2].url : '';
     const data = published_date.split('-').reverse().join('/');
+
     return creatCardMarkup(el);
   });
 
   return createMurkup;
 }
 
-console.log(createMurkupForBoxItem());
+// console.log(createMurkupForBoxItem());
 
 const dateSpans = document.querySelectorAll('.date-span');
 dateSpans.forEach(dateSpan => {
@@ -85,4 +89,74 @@ dateSpans.forEach(dateSpan => {
   });
 });
 
-export { writeReadStorage };
+
+const box = document.querySelector('.wrap-box ');
+// console.log(box);
+box.addEventListener('click', onButtonFavorite);
+
+// ----------------------------------------------------------
+
+function onButtonFavorite(e) {
+  if (e.target.closest('BUTTON')) {
+    // кнопка
+    const favButton = e.target.closest('BUTTON');
+    // ацдишка li
+    const favId = favButton.closest('li').dataset.id;
+    // надпись на кнопке  Add to Favorite
+    const favP = favButton.querySelector('.box-news__favorite-p');
+    // svg
+    const favSvg = favButton.querySelector('.box-news__favorite-svg');
+    console.log(favP);
+
+    if (favButton.classList.contains('favorite')) {
+      offColorBtn(favButton, favId, favP, favSvg);
+    } else {
+      onColorBtn(favButton, favId, favP, favSvg);
+    }
+  }
+}
+
+// Массив объектов getArray
+
+function offColorBtn(favButton, favId, favP, favSvg) {
+  for (const el of getArray()) {
+    if (el.id === favId) {
+      const resultDel = excludeFavoriteNew(el.id);
+
+      // const resultDel = true;
+      if (resultDel) {
+        console.log('Удалил');
+        favButton.classList.remove('favorite');
+        favP.classList.remove('favorite-p');
+        favSvg.classList.remove('favorite-svg');
+        favP.textContent = 'Add to Favorite';
+      }
+      return;
+    }
+  }
+}
+
+function onColorBtn(favButton, favId, favP, favSvg) {
+  for (const el of getArray()) {
+    if (el.id === favId) {
+      const resultAdd = includeFavoriteNew(el);
+
+      // const resultAdd = true;
+      if (resultAdd) {
+        console.log('Добавил');
+        favButton.classList.add('favorite');
+        favP.classList.add('favorite-p');
+        favSvg.classList.add('favorite-svg');
+        favP.textContent = 'Remove from Favorite';
+      }
+      return;
+    }
+  }
+}
+
+function getArray() {
+  let objRead = loadReadStorage();
+  let arrRead = Object.values(objRead).flat();
+
+  return arrRead;
+}
