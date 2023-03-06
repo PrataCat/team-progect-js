@@ -3,9 +3,7 @@ import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
-import { setFlags } from './actions-with-flags';
 import Pagination from 'tui-pagination'; /* ES6 */
-// import { includeFavoriteNew, excludeFavoriteNew } from './favorite';
 
 const box = document.querySelector('.box-news');
 const container = document.getElementById('tui-pagination-container');
@@ -81,25 +79,24 @@ async function createNewsCollection(func) {
   // perPage = cardsPerPage();
 
   // подготовили массив новостей на текущую страницу
-  const arrForMarkup = displayItems(
+  let arrForMarkup = displayItems(
     arrCurrentNews,
     options.page,
     options.itemsPerPage
   ); // массив для рендера на текущую страницу
 
   arrayEl = arrForMarkup;
-
+  
   // устанавливаем флажки (favorite, read) на массив новостей
-  let arrSetFlags = await setFlags(arrForMarkup);
+  // let arrSetFlags = await setFlags(arrForMarkup);
 
   // готовим массив разметки для рендера текущих товостей
-  let cardMarkupArray = arrSetFlags.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+  let cardMarkupArray = arrayEl.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
   // if (currentDispleyWidth > 1280) {
-  //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
-  //   return;
+ //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
   // } else if (currentDispleyWidth > 768) {
   //   cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
-  //   return;
+
   // } else {
   //   cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
   // }
@@ -139,7 +136,7 @@ function displayItems(arr, page, perPage) {
 
 // ф-ция рендера текущих карточек на страницу и изменение кнопок
 function renderBoxNewMarkup(arr) {
-  box.innerHTML = '';
+  // box.innerHTML = '';
   box.insertAdjacentHTML('beforeend', arr.join(''));
 }
 
@@ -162,3 +159,4 @@ function onResize() {
 export function sendCurrentArray() {
   return arrayEl;
 }
+
