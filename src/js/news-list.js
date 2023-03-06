@@ -87,6 +87,8 @@ async function createNewsCollection(func) {
     options.itemsPerPage
   ); // массив для рендера на текущую страницу
 
+  arrayEl = arrForMarkup;
+
   // устанавливаем флажки (favorite, read) на массив новостей
   let arrSetFlags = await setFlags(arrForMarkup);
 
@@ -158,6 +160,5 @@ function onResize() {
 
 // ф-ция возвращает текущий массив новостей
 export function sendCurrentArray() {
-  return arrForMarkup;
-  // return arrCurrentNews;
+  return arrayEl;
 }
