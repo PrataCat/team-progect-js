@@ -2,6 +2,7 @@
 const debounce = require('lodash.debounce');
 const KEY = '?api-key=OotKL5nYMsbXFbPHNmmUjf7brVnGZQ8G';
 const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
+let categoriesArray = [];
 let windowInnerWidth = window.innerWidth;
 const mainCategoryList = document.querySelector('.filter__main-category-list');
 const othersCategoryList = document.querySelector(
@@ -16,12 +17,13 @@ onFetch();
 mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
-window.addEventListener('resize', debounce(onReRender, 100));
+window.addEventListener('resize', debounce(onReRender, 50));
 
 function onFetch() {
   onFetchCategories()
     .then(({ results }) => {
-      createCategories(results, windowInnerWidth);
+      categoriesArray = results;
+      createCategories(categoriesArray, windowInnerWidth);
     })
     .catch(error => {
       console.log(error);
@@ -37,7 +39,7 @@ function onFetchCategories() {
   });
 }
 
-function createCategories(newsArray, windowInnerWidth) {
+function createCategories(categoriesArray, windowInnerWidth) {
   let amountOfMainCategories = 0;
   let nameForOthersBtn = '';
   if (windowInnerWidth >= 1280) {
@@ -46,25 +48,25 @@ function createCategories(newsArray, windowInnerWidth) {
   } else if (windowInnerWidth > 767 && windowInnerWidth < 1280) {
     amountOfMainCategories = 4;
     nameForOthersBtn = 'Others';
-  } else {
+  } else if (windowInnerWidth <= 767) {
     amountOfMainCategories = 0;
     nameForOthersBtn = 'Categories';
   }
   createMarkupForCategories(
-    newsArray,
+    categoriesArray,
     amountOfMainCategories,
     nameForOthersBtn
   );
 }
 
 function createMarkupForCategories(
-  newsArray,
+  categoriesArray,
   amountOfMainCategories,
   nameForOthersBtn
 ) {
   let markupForMainCategoryList = '';
   let markupForOthersCategoryList = '';
-  newsArray.map(({ display_name }, index) => {
+  categoriesArray.map(({ display_name }, index) => {
     if (index < amountOfMainCategories) {
       markupForMainCategoryList += `<li class="filter__main-category-item"><button class="filter__main-category-btn">${display_name}  </button></li>`;
       return;
@@ -83,8 +85,8 @@ function createMarkupForCategories(
 function onChooseCategory(event) {
   toMarkCategoryBtn(event);
   const nameOfCategory = event.target.outerText;
-  if (!(nameOfCategory === 'Others')) {
-    console.log(nameOfCategory);
+  if (!(nameOfCategory === 'Others') && !(nameOfCategory === 'Categories')) {
+    // console.log(nameOfCategory);
   }
 }
 
@@ -112,19 +114,21 @@ function onShowOthersCategories(event) {
 }
 
 function onSectionSelection(e) {
-  let section = e.target.textContent;
-  const othersLi = mainCategoryList.lastChild;
-  const otherBtn = othersLi.firstChild;
-  otherBtn.textContent = section;
-
-  if (othersCategoryLisWrap.classList.contains('visible')) {
-    othersCategoryList.classList.remove('visible');
-    othersCategoryLisWrap.classList.remove('visible');
+  if (e.target.localName === 'button') {
+    let section = e.target.textContent;
+    const othersLi = mainCategoryList.lastChild;
+    const otherBtn = othersLi.firstChild;
+    otherBtn.textContent = section;
+    // console.log(e.target.textContent);
   }
 }
 
-function onCloseOthersCategories() {
-  if (othersCategoryList.classList.contains('visible')) {
+function onCloseOthersCategories(event) {
+  if (
+    othersCategoryList.classList.contains('visible') &&
+    !event.target.classList.contains('filter__others-category-item') &&
+    !event.target.classList.contains('filter__others-category-list')
+  ) {
     othersCategoryList.classList.remove('visible');
     othersCategoryLisWrap.classList.remove('visible');
     window.removeEventListener('click', onCloseOthersCategories);
@@ -134,16 +138,16 @@ function onCloseOthersCategories() {
 function onReRender() {
   if (window.innerWidth >= 1280 && windowInnerWidth < 1280) {
     windowInnerWidth = window.innerWidth;
-    onFetch();
+    createCategories(categoriesArray, windowInnerWidth);
   } else if (
     window.innerWidth > 767 &&
     window.innerWidth < 1280 &&
     (windowInnerWidth <= 767 || windowInnerWidth >= 1280)
   ) {
     windowInnerWidth = window.innerWidth;
-    onFetch();
+    createCategories(categoriesArray, windowInnerWidth);
   } else if (window.innerWidth <= 767 && windowInnerWidth > 767) {
     windowInnerWidth = window.innerWidth;
-    onFetch();
+    createCategories(categoriesArray, windowInnerWidth);
   }
 }
