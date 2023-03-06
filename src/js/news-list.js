@@ -29,46 +29,22 @@ async function createNewsCollection(func) {
 
   if (arrCurrentNews.length === 0) {
     arrCurrentNews = await func();
-    console.log("createNewsCollection  arrCurrentNews:", arrCurrentNews)
     
     /* если нет - вызываем апи и заполняем массив 
     соответствующими новостями (по категориям или серчу)
     */
   }
-  perPage = cardsPerPage(); // замеряем ширину вью порта
+  // кол-во perPage от ширины вьюпорта
+  perPage = cardsPerPage(); 
 
+  // подготовили массив новостей на текущую страницу
   const arrForMarkup = displayItems(arrCurrentNews, page, perPage); // массив для рендера на текущую страницу
-  // let cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
-
-  // let array = [];
-
-  // dadada(arrForMarkup);
-
-  // function dadada(arr) {
-  //   //   const btn = document.querySelector('.box-news__favorite-btn');
-  //   const localArr = loadAllFavorites();
-  //   const newArr = arr.forEach(el => {
-  //     const local = localArr.some(item => el.id === item.id);
-  //     if (local) {
-  //       el.add = true;
-  //       array.push(el);
-  //     } else {
-  //       el.add = false;
-  //       array.push(el);
-  //     }
-  //   });
-  // }
-  //----------***----------------
-
+  
+  // устанавливаем флажки (favorite, read) на массив новостей
   let arrSetFlags = await setFlags(arrForMarkup);
-  console.log('Это лог из основного кода arrSetFlags --- ', arrSetFlags);
   
-  
-
-  //----------***----------------
-
-  let cardMarkupArray = await arrSetFlags.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
-
+  // готовим массив разметки для рендера текущих товостей 
+  let cardMarkupArray = arrSetFlags.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
   // if (currentDispleyWidth > 1280) {
   //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
   //   return;
@@ -80,12 +56,13 @@ async function createNewsCollection(func) {
   // }
 
   // // погода cardMarkupArray ('строка разменки погоды') splice(). но условие для мобилки!!!
-  renderBoxNewMarkup(cardMarkupArray); // рендер текущей страницы
+  
+  // рендер текущих новостей
+  renderBoxNewMarkup(cardMarkupArray);
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить
 // карточек на страницу, возвращаеи число для perPage
-
 function cardsPerPage() {
   const width = checkWidth();
 
@@ -113,14 +90,8 @@ function displayItems(arr, page, perPage) {
 
 // ф-ция рендера текущих карточек на страницу и изменение кнопок
 function renderBoxNewMarkup(arr) {
+  box.innnerHTML = '';
   box.insertAdjacentHTML('beforeend', arr.join(''));
-  // const favBtn = document.querySelectorAll('.box-news__favorite-btn');
-  // for (const btn of favBtn) {
-  //   if (btn.dataset.status === 'true') {
-  //     btn.firstElementChild.textContent = 'Remove from Favorite';
-  //     btn.classList.add('favorite');
-  //   }
-  // }
   // box.innnerHTML = arr.join('');
 }
 

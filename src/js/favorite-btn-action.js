@@ -17,9 +17,7 @@ function onButtonFavorite(e) {
   }
 }
 
-
-
-function offColorBtn(favButton, favId, favP, favSvg) {
+function offColorBtn(favButton, favId, favP) {
   for (const el of getArray()) {
     if (el.id === favId) {
       const resultDel = excludeFavoriteNew(el.id);
@@ -33,7 +31,7 @@ function offColorBtn(favButton, favId, favP, favSvg) {
   }
 }
 
-export function onColorBtn(favButton, favId, favP, favSvg) {
+function onColorBtn(favButton, favId, favP) {
   for (const el of getArray()) {
     if (el.id === favId) {
       const resultAdd = includeFavoriteNew(el);
