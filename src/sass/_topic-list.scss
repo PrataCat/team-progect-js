@@ -196,11 +196,15 @@
     font-family: 'Manrope';
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 21px;
     letter-spacing: 0.02em;
     color: var(--primary-dark-color);
     opacity: 0.4;
+
+    @media screen and (min-width: 768px) {
+      font-size: 14px;
+    }
   }
 
   &:focus::placeholder {
@@ -216,7 +220,7 @@
 .calendar__input-icon {
   position: absolute;
   top: 50%;
-  left: 12px;
+  left: 11px;
   transform: translateY(-50%);
   width: 19px;
   height: 19px;
@@ -226,8 +230,9 @@
 
 .calendar__btn-icon {
   position: absolute;
-  top: 5px;
-  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 11px;
   width: 14px;
   height: 14px;
   z-index: -1;
@@ -244,7 +249,7 @@
 
   ~ .calendar__btn-icon {
     z-index: 1;
-    transform: rotate(+180deg);
+    transform: translateY(-50%) rotate(180deg);
     fill: var(--secondary-light-color);
   }
 }
