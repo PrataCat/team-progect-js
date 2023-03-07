@@ -32,7 +32,7 @@ function onResizeFunction() {
   }
 }
 
-function checkResizeBreakpoint(documentWidth) {
+function checkResizeBreakpoint() {
   const newDocumentWidth = window.innerWidth;
 
   const checkResult =
