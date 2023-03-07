@@ -1,3 +1,16 @@
+export function removeFromReadStorage(obj) {
+  const readObj = loadReadStorage();
+
+  for (key of Object.keys(readObj)) {
+    const indexInArray = readObj[key].findIndex(item => item.id === obj.id);
+    if (indexInArray > -1) {
+      console.log(readObj[key]);
+      readObj[key].splice(indexInArray, 1);
+    }
+  }
+  localStorage.setItem('read', JSON.stringify(readObj));
+}
+
 export function loadReadStorage() {
   try {
     const storageRead = localStorage.getItem('read');
@@ -6,6 +19,10 @@ export function loadReadStorage() {
   } catch (error) {
     console.log(error);
   }
+}
+
+export function getCurrentDate() {
+  return new Date().toLocaleString().slice(0, 10).split('.').join('/');
 }
 
 export function writeReadStorage(object) {
@@ -20,19 +37,4 @@ export function writeReadStorage(object) {
   localStorage.setItem('read', JSON.stringify(readObj));
 }
 
-export function removeFromReadStorage(obj) {
-  const readObj = loadReadStorage();
 
-  for (key of Object.keys(readObj)) {
-    const indexInArray = readObj[key].findIndex(item => item.id === obj.id);
-    if (indexInArray > -1) {
-      console.log(readObj[key]);
-      readObj[key].splice(indexInArray, 1);
-    }
-  }
-  localStorage.setItem('read', JSON.stringify(readObj));
-}
-
-export function getCurrentDate() {
-  return new Date().toLocaleString().slice(0, 10).split('.').join('/');
-}
