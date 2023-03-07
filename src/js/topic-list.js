@@ -1,9 +1,15 @@
 // ------------Misa & Stas--------------
+import { createNewsCollection } from './news-list';
+import { getCategoryArticles } from './newsApiService';
+
 const debounce = require('lodash.debounce');
 const KEY = '?api-key=OotKL5nYMsbXFbPHNmmUjf7brVnGZQ8G';
 const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
+
 let categoriesArray = [];
 let windowInnerWidth = window.innerWidth;
+let currentCategory = '';
+
 const mainCategoryList = document.querySelector('.filter__main-category-list');
 const othersCategoryList = document.querySelector(
   '.filter__others-category-list'
@@ -13,6 +19,8 @@ const othersCategoryLisWrap = document.querySelector(
 );
 
 onFetch();
+
+// createNewsCollection(getCategoryArticles, 'books');
 
 mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
@@ -86,8 +94,10 @@ function onChooseCategory(event) {
   toMarkCategoryBtn(event);
   const nameOfCategory = event.target.outerText;
   if (!(nameOfCategory === 'Others') && !(nameOfCategory === 'Categories')) {
-    // console.log(nameOfCategory);
+    currentCategory = nameOfCategory.toLowerCase();
+    // createNewsCollection(getCategoryArticles, currentCategory);
   }
+  console.log(currentCategory);
 }
 
 function toMarkCategoryBtn(event) {
@@ -119,8 +129,10 @@ function onSectionSelection(e) {
     const othersLi = mainCategoryList.lastChild;
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
-    // console.log(e.target.textContent);
+    currentCategory = section.toLowerCase();
+    // createNewsCollection(getCategoryArticles, currentCategory);
   }
+  console.log(currentCategory);
 }
 
 function onCloseOthersCategories(event) {
