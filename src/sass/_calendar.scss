@@ -26,9 +26,10 @@
   flex-direction: column;
   align-items: center;
   row-gap: 40px;
+  margin: 120px 366px 120px;
 }
 
-.no-results-header {
+.no-results-text {
   font-family: 'Manrope';
   font-style: normal;
   font-weight: 700;
@@ -44,7 +45,6 @@
   }
 
   @media screen and (min-width: 1280px) {
-    margin: 120px 366px 0;
   }
 }
 
