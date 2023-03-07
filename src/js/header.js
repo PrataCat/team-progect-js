@@ -21,7 +21,7 @@ function onStartFunction() {
   window.addEventListener(
     'resize',
     debounce(() => {
-      if (checkResizeBreakpoint) {
+      if (checkResizeBreakpoint(documentWidth)) {
         onResizeFunction();
       }
     }, 100)
@@ -36,7 +36,7 @@ function onResizeFunction() {
   }
 }
 
-function checkResizeBreakpoint() {
+function checkResizeBreakpoint(documentWidth) {
   const newDocumentWidth = window.innerWidth;
 
   const checkResult =
