@@ -3,127 +3,142 @@ import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
-import Pagination from 'tui-pagination'; /* ES6 */
 
+//-----------------------------
+import Pagination from 'tui-pagination';
+import 'tui-pagination/dist/tui-pagination.css';
+
+
+
+
+// ------------------------------ pagination-----------------------------
+
+
+
+//-------------------------------------------------
 const box = document.querySelector('.box-news');
-const container = document.getElementById('tui-pagination-container');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
-
-let arrayEl = null;
-
-let currentDispleyWidth = checkWidth(); //текущая ширина вью порта
-let arrCurrentNews = []; //копия массива поп новостей (или по категориям, или по серчу)
-let pageList = 1;
-let perPage = null; // текущая страница (для пагинации)
-
 window.addEventListener('resize', onResize);
 
-const options = {
-  // totalItems: arrCurrentNews.length,
-  itemsPerPage: cardsPerPage(),
-  visiblePages: 8,
-  page: 1,
-  centerAlign: false,
-  firstItemClassName: 'tui-first-child',
-  lastItemClassName: 'tui-last-child',
-  template: {
-    page: `<a href="#" class="tui-page-btn">{{page}}</a>`,
-    currentPage:
-      '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
-    moveButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}">' +
-      '<span class="tui-ico-{{type}}">{{type}}</span>' +
-      '</a>',
-    disabledMoveButton:
-      '<span class="tui-page-btn tui-is-disabled tui-{{type}}">' +
-      '<span class="tui-ico-{{type}}">{{type}}</span>' +
-      '</span>',
-    moreButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
-      '<span class="tui-ico-ellip">...</span>' +
-      '</a>',
-  },
-};
+let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
+let arrCurrentNews = []; // массива всех новостей полученных от АПИ
+let arrForMarkup = []; // массив для рендера на страницу
+// let page = 1;
+// let perPage = null; // текущая страница (для пагинации)
 
-const instance = new Pagination(container, options);
+// ------------------------ paginetion----------------------------
+const container = document.getElementById('tui-pagination-container');
 
-/*
-основная ф-ция, создаем стартовую страницу, коллбеком передаем ф-цию 
-которая возвращает норм. массив поп. новостей (или по категориям, или по серчу)
-*/
+let options = {
+    // below default value of options
+    // totalItems: arrCurrentNews.length,
+    itemsPerPage: cardsPerPage(),
+    visiblePages: 8,
+    page: 1,
+    centerAlign: false,
+    firstItemClassName: 'tui-first-child',
+    lastItemClassName: 'tui-last-child',
+    template: {
+      page: '<a href="#" class="tui-page-btn">{{page}}</a>',
+      currentPage:
+        '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
+      moveButton:
+        '<a href="#" class="tui-page-btn tui-{{type}}">' +
+        '<span class="tui-ico-{{type}}">{{type}}</span>' +
+        '</a>',
+      disabledMoveButton:
+        '<span class="tui-page-btn tui-is-disabled tui-{{type}}">' +
+        '<span class="tui-ico-{{type}}">{{type}}</span>' +
+        '</span>',
+      moreButton:
+        '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
+        '<span class="tui-ico-ellip">...</span>' +
+        '</a>',
+    },
+  };
+
+const pag = new Pagination(container, options);
+
+pag.on('beforeMove', event => {
+  options.page = event.page;
+  pag.reset(options.page);
+  createNewsCollection();
+
+});
+
+
 
 createNewsCollection(getMostPopularArticles);
 
-async function createNewsCollection(func) {
+export async function createNewsCollection(func, value) {
   // проверяем пустой ли массив "текущих" новостей
-
   if (arrCurrentNews.length === 0) {
-    arrCurrentNews = await func();
-
-    /* если нет - вызываем апи и заполняем массив 
-    соответствующими новостями (по категориям или серчу)
-    */
+    arrCurrentNews = await func(value);
+    // если нет - получаем новости от АПИ
   }
 
+  options.itemsPerPage = cardsPerPage();
+  pag.reset(options.itemsPerPage);
+  
   options.totalItems = arrCurrentNews.length;
-  instance.reset(options.totalItems);
-
-  instance.on('afterMove', event => {
-    options.page = event.page;
-    // instance.reset(options.page);
-  });
+  pag.reset(options.totalItems);
 
   // кол-во perPage от ширины вьюпорта
   // perPage = cardsPerPage();
+  // console.log('perPage - ', perPage);
 
-  // подготовили массив новостей на текущую страницу
-  let arrForMarkup = displayItems(
+  // вырезали часть масива новостей для рендера текущей страницы
+  arrForMarkup = displayItems(
     arrCurrentNews,
     options.page,
     options.itemsPerPage
   ); // массив для рендера на текущую страницу
-
-  arrayEl = arrForMarkup;
-  
-  // устанавливаем флажки (favorite, read) на массив новостей
-  // let arrSetFlags = await setFlags(arrForMarkup);
+  console.log('cardsPerPage()', cardsPerPage());
 
   // готовим массив разметки для рендера текущих товостей
-  let cardMarkupArray = arrayEl.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+  const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
   // if (currentDispleyWidth > 1280) {
- //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
+  //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
   // } else if (currentDispleyWidth > 768) {
   //   cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
-
   // } else {
   //   cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
   // }
 
-  // // погода cardMarkupArray ('строка разменки погоды') splice(). но условие для мобилки!!!
-
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
+  // turnPages();
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить
 // карточек на страницу, возвращаеи число для perPage
 function cardsPerPage() {
-  const width = checkWidth();
-
-  if (width > 1280) {
+  if (currentDispleyWidth > 1280) {
     return 8;
-  } else if (width > 768) {
+  } else if (currentDispleyWidth > 768) {
     return 7;
   } else {
     return 4;
   }
 }
 
-// ф-ци возвращае ширину вью порта
-function checkWidth() {
-  return document.documentElement.clientWidth;
+/* ф-ция следит за текущей шириной экрана. и если она вышла за брэкпоинты
+страница рендерится заново для текущей ширины экрана
+*/
+function onResize() {
+  const width = window.innerWidth;
+  if (
+    (currentDispleyWidth < 768 && width >= 768) ||
+    (currentDispleyWidth >= 768 &&
+      currentDispleyWidth < 1280 &&
+      (width < 768 || width >= 1280)) ||
+    (currentDispleyWidth >= 1280 && width < 1280)
+  ) {
+    currentDispleyWidth = width;
+    createNewsCollection();
+  }
 }
 
 // ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
@@ -136,27 +151,11 @@ function displayItems(arr, page, perPage) {
 
 // ф-ция рендера текущих карточек на страницу и изменение кнопок
 function renderBoxNewMarkup(arr) {
-  // box.innerHTML = '';
+  box.innerHTML = '';
   box.insertAdjacentHTML('beforeend', arr.join(''));
-}
-
-/* ф-ция следит за текущей шириной экрана. и если она вышла за брэкпоинты
-страница рендерится заново для текущей ширины экрана
-*/
-function onResize() {
-  if (
-    (currentDispleyWidth < 768 && checkWidth() >= 768) ||
-    (currentDispleyWidth >= 768 &&
-      currentDispleyWidth < 1280 &&
-      (checkWidth() < 768 || checkWidth() >= 1280)) ||
-    (currentDispleyWidth >= 1280 && checkWidth() < 1280)
-  ) {
-    createNewsCollection();
-  }
 }
 
 // ф-ция возвращает текущий массив новостей
 export function sendCurrentArray() {
-  return arrayEl;
+  return arrForMarkup;
 }
-
