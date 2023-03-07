@@ -1,9 +1,9 @@
 //----------Svitlana-------------
 
-//Підключення і налаштування календаря з бібліотеки:
 import { sendCurrentArray } from './news-list';
 import { creatCardMarkup } from './creatCardMarkup';
 
+//Підключення і налаштування календаря з бібліотеки:
 import AirDatepicker from 'air-datepicker';
 import localeEn from 'air-datepicker/locale/en';
 import 'air-datepicker/air-datepicker.css';
@@ -48,8 +48,9 @@ function filterPopularNewsByDate(formattedDate) {
   return filteredPopularNewsData;
 }
 
-const noResultsText = 'We haven’t found news for the selected date';
 // функція малює розмітку, якщо новини по вибраній даті не знайдені:
+
+const noResultsText = 'We haven’t found news for the selected date';
 
 function renderNoNews(noResultsText) {
   const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
