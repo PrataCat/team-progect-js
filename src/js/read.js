@@ -15,25 +15,24 @@ function createReadMarkup() {
   const readObj = loadReadStorage();
   const keys = Object.keys(readObj);
 
-  for (date of keys) {
-    // console.log(readObj[date]); // массивы объектов по датам
 
-    // Удаление пустого массива из Л.С.
-    if (readObj[date].length === 0) {
-      delete readObj[date];
+    for (date of keys) {
+      // console.log(readObj[date]); // массивы объектов по датам
+      // Удаление пустого массива из Л.С.
+      if (readObj[date].length === 0) {
+        delete readObj[date];
 
-      localStorage.setItem('read', JSON.stringify(readObj));
-      location.reload();
+        localStorage.setItem('read', JSON.stringify(readObj));
+        location.reload();
+      }
+
+      createDateBox(date);
     }
 
-    createDateBox(date);
-  }
   for (date of Object.keys(readObj)) {
     const box = document.querySelector(`[data-date="${date}"]`);
     const wrapList = document.getElementById(`${date}`);
     const murkupForBox = createMurkupForBoxItem();
-
-    //
 
     wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(''));
   }
@@ -95,6 +94,8 @@ const box = document.querySelector('.wrap-box ');
 box.addEventListener('click', onButtonFavorite);
 
 // ----------------------------------------------------------
+// Без этих функций сердечки не проставляются на нашей странице
+// если массив посылать в favorite-btn-action, то он конфликтует с присланым массивом из news-list
 
 function onButtonFavorite(e) {
   if (e.target.closest('BUTTON')) {
@@ -154,6 +155,7 @@ function onColorBtn(favButton, favId, favP, favSvg) {
   }
 }
 
+// Рзглаживаем вложенные массивы из нашего Л.С. в плоский массив. 
 function getArray() {
   let objRead = loadReadStorage();
   let arrRead = Object.values(objRead).flat();
