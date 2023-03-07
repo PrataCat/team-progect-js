@@ -22,14 +22,11 @@
 /* стилі для сторінки, яка завантажується, якщо нічого не знайдено по вибраній даті: */
 
 .no-results-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 40px;
-  margin: 120px 366px 120px;
+  margin: 0 auto;
 }
 
 .no-results-text {
+  margin-bottom: 40px;
   font-family: 'Manrope';
   font-style: normal;
   font-weight: 700;
@@ -47,12 +44,11 @@
     font-size: 40px;
     line-height: 55px;
   }
-
-  @media screen and (min-width: 1280px) {
-  }
 }
 
 .no-results-bgr {
+  display: block;
+  margin: 0 auto 120px;
   width: 250px;
   height: 200px;
 
