@@ -6,14 +6,8 @@ import { onClickReadMore } from './readmore-action';
 
 //-----------------------------
 import Pagination from 'tui-pagination';
-import 'tui-pagination/dist/tui-pagination.css';
-
-
-
 
 // ------------------------------ pagination-----------------------------
-
-
 
 //-------------------------------------------------
 const box = document.querySelector('.box-news');
@@ -32,32 +26,32 @@ let arrForMarkup = []; // массив для рендера на страниц
 const container = document.getElementById('tui-pagination-container');
 
 let options = {
-    // below default value of options
-    // totalItems: arrCurrentNews.length,
-    itemsPerPage: cardsPerPage(),
-    visiblePages: 8,
-    page: 1,
-    centerAlign: false,
-    firstItemClassName: 'tui-first-child',
-    lastItemClassName: 'tui-last-child',
-    template: {
-      page: '<a href="#" class="tui-page-btn">{{page}}</a>',
-      currentPage:
-        '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
-      moveButton:
-        '<a href="#" class="tui-page-btn tui-{{type}}">' +
-        '<span class="tui-ico-{{type}}">{{type}}</span>' +
-        '</a>',
-      disabledMoveButton:
-        '<span class="tui-page-btn tui-is-disabled tui-{{type}}">' +
-        '<span class="tui-ico-{{type}}">{{type}}</span>' +
-        '</span>',
-      moreButton:
-        '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
-        '<span class="tui-ico-ellip">...</span>' +
-        '</a>',
-    },
-  };
+  // below default value of options
+  // totalItems: arrCurrentNews.length,
+  itemsPerPage: cardsPerPage(),
+  visiblePages: 8,
+  page: 1,
+  centerAlign: false,
+  firstItemClassName: 'tui-first-child',
+  lastItemClassName: 'tui-last-child',
+  template: {
+    page: '<a href="#" class="tui-page-btn">{{page}}</a>',
+    currentPage:
+      '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
+    moveButton:
+      '<a href="#" class="tui-page-btn tui-{{type}}">' +
+      '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '</a>',
+    disabledMoveButton:
+      '<p class="tui-page-btn tui-is-disabled tui-{{type}}">' +
+      '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '</p>',
+    moreButton:
+      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
+      '<span class="tui-ico-ellip">...</span>' +
+      '</a>',
+  },
+};
 
 const pag = new Pagination(container, options);
 
@@ -66,9 +60,12 @@ pag.on('beforeMove', event => {
   pag.reset(options.page);
   createNewsCollection();
 
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  });
 });
-
-
 
 createNewsCollection(getMostPopularArticles);
 
@@ -81,7 +78,7 @@ export async function createNewsCollection(func, value) {
 
   options.itemsPerPage = cardsPerPage();
   pag.reset(options.itemsPerPage);
-  
+
   options.totalItems = arrCurrentNews.length;
   pag.reset(options.totalItems);
 
