@@ -2,6 +2,7 @@
 
 import { sendCurrentArray } from './news-list';
 import { creatCardMarkup } from './creatCardMarkup';
+import { renderWeatherCard } from './weather';
 
 //Підключення і налаштування календаря з бібліотеки:
 import AirDatepicker from 'air-datepicker';
@@ -20,7 +21,7 @@ new AirDatepicker('#date-picker', {
 
   // функція виконується при кліку по даті:
 
-  onSelect: function onSelect({ date, formattedDate, datepicker }) {
+  onSelect: async function onSelect({ date, formattedDate, datepicker }) {
     box.innerHTML = '';
 
     let filteredPopularNews = filterPopularNewsByDate(formattedDate);
@@ -28,11 +29,11 @@ new AirDatepicker('#date-picker', {
     if (filteredPopularNews.length === 0) {
       renderNoNews(noResultsText);
     } else {
-      const filteredPopularNewsMarkUp = filteredPopularNews.reduce(
-        (acc, popularNews) => creatCardMarkup(popularNews) + acc,
-        ''
-      );
+      filteredPopularNewsMarkUp =
+        appendWeatherBoxes(filteredPopularNews).join('');
+
       box.innerHTML = filteredPopularNewsMarkUp;
+      renderWeatherCard();
     }
   },
 });
@@ -46,6 +47,22 @@ function filterPopularNewsByDate(formattedDate) {
   });
 
   return filteredPopularNewsData;
+}
+
+function appendWeatherBoxes(arrForMarkup) {
+  let currentDisplayWidth = window.innerWidth; //текущая ширина вью порта
+
+  // готовим массив разметки для рендера текущих товостей
+  const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el));
+  if (currentDisplayWidth > 1280) {
+    cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
+  } else if (currentDisplayWidth > 768) {
+    cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
+  } else {
+    cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
+  }
+
+  return cardMarkupArray;
 }
 
 // функція малює розмітку, якщо новини по вибраній даті не знайдені:
