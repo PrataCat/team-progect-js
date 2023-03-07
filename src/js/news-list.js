@@ -3,6 +3,7 @@ import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
+import { renderWeatherCard } from './weather';
 
 //-----------------------------
 import Pagination from 'tui-pagination';
@@ -96,16 +97,18 @@ export async function createNewsCollection(func, value) {
 
   // готовим массив разметки для рендера текущих товостей
   const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
-  // if (currentDispleyWidth > 1280) {
-  //   cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
-  // } else if (currentDispleyWidth > 768) {
-  //   cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
-  // } else {
-  //   cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
-  // }
+  if (currentDispleyWidth > 1280) {
+    cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
+  } else if (currentDispleyWidth > 768) {
+    cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
+  } else {
+    cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
+  }
 
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
+  renderWeatherCard();
+
   // turnPages();
 }
 
