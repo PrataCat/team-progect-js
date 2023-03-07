@@ -10,13 +10,11 @@ box.addEventListener('click', onClick);
 function onClick(e) {
   const curTargetClass = e.target.classList.value;
 
-  if (
-    curTargetClass === 'box-news__btn' ||
-    curTargetClass === 'box-news__btn-icon'
-  ) {
-    currentId = +e.target.id;
+  if (curTargetClass === 'box-news__favorite-p') {
+    const favButton = e.target.closest('BUTTON');
+    const favId = favButton.closest('li').dataset.id;
 
-    excludeFavoriteNew(currentId);
+    excludeFavoriteNew(favId);
     box.innerHTML = '';
     createPopularNewsCollection(loadAllFavorites());
   }
