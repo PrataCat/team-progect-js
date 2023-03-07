@@ -133,6 +133,9 @@ function getThemeTogglerOuterContainer() {
 }
 
 function renderThemeToggler() {
+  if(getCurrentToggler()) {
+    return
+  }
   getThemeTogglerOuterContainer().insertAdjacentHTML(
     'beforeend',
     createThemeTogglerMarkup()
