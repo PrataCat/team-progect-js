@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Poppins&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./sass/index.scss" />
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css"
+    />
+    <title>News</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Poppins&family=Roboto&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="./sass/index.scss" />
-  <link rel="stylesheet" href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css" />
-  <title>News</title>
-</head>
+  <body>
+    <include src="./partials/header.html"></include>
+    <main>
+      <include src="./partials/topic-list.html"></include>
+      <include src="./partials/main.html"></include>
+      <include src="./partials/news-list.html"></include>
+      <include src="./partials/news-card.html"></include>
+      <include src="./partials/pagination.html"></include>
+    </main>
+    <include src="./partials/footer.html"></include>
 
-<body>
-  <include src="./partials/header.html"></include>
-  <main>
-    <include src="./partials/topic-list.html"></include>
-    <include src="./partials/calendar.html"></include>
-    <include src="./partials/main.html"></include>
-    <include src="./partials/news-list.html"></include>
-    <include src="./partials/news-card.html"></include>
-    <include src="./partials/pagination.html"></include>
-  </main>
-  <include src="./partials/footer.html"></include>
-
-  <script type="module" src="./index.js"></script>
-</body>
-
+    <script type="module" src="./index.js"></script>
+  </body>
 </html>
