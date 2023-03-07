@@ -10,6 +10,7 @@ import localeEn from 'air-datepicker/locale/en';
 import 'air-datepicker/air-datepicker.css';
 
 const box = document.querySelector('.box-news');
+const paginatedEl = document.querySelector('#tui-pagination-container');
 
 new AirDatepicker('#date-picker', {
   classes: 'custom-air-datepicker',
@@ -23,6 +24,7 @@ new AirDatepicker('#date-picker', {
 
   onSelect: async function onSelect({ date, formattedDate, datepicker }) {
     box.innerHTML = '';
+    paginatedEl.classList.add('visually-hidden');
 
     let filteredPopularNews = filterPopularNewsByDate(formattedDate);
 
