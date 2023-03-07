@@ -3,10 +3,12 @@ import { getSearchArticles } from './newsApiService';
 
 import sprite from '/src/images/header-sprite.svg';
 
+
 onStartFunction();
 
 function onStartFunction() {
   let documentWidth = window.innerWidth;
+  setCurrentPageUnderline();
   renderThemeToggler();
   setPageTheme();
 
@@ -47,6 +49,15 @@ function checkResizeBreakpoint() {
   documentWidth = newDocumentWidth;
 
   return checkResult;
+}
+
+function getCurrentPagePath() {
+  return document.location.pathname;
+}
+
+function setCurrentPageUnderline() {
+  const currentPageNavLink = document.querySelector(`.nav__link[href="${getCurrentPagePath()}"]`);
+  currentPageNavLink.classList.add('nav__link--current'); 
 }
 
 function getMobileMenu() {
