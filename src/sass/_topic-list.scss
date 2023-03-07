@@ -189,6 +189,10 @@
   transition: background-color var(--timing-function),
     border var(--timing-function), color var(--timing-function);
 
+  body.dark-theme & {
+    color: var(--secondary-light-color);
+  }
+
   &:focus {
     border: none;
 
@@ -208,6 +212,10 @@
 
     @media screen and (min-width: 768px) {
       font-size: 14px;
+    }
+
+    body.dark-theme & {
+      color: var(--secondary-light-color);
     }
   }
 

@@ -39,6 +39,10 @@
   letter-spacing: -0.01em;
   color: #111321;
 
+  body.dark-theme & {
+    color: var(--primary-light-color);
+  }
+
   @media screen and (min-width: 768px) {
     font-size: 40px;
     line-height: 55px;
