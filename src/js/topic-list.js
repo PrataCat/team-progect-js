@@ -88,9 +88,9 @@ function createMarkupForCategories(
 </button></li>`
   );
 
-  othersCategoryList.innerHTML = markupForOthersCategoryList;
+  // changeArrow();
 
-  changeArrow();
+  othersCategoryList.innerHTML = markupForOthersCategoryList;
 }
 
 function onChooseCategory(event) {
@@ -122,8 +122,6 @@ function onShowOthersCategories(event) {
     event.stopPropagation();
     othersCategoryList.classList.toggle('visible');
     othersCategoryLisWrap.classList.toggle('visible');
-
-    changeArrow();
 
     window.addEventListener('click', onCloseOthersCategories);
   }
@@ -192,4 +190,6 @@ function changeArrow() {
     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
     mainCategoryBtnIcon.classList.add('white-down');
   }
+
+  window.addEventListener('click', onCloseOthersCategories);
 }

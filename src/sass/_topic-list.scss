@@ -53,9 +53,21 @@
   background-image: url(../images/symbol-defs-mini.svg#icon-orig-mini-n-z);
 }
 
+// arrow filters
 .filter__main-category-btn-icon {
+  z-index: 15;
   width: 14px;
-  height: 14px;
+  height: 8px;
+  margin-left: 10px;
+}
+.blue-down {
+  background-image: url(../images/orig-mini-n-z.svg);
+}
+.white-up {
+  background-image: url(../images/orig-mini-bil-v-z.svg);
+}
+.white-down {
+  background-image: url(../images/orig-mini-bil-n-z.svg);
 }
 
 .filter__other-category-wrap {
