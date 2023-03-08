@@ -47,7 +47,7 @@ function checkResizeBreakpoint() {
   return checkResult;
 }
 
-function getCurrentPagePath() {
+export function getCurrentPagePath() {
   return document.location.pathname;
 }
 
