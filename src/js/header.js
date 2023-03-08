@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce';
-import { getSearchArticles } from './newsApiService';
 
 import sprite from '/src/images/header-sprite.svg';
 
@@ -11,7 +10,7 @@ renderMenuButton()
 renderThemeToggler();
 setPageTheme();
 
-const searchBtn = document.querySelector('.search-form__btn');
+
 const menuBtn = document.querySelector('.menu-btn');
 
 menuBtn.addEventListener('click', onMenuBtnClick);
@@ -24,6 +23,7 @@ window.addEventListener(
     }
   }, 100)
 );
+
 
 function onResizeFunction() {
   if (!getCurrentToggler().parentElement !== getThemeTogglerOuterContainer()) {
@@ -57,9 +57,6 @@ function renderSearch() {
 }
 
 function renderMenuButton() {
-  if(window.innerWidth > 767) {
-    return
-  }
   const headerContainer = document.querySelector('.header .container');
   headerContainer.insertAdjacentHTML('beforeEnd', createMenuBtnMarkup());
 }
@@ -114,37 +111,6 @@ export function getSearchForm() {
   return document.getElementById('search-form');
 }
 
-// async function onSearchButtonClick(event) {
-//   event.preventDefault();
-
-//   const searchForm = getSearchForm();
-
-//   if (window.innerWidth < 768 && searchForm.classList.contains('closed')) {
-//     searchForm.classList.remove('closed');
-//     setTimeout(hideSearchInput, 5000);
-//     return;
-//   }
-
-//   if (!searchForm[0].value) {
-//     console.log('field is empty');
-//     return;
-//   }
-
-//   if (getCurrentPagePath() !== '/index.html') {
-//     window.location.href = '/index.html';
-//   }
-
-//   const searchArticles = await getSearchArticles(searchForm[0].value);
-//   console.log(searchArticles);
-// }
-
-// function hideSearchInput() {
-//   const searchForm = getSearchForm();
-//   if (!searchForm.classList.contains('closed') && !searchForm[0].value) {
-//     searchForm.classList.add('closed');
-//     return;
-//   }
-// }
 
 //  Theme-toggler functions :
 
