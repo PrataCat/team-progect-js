@@ -90,7 +90,7 @@ function createMarkupForCategories(
 
   othersCategoryList.innerHTML = markupForOthersCategoryList;
 
-  // changeArrow();
+  changeArrow();
 }
 
 function onChooseCategory(event) {
@@ -123,7 +123,7 @@ function onShowOthersCategories(event) {
     othersCategoryList.classList.toggle('visible');
     othersCategoryLisWrap.classList.toggle('visible');
 
-    // changeArrow();
+    changeArrow();
 
     window.addEventListener('click', onCloseOthersCategories);
   }
@@ -170,26 +170,26 @@ function onReRender() {
   }
 }
 
-// //================== arrow filters ============
-// mainCategoryList.addEventListener('click', changeArrow);
+//================== arrow filters ============
+mainCategoryList.addEventListener('click', changeArrow);
 
-// function changeArrow() {
-//   let othersCategoryLisWrapClass =
-//     othersCategoryLisWrap.classList.contains('visible');
+function changeArrow() {
+  let othersCategoryLisWrapClass =
+    othersCategoryLisWrap.classList.contains('visible');
 
-//   const otherBtn = mainCategoryList.lastChild.firstChild;
-//   let otherBtnClass = otherBtn.classList.contains('active');
+  const otherBtn = mainCategoryList.lastChild.firstChild;
+  let otherBtnClass = otherBtn.classList.contains('active');
 
-//   const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+  const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
 
-//   if (!othersCategoryLisWrapClass && !otherBtnClass) {
-//     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
-//     mainCategoryBtnIcon.classList.add('blue-down');
-//   } else if (othersCategoryLisWrapClass && otherBtnClass) {
-//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
-//     mainCategoryBtnIcon.classList.add('white-up');
-//   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
-//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
-//     mainCategoryBtnIcon.classList.add('white-down');
-//   }
-// }
+  if (!othersCategoryLisWrapClass && !otherBtnClass) {
+    mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
+    mainCategoryBtnIcon.classList.add('blue-down');
+  } else if (othersCategoryLisWrapClass && otherBtnClass) {
+    mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
+    mainCategoryBtnIcon.classList.add('white-up');
+  } else if (otherBtnClass && !othersCategoryLisWrapClass) {
+    mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
+    mainCategoryBtnIcon.classList.add('white-down');
+  }
+}
