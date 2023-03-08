@@ -11,6 +11,18 @@ export function removeFromReadStorage(obj) {
   localStorage.setItem('read', JSON.stringify(readObj));
 }
 
+export function writeReadStorage(object) {
+  removeFromReadStorage(object);
+  const readObj = loadReadStorage();
+  const currentDate = getCurrentDate();
+  if (!readObj[currentDate]) {
+    readObj[currentDate] = [];
+  }
+  readObj[currentDate].push(object);
+
+  localStorage.setItem('read', JSON.stringify(readObj));
+}
+
 export function loadReadStorage() {
   try {
     const storageRead = localStorage.getItem('read');
@@ -25,16 +37,8 @@ export function getCurrentDate() {
   return new Date().toLocaleString().slice(0, 10).split('.').join('/');
 }
 
-export function writeReadStorage(object) {
-  removeFromReadStorage(object);
-  const readObj = loadReadStorage();
-  const currentDate = getCurrentDate();
-  if (!readObj[currentDate]) {
-    readObj[currentDate] = [];
-  }
-  readObj[currentDate].push(object);
 
-  localStorage.setItem('read', JSON.stringify(readObj));
-}
-
+// Прописать вместо ф-ций loadReadStorage, writeReadStorage функции Леши,
+//  которые работают с БД вместо localStorage.
+// Делаем инастал библиотеки npm install firebase
 
