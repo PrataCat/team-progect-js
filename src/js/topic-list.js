@@ -87,7 +87,10 @@ function createMarkupForCategories(
     `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<svg class="filter__main-category-btn-icon"> <use href="../images/symbol-defs-mini.svg#icon-orig-mini-n-z"> </use> </svg>
 </button></li>`
   );
+
   othersCategoryList.innerHTML = markupForOthersCategoryList;
+
+  // changeArrow();
 }
 
 function onChooseCategory(event) {
@@ -119,6 +122,9 @@ function onShowOthersCategories(event) {
     event.stopPropagation();
     othersCategoryList.classList.toggle('visible');
     othersCategoryLisWrap.classList.toggle('visible');
+
+    // changeArrow();
+
     window.addEventListener('click', onCloseOthersCategories);
   }
 }
@@ -163,3 +169,27 @@ function onReRender() {
     createCategories(categoriesArray, windowInnerWidth);
   }
 }
+
+// //================== arrow filters ============
+// mainCategoryList.addEventListener('click', changeArrow);
+
+// function changeArrow() {
+//   let othersCategoryLisWrapClass =
+//     othersCategoryLisWrap.classList.contains('visible');
+
+//   const otherBtn = mainCategoryList.lastChild.firstChild;
+//   let otherBtnClass = otherBtn.classList.contains('active');
+
+//   const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+
+//   if (!othersCategoryLisWrapClass && !otherBtnClass) {
+//     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
+//     mainCategoryBtnIcon.classList.add('blue-down');
+//   } else if (othersCategoryLisWrapClass && otherBtnClass) {
+//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
+//     mainCategoryBtnIcon.classList.add('white-up');
+//   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
+//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
+//     mainCategoryBtnIcon.classList.add('white-down');
+//   }
+// }
