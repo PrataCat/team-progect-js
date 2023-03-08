@@ -246,14 +246,7 @@ function createForecastMarkup(data) {
           </svg> ${Math.round(item.pop * 100)} %
         </p>
         <p class="forecast__temp">${Math.round(item.main.temp)}° C</p>
-        <button type="button" class="forecast-hours__btn">
-          <svg width="24" height="24">
-            <use
-              href="${sprite}#icon-arrow_down"
-              class="arrow_down__icon">
-            </use>
-          </svg>
-        </button>
+        
       </li>`;
       }
     })
