@@ -1,5 +1,4 @@
 // ------------Lyosha, Yura, Dima--------------
-import debounce from 'lodash.debounce';
 import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
@@ -111,8 +110,6 @@ export async function createNewsCollection(func, value) {
   renderBoxNewMarkup(cardMarkupArray);
   renderWeatherCard();
 
-  const inputEl = document.querySelector('.box-weather__item');
-  inputEl.addEventListener('input', debounce(onSubmitSearchCity, 1000));
   // turnPages();
 }
 
