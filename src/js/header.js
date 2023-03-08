@@ -4,29 +4,25 @@ import { getSearchArticles } from './newsApiService';
 import sprite from '/src/images/header-sprite.svg';
 
 
-onStartFunction();
+let documentWidth = window.innerWidth;
+setCurrentPageUnderline();
+renderThemeToggler();
+setPageTheme();
 
-function onStartFunction() {
-  let documentWidth = window.innerWidth;
-  setCurrentPageUnderline();
-  renderThemeToggler();
-  setPageTheme();
+const searchBtn = document.querySelector('.search-form__btn');
+const menuBtn = document.querySelector('.menu-btn');
 
-  const searchBtn = document.querySelector('.search-form__btn');
-  const menuBtn = document.querySelector('.menu-btn');
+menuBtn.addEventListener('click', onMenuBtnClick);
+searchBtn.addEventListener('click', onSearchButtonClick);
 
-  menuBtn.addEventListener('click', onMenuBtnClick);
-  searchBtn.addEventListener('click', onSearchButtonClick);
-
-  window.addEventListener(
-    'resize',
-    debounce(() => {
-      if (checkResizeBreakpoint(documentWidth)) {
-        onResizeFunction();
-      }
-    }, 100)
-  );
-}
+window.addEventListener(
+  'resize',
+  debounce(() => {
+    if (checkResizeBreakpoint(documentWidth)) {
+      onResizeFunction();
+    }
+  }, 100)
+);
 
 function onResizeFunction() {
   if (!getCurrentToggler().parentElement !== getThemeTogglerOuterContainer()) {
@@ -36,7 +32,7 @@ function onResizeFunction() {
   }
 }
 
-function checkResizeBreakpoint(documentWidth) {
+function checkResizeBreakpoint() {
   const newDocumentWidth = window.innerWidth;
 
   const checkResult =
@@ -56,8 +52,10 @@ function getCurrentPagePath() {
 }
 
 function setCurrentPageUnderline() {
-  const currentPageNavLink = document.querySelector(`.nav__link[href="${getCurrentPagePath()}"]`);
-  currentPageNavLink.classList.add('nav__link--current'); 
+  const currentPageNavLink = document.querySelector(
+    `.nav__link[href="${getCurrentPagePath()}"]`
+  );
+  currentPageNavLink.classList.add('nav__link--current');
 }
 
 function getMobileMenu() {
@@ -89,6 +87,10 @@ async function onSearchButtonClick(event) {
   if (!searchForm[0].value) {
     console.log('field is empty');
     return;
+  }
+
+  if (getCurrentPagePath() !== '/index.html') {
+    window.location.href = '/index.html';
   }
 
   const searchArticles = await getSearchArticles(searchForm[0].value);
@@ -133,6 +135,9 @@ function getThemeTogglerOuterContainer() {
 }
 
 function renderThemeToggler() {
+  if (getCurrentToggler()) {
+    return;
+  }
   getThemeTogglerOuterContainer().insertAdjacentHTML(
     'beforeend',
     createThemeTogglerMarkup()

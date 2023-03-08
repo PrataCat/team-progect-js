@@ -42,13 +42,16 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
     const normalizedData = data.map(item => {
       const { title, abstract, published_date, url, section, multimedia, uri } =
         item;
+
+      const image_url = multimedia? multimedia[2].url : 'https://static01.nyt.com/images/2023/03/02/02vid-flight-62727-cover/02vid-flight-62727-cover-mediumThreeByTwo440.jpg';
+      
       const resultObj = {
         title,
         abstract,
         published_date: dateFormat(published_date),
         url,
         section,
-        image_url: multimedia[2].url,
+        image_url,
         id: uri.split('/')[3],
       };
       return resultObj;
@@ -111,7 +114,7 @@ async function fetchSearchArticles(query, pub_date, page) {
   try {
     const pubDate = pub_date ? `&fq=pub_date:${pub_date}` : '';
     const response = await fetch(
-      `${ArticleSearchEndpoint}?api-key=${API_KEY}&page=${page}&q=${query}${pubDate}`
+      `${ArticleSearchEndpoint}?api-key=${API_KEY}&q=${query}&page=${page}${pubDate}`
     );
     const data = await response.json();
 
@@ -161,8 +164,8 @@ function dateFormat(str) {
 
 // getCategories();
 // getMostPopularArticles();
-// getCategoryArticles('arts');
-// getSearchArticles('politics');
+// getCategoryArticles('admin', 20);
+// getSearchArticles('politics', page=2);
 
 export {
   getCategories,
