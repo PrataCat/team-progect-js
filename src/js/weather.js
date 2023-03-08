@@ -35,8 +35,8 @@ async function fetchWeatherCity(q) {
 
 function createWeatherCardMarcup(arr) {
   const d1 = new Date();
-  return `
-  <p class="weather-temp">${Math.floor(arr.main.temp)}&deg</p>
+  return `<div class="weather__wrap">
+  <p class="weather-temp">${Math.floor(arr.main.temp)}°</p>
   <div class="weather-city-group">
     <p class="weather-main">${arr.weather[0].main}</p>
     <form class="search-form">
@@ -45,7 +45,7 @@ function createWeatherCardMarcup(arr) {
       </svg>
       <input type="text" id="search-box" placeholder="${arr.name}"/>
     </form>
-  </div>
+  </div></div>
   <img class="weather-icon" src=" http://openweathermap.org/img/wn/${
     arr.weather[0].icon
   }@2x.png" alt="${arr.title}">
@@ -54,7 +54,7 @@ function createWeatherCardMarcup(arr) {
   <button  type="submit" class="forecast__btn">weather for 5 days</button>
   <div class="forecast">
     <button type="button" class="forecast-close__btn">
-      <svg class="close__icon">
+      <svg class="close__icon" width="22" height="22">
         <use href="${sprite}#icon-cross"></use>
       </svg>
     </button>
