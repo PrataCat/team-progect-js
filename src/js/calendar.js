@@ -11,6 +11,7 @@ import 'air-datepicker/air-datepicker.css';
 
 const box = document.querySelector('.box-news');
 const paginatedEl = document.querySelector('#tui-pagination-container');
+const footerEl = document.querySelector('.footer');
 
 new AirDatepicker('#date-picker', {
   classes: 'custom-air-datepicker',
@@ -22,9 +23,10 @@ new AirDatepicker('#date-picker', {
 
   // функція виконується при кліку по даті:
 
-  onSelect: async function onSelect({ date, formattedDate, datepicker }) {
+  onSelect: function onSelect({ date, formattedDate, datepicker }) {
     box.innerHTML = '';
     paginatedEl.classList.add('visually-hidden');
+    footerEl.classList.add('footer-margin');
 
     let filteredPopularNews = filterPopularNewsByDate(formattedDate);
 
