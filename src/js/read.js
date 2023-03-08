@@ -9,13 +9,25 @@ import { creatCardMarkup } from './creatCardMarkup';
 import { includeFavoriteNew, excludeFavoriteNew } from './library';
 // import { onButtonFavorite } from './favorite-btn-action';
 
+let noResultsText = 'The read news list is empty';
+const footerEl = document.querySelector('.footer');
+const headerEl = document.querySelector('.header');
+const box = document.querySelector('.wrap-box ');
+
 createReadMarkup();
 
 function createReadMarkup() {
   const readObj = loadReadStorage();
   const keys = Object.keys(readObj);
+  const emptyreadObj = !Object.keys(readObj).length;
 
-
+  // Проверка, если пустой объект, то заглушка.
+  if (emptyreadObj) {
+    console.log('Пустой объект');
+    footerEl.classList.add('footer-margin');
+    headerEl.classList.add('header-margin');
+    renderNoNews(noResultsText);
+  } else {
     for (date of keys) {
       // console.log(readObj[date]); // массивы объектов по датам
       // Удаление пустого массива из Л.С.
@@ -29,12 +41,13 @@ function createReadMarkup() {
       createDateBox(date);
     }
 
-  for (date of Object.keys(readObj)) {
-    const box = document.querySelector(`[data-date="${date}"]`);
-    const wrapList = document.getElementById(`${date}`);
-    const murkupForBox = createMurkupForBoxItem();
+    for (date of Object.keys(readObj)) {
+      const box = document.querySelector(`[data-date="${date}"]`);
+      const wrapList = document.getElementById(`${date}`);
+      const murkupForBox = createMurkupForBoxItem();
 
-    wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(''));
+      wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(''));
+    }
   }
 }
 
@@ -88,8 +101,6 @@ dateSpans.forEach(dateSpan => {
   });
 });
 
-
-const box = document.querySelector('.wrap-box ');
 // console.log(box);
 box.addEventListener('click', onButtonFavorite);
 
@@ -155,10 +166,16 @@ function onColorBtn(favButton, favId, favP, favSvg) {
   }
 }
 
-// Рзглаживаем вложенные массивы из нашего Л.С. в плоский массив. 
+// Рзглаживаем вложенные массивы из нашего Л.С. в плоский массив.
 function getArray() {
   let objRead = loadReadStorage();
   let arrRead = Object.values(objRead).flat();
 
   return arrRead;
+}
+
+// Функция для вызова заглушки
+function renderNoNews(noResultsText) {
+  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  box.innerHTML = noNewsMarkUp;
 }
