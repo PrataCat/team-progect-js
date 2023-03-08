@@ -4,14 +4,10 @@ import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
 import { renderWeatherCard } from './weather';
-
-//-----------------------------
 import Pagination from 'tui-pagination';
 
-// ------------------------------ pagination-----------------------------
-
-//-------------------------------------------------
 const box = document.querySelector('.box-news');
+const container = document.getElementById('tui-pagination-container');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
@@ -20,36 +16,32 @@ window.addEventListener('resize', onResize);
 let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
 let arrCurrentNews = []; // массива всех новостей полученных от АПИ
 let arrForMarkup = []; // массив для рендера на страницу
-// let page = 1;
-// let perPage = null; // текущая страница (для пагинации)
 
-// ------------------------ paginetion----------------------------
-const container = document.getElementById('tui-pagination-container');
-
+// настройки пагинатора
 let options = {
   // below default value of options
   // totalItems: arrCurrentNews.length,
   itemsPerPage: cardsPerPage(),
-  visiblePages: 8,
+  visiblePages: 6,
   page: 1,
   centerAlign: false,
   firstItemClassName: 'tui-first-child',
   lastItemClassName: 'tui-last-child',
   template: {
-    page: '<a href="#" class="tui-page-btn">{{page}}</a>',
+    page: '<a href="#" class="tui-page-btn pag">{{page}}</a>',
     currentPage:
-      '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
+      '<strong class="tui-page-btn tui-is-selected pag">{{page}}</strong>',
     moveButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}">' +
-      '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '<a href="#" class="tui-page-btn tui-{{type}} pag">' +
+      '<span class="tui-ico-{{type}} pag">{{type}}</span>' +
       '</a>',
     disabledMoveButton:
-      '<p class="tui-page-btn tui-is-disabled tui-{{type}}">' +
-      '<span class="tui-ico-{{type}}">{{type}}</span>' +
-      '</p>',
+      '<a class="tui-page-btn tui-is-disabled tui-{{type}} pag">' +
+      '<span class="tui-ico-{{type}} pag">{{type}}</span>' +
+      '</a>',
     moreButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
-      '<span class="tui-ico-ellip">...</span>' +
+      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip pag">' +
+      '<span class="tui-ico-ellip pag">...</span>' +
       '</a>',
   },
 };
@@ -74,7 +66,11 @@ export async function createNewsCollection(func, value) {
   // проверяем пустой ли массив "текущих" новостей
   if (arrCurrentNews.length === 0) {
     arrCurrentNews = await func(value);
-    // если нет - получаем новости от АПИ
+    // если нет - получаем новости от pop
+  }
+  // или другие новости
+  if (!(arrCurrentNews.length === 0) && value) {
+    arrCurrentNews = await func(value);
   }
 
   options.itemsPerPage = cardsPerPage();
@@ -83,19 +79,16 @@ export async function createNewsCollection(func, value) {
   options.totalItems = arrCurrentNews.length;
   pag.reset(options.totalItems);
 
-  // кол-во perPage от ширины вьюпорта
-  // perPage = cardsPerPage();
-  // console.log('perPage - ', perPage);
-
   // вырезали часть масива новостей для рендера текущей страницы
   arrForMarkup = displayItems(
     arrCurrentNews,
     options.page,
     options.itemsPerPage
-  ); // массив для рендера на текущую страницу
-  console.log('cardsPerPage()', cardsPerPage());
+  ); 
+
 
   // готовим массив разметки для рендера текущих товостей
+  // и погоды
   const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
   if (currentDispleyWidth > 1280) {
     cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
@@ -107,9 +100,8 @@ export async function createNewsCollection(func, value) {
 
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
+  //рендер погоды
   renderWeatherCard();
-
-  // turnPages();
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить

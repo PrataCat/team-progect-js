@@ -8,7 +8,7 @@ const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
 
 let categoriesArray = [];
 let windowInnerWidth = window.innerWidth;
-let currentCategory = '';
+export let currentCategory = null;
 
 const mainCategoryList = document.querySelector('.filter__main-category-list');
 const othersCategoryList = document.querySelector(
@@ -26,6 +26,9 @@ mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
 window.addEventListener('resize', debounce(onReRender, 50));
+
+// mainCategoryList.addEventListener('click', changeArrow);
+// window.addEventListener('click', changeArrow);
 
 function onFetch() {
   onFetchCategories()
@@ -87,7 +90,10 @@ function createMarkupForCategories(
     `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<svg class="filter__main-category-btn-icon"> <use href="../images/symbol-defs-mini.svg#icon-orig-mini-n-z"> </use> </svg>
 </button></li>`
   );
+
   othersCategoryList.innerHTML = markupForOthersCategoryList;
+
+  // changeArrow();
 }
 
 function onChooseCategory(event) {
@@ -95,9 +101,9 @@ function onChooseCategory(event) {
   const nameOfCategory = event.target.outerText;
   if (!(nameOfCategory === 'Others') && !(nameOfCategory === 'Categories')) {
     currentCategory = nameOfCategory.toLowerCase();
-    // createNewsCollection(getCategoryArticles, currentCategory);
+    createNewsCollection(getCategoryArticles, currentCategory);
   }
-  console.log(currentCategory);
+  // console.log(currentCategory);
 }
 
 function toMarkCategoryBtn(event) {
@@ -119,6 +125,7 @@ function onShowOthersCategories(event) {
     event.stopPropagation();
     othersCategoryList.classList.toggle('visible');
     othersCategoryLisWrap.classList.toggle('visible');
+
     window.addEventListener('click', onCloseOthersCategories);
   }
 }
@@ -130,9 +137,9 @@ function onSectionSelection(e) {
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
     currentCategory = section.toLowerCase();
-    // createNewsCollection(getCategoryArticles, currentCategory);
+    createNewsCollection(getCategoryArticles, currentCategory);
   }
-  console.log(currentCategory);
+  // console.log(currentCategory);
 }
 
 function onCloseOthersCategories(event) {
@@ -143,6 +150,9 @@ function onCloseOthersCategories(event) {
   ) {
     othersCategoryList.classList.remove('visible');
     othersCategoryLisWrap.classList.remove('visible');
+
+    // changeArrow();
+
     window.removeEventListener('click', onCloseOthersCategories);
   }
 }
@@ -163,3 +173,26 @@ function onReRender() {
     createCategories(categoriesArray, windowInnerWidth);
   }
 }
+
+//================== arrow filters ============
+
+// function changeArrow() {
+//   let othersCategoryLisWrapClass =
+//     othersCategoryLisWrap.classList.contains('visible');
+
+//   const otherBtn = mainCategoryList.lastChild.firstChild;
+//   let otherBtnClass = otherBtn.classList.contains('active');
+
+//   const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+
+//   if (!othersCategoryLisWrapClass && !otherBtnClass) {
+//     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
+//     mainCategoryBtnIcon.classList.add('blue-down');
+//   } else if (othersCategoryLisWrapClass && otherBtnClass) {
+//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
+//     mainCategoryBtnIcon.classList.add('white-up');
+//   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
+//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
+//     mainCategoryBtnIcon.classList.add('white-down');
+//   }
+// }

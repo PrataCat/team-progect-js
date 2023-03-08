@@ -9,9 +9,12 @@ main {
 }
 
 .footer {
-  margin-top: 30px;
   flex-shrink: 0;
   background-color: var(--primary-dark-color);
+}
+
+.footer.footer-margin {
+  margin-top: 60px;
 }
 
 .footer__wrap {

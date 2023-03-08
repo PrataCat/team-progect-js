@@ -2,6 +2,7 @@
 
 import { excludeFavoriteNew, loadAllFavorites } from './library.js';
 import { creatCardMarkup } from './creatCardMarkup';
+import { writeReadStorage } from './read-library';
 
 const box = document.querySelector('.box-news');
 
@@ -17,6 +18,19 @@ function onClick(e) {
     excludeFavoriteNew(favId);
     box.innerHTML = '';
     createPopularNewsCollection(loadAllFavorites());
+  }
+  //-----to Read
+  if (e.target.tagName === 'A') {
+    let currentId = e.target.closest('li').dataset.id;
+    let currentLi = e.target.closest('li');
+    const favArray = loadAllFavorites();
+    for (const el of favArray) {
+      if (el.id === currentId) {
+        writeReadStorage(el);
+        currentLi.classList.add('show');
+        return;
+      }
+    }
   }
 }
 
