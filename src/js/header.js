@@ -47,11 +47,12 @@ function checkResizeBreakpoint() {
   return checkResult;
 }
 
-function getCurrentPagePath() {
+export function getCurrentPagePath() {
   return document.location.pathname;
 }
 
 function setCurrentPageUnderline() {
+  console.log(getCurrentPagePath());
   const currentPageNavLink = document.querySelector(
     `.nav__link[href="${getCurrentPagePath()}"]`
   );
