@@ -86,10 +86,11 @@ function checkResizeBreakpoint() {
 }
 
 export function getCurrentPagePath() {
-  if(document.location.pathname === '/') {
-    return '/index.html'
-  }
-  return document.location.pathname;
+
+  // if(document.location.pathname) {
+  //   return '/index.html'
+  // }
+  return '/' + document.location.pathname.split('/')[2];
 }
 
 function setCurrentPageUnderline() {
