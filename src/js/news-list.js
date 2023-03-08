@@ -74,10 +74,10 @@ createNewsCollection(getMostPopularArticles);
 
 export async function createNewsCollection(func, value) {
   // проверяем пустой ли массив "текущих" новостей
-  // if (arrCurrentNews.length === 0) {
-  arrCurrentNews = await func(value);
-  // если нет - получаем новости от АПИ
-  // }
+  if (arrCurrentNews.length === 0) {
+    arrCurrentNews = await func(value);
+    // если нет - получаем новости от АПИ
+  }
 
   options.itemsPerPage = cardsPerPage();
   pag.reset(options.itemsPerPage);
