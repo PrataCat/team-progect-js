@@ -13,10 +13,12 @@
 .tui-ico-next::after {
   content: '>';
   font-size: 22px;
+  transition: transform 250ms linear;
 }
 .tui-ico-prev::before {
   content: '<';
   font-size: 22px;
+  transition: transform 250ms linear;
 }
 
 // -------------------------------------------
@@ -106,12 +108,32 @@
 }
 
 .tui-page-btn.pag:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 250ms linear;
   background-color: rgba(254, 254, 255, 0.6);
 }
+.tui-page-btn.pag:hover .tui-ico-next::after {
+  content: '>';
+  transform: translateX(8px);
+  transition: transform 250ms linear;
+}
+.tui-page-btn.pag.tui-is-disabled:hover .tui-ico-next::after {
+  content: '>';
+  transform: translateX(0px);
+  transition: transform 250ms linear;
+}
+.tui-page-btn.pag:hover .tui-ico-prev::before {
+  content: '<';
+  transform: translateX(-8px);
+  transition: transform 250ms linear;
+}
+.tui-page-btn.pag.tui-is-disabled:hover .tui-ico-prev::before {
+  content: '<';
+  transform: translateX(0px);
+  transition: transform 250ms linear;
+}
 .tui-page-btn.pag:focus {
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 250ms linear;
   background-color: rgba(254, 254, 255, 0.6);
 }
