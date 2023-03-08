@@ -160,9 +160,6 @@ export function sendCurrentArray() {
 }
 /////////////////////////
 
-function getSearchForm() {
-  return document.getElementById('search-form');
-}
 
 async function onSearchButtonClick(event) {
   event.preventDefault();
