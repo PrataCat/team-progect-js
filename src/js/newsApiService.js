@@ -35,7 +35,7 @@ async function fetchCategoryArticles(category, limit, offset) {
   }
 }
 
-async function getCategoryArticles(category, limit = 8, offset = 0) {
+async function getCategoryArticles(category, limit = 150, offset = 0) {
   try {
     const data = await fetchCategoryArticles(category, limit, offset);
 
@@ -43,8 +43,10 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
       const { title, abstract, published_date, url, section, multimedia, uri } =
         item;
 
-      const image_url = multimedia? multimedia[2].url : 'https://static01.nyt.com/images/2023/03/02/02vid-flight-62727-cover/02vid-flight-62727-cover-mediumThreeByTwo440.jpg';
-      
+      const image_url = multimedia
+        ? multimedia[2].url
+        : 'https://static01.nyt.com/images/2023/03/02/02vid-flight-62727-cover/02vid-flight-62727-cover-mediumThreeByTwo440.jpg';
+
       const resultObj = {
         title,
         abstract,
@@ -56,7 +58,6 @@ async function getCategoryArticles(category, limit = 8, offset = 0) {
       };
       return resultObj;
     });
-    // console.log(normalizedData);
     return normalizedData;
   } catch (error) {
     console.log(error);

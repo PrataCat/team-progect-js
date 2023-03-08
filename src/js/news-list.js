@@ -1,13 +1,15 @@
 // ------------Lyosha, Yura, Dima--------------
-import { getMostPopularArticles } from './newsApiService';
+import { getMostPopularArticles, getSearchArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
 import { renderWeatherCard } from './weather';
+import { getCurrentPagePath } from './header';
 import Pagination from 'tui-pagination';
 
 const box = document.querySelector('.box-news');
-const container = document.getElementById('tui-pagination-container');
+const searchBtn = document.querySelector('.search-form__btn');
+const paginationContainer = document.getElementById('tui-pagination-container');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
@@ -22,7 +24,7 @@ let options = {
   // below default value of options
   // totalItems: arrCurrentNews.length,
   itemsPerPage: cardsPerPage(),
-  visiblePages: 6,
+  visiblePages: 4,
   page: 1,
   centerAlign: false,
   firstItemClassName: 'tui-first-child',
@@ -46,11 +48,11 @@ let options = {
   },
 };
 
-const pag = new Pagination(container, options);
+const pagination = new Pagination(paginationContainer, options);
 
-pag.on('beforeMove', event => {
+pagination.on('beforeMove', event => {
   options.page = event.page;
-  pag.reset(options.page);
+  pagination.reset(options.page);
   createNewsCollection();
 
   window.scrollTo({
@@ -61,6 +63,8 @@ pag.on('beforeMove', event => {
 });
 
 createNewsCollection(getMostPopularArticles);
+
+searchBtn.addEventListener('click', onSearchButtonClick);
 
 export async function createNewsCollection(func, value) {
   // проверяем пустой ли массив "текущих" новостей
@@ -74,18 +78,18 @@ export async function createNewsCollection(func, value) {
   }
 
   options.itemsPerPage = cardsPerPage();
-  pag.reset(options.itemsPerPage);
+  pagination.reset(options.itemsPerPage);
 
   options.totalItems = arrCurrentNews.length;
-  pag.reset(options.totalItems);
+  pagination.reset(options.totalItems);
 
-  // вырезали часть масива новостей для рендера текущей страницы
   arrForMarkup = displayItems(
     arrCurrentNews,
     options.page,
     options.itemsPerPage
-  ); 
+  );
 
+  // вырезали часть масива новостей для рендера текущей страницы
 
   // готовим массив разметки для рендера текущих товостей
   // и погоды
@@ -150,4 +154,54 @@ function renderBoxNewMarkup(arr) {
 // ф-ция возвращает текущий массив новостей
 export function sendCurrentArray() {
   return arrForMarkup;
+}
+/////////////////////////
+
+async function onSearchButtonClick(event) {
+  event.preventDefault();
+  const searchForm = document.getElementById('search-form');
+
+  if (window.innerWidth < 768 && searchForm.classList.contains('closed')) {
+    searchForm.classList.remove('closed');
+    setTimeout(hideSearchInput, 5000);
+    return;
+  }
+
+  if (!searchForm[0].value) {
+    console.log('field is empty');
+    return;
+  }
+
+  if (getCurrentPagePath() !== '/index.html') {
+    window.location.href = '/index.html';
+  }
+
+  const searchArticles = await getSearchArticles(searchForm[0].value);
+
+  const searchArticlesCardsMarkup = searchArticles.map(item =>
+    creatCardMarkup(item)
+  );
+
+  options.itemsPerPage = cardsPerPage();
+  pag.reset(options.itemsPerPage);
+
+  options.totalItems = searchArticles.length;
+  pag.reset(options.totalItems);
+
+  // вырезали часть масива новостей для рендера текущей страницы
+  arrForMarkup = displayItems(
+    arrCurrentNews,
+    options.page,
+    options.itemsPerPage
+  );
+
+  renderBoxNewMarkup(searchArticlesCardsMarkup);
+}
+
+function hideSearchInput() {
+  const searchForm = getSearchForm();
+  if (!searchForm.classList.contains('closed') && !searchForm[0].value) {
+    searchForm.classList.add('closed');
+    return;
+  }
 }

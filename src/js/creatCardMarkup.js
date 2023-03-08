@@ -62,8 +62,9 @@ function checkRead(obj) {
   const answer = arrFav.find(item => obj.id === item.id);
 
   const reply = arrRead.find(i => obj.id === i.id);
+  let result = [];
 
-  return (rezult = {
+  return (result = {
     fav: answer ? true : false,
     read: reply ? true : false,
   });

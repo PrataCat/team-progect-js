@@ -65,6 +65,7 @@
 .tui-pagination > .tui-page-btn.tui-next.pag {
   font-family: 'Manrope500', sans-serif;
   // background-color: var(--primary-light-color);
+  text-transform: capitalize;
   color: initial;
   font-size: 14px;
   line-height: 1.36;
@@ -86,6 +87,7 @@
 .tui-pagination > .tui-page-btn.tui-last.pag {
   font-family: 'Manrope500', sans-serif;
   color: initial;
+  text-transform: capitalize;
   font-size: 16px;
   line-height: 1.38;
   // background-color: var(--primary-light-color);
