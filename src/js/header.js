@@ -52,6 +52,7 @@ export function getCurrentPagePath() {
 }
 
 function setCurrentPageUnderline() {
+  console.log(getCurrentPagePath());
   const currentPageNavLink = document.querySelector(
     `.nav__link[href="${getCurrentPagePath()}"]`
   );
