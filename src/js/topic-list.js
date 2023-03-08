@@ -95,7 +95,7 @@ function onChooseCategory(event) {
   const nameOfCategory = event.target.outerText;
   if (!(nameOfCategory === 'Others') && !(nameOfCategory === 'Categories')) {
     currentCategory = nameOfCategory.toLowerCase();
-    // createNewsCollection(getCategoryArticles, currentCategory);
+    createNewsCollection(getCategoryArticles, currentCategory);
   }
   console.log(currentCategory);
 }
@@ -130,7 +130,7 @@ function onSectionSelection(e) {
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
     currentCategory = section.toLowerCase();
-    // createNewsCollection(getCategoryArticles, currentCategory);
+    createNewsCollection(getCategoryArticles, currentCategory);
   }
   console.log(currentCategory);
 }
