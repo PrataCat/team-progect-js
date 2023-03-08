@@ -4,7 +4,7 @@ import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
 import { renderWeatherCard } from './weather';
-import { getCurrentPagePath } from './header';
+import { getSearchForm } from './header';
 import Pagination from 'tui-pagination';
 
 const box = document.querySelector('.box-news');
@@ -15,8 +15,10 @@ box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
 window.addEventListener('resize', onResize);
 
+
 let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
 let arrCurrentNews = []; // массива всех новостей полученных от АПИ
+let searchArticles = []; // массив новостей полученых по поиску
 let arrForMarkup = []; // массив для рендера на страницу
 
 // настройки пагинатора
@@ -61,6 +63,7 @@ pagination.on('beforeMove', event => {
     behavior: 'smooth',
   });
 });
+
 
 createNewsCollection(getMostPopularArticles);
 
@@ -147,8 +150,8 @@ function displayItems(arr, page, perPage) {
 
 // ф-ция рендера текущих карточек на страницу и изменение кнопок
 function renderBoxNewMarkup(arr) {
-  box.innerHTML = '';
-  box.insertAdjacentHTML('beforeend', arr.join(''));
+  box.innerHTML = arr.join('');
+  // box.insertAdjacentHTML('beforeend', );
 }
 
 // ф-ция возвращает текущий массив новостей
@@ -157,8 +160,13 @@ export function sendCurrentArray() {
 }
 /////////////////////////
 
+function getSearchForm() {
+  return document.getElementById('search-form');
+}
+
 async function onSearchButtonClick(event) {
   event.preventDefault();
+
   const searchForm = document.getElementById('search-form');
 
   if (window.innerWidth < 768 && searchForm.classList.contains('closed')) {
@@ -172,30 +180,38 @@ async function onSearchButtonClick(event) {
     return;
   }
 
-  if (getCurrentPagePath() !== '/index.html') {
-    window.location.href = '/index.html';
-  }
+  arrCurrentNews = await getSearchArticles(searchForm[0].value);
 
-  const searchArticles = await getSearchArticles(searchForm[0].value);
-
-  const searchArticlesCardsMarkup = searchArticles.map(item =>
+  const searchArticlesCardsMarkup = arrCurrentNews.map(item =>
     creatCardMarkup(item)
   );
 
   options.itemsPerPage = cardsPerPage();
-  pag.reset(options.itemsPerPage);
+  pagination.reset(options.itemsPerPage);
 
-  options.totalItems = searchArticles.length;
-  pag.reset(options.totalItems);
+  options.totalItems = arrCurrentNews.length;
+  pagination.reset(options.totalItems);
 
-  // вырезали часть масива новостей для рендера текущей страницы
   arrForMarkup = displayItems(
     arrCurrentNews,
     options.page,
     options.itemsPerPage
   );
 
-  renderBoxNewMarkup(searchArticlesCardsMarkup);
+  const cardMarkupArray = arrCurrentNews.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+  if (currentDispleyWidth > 1280) {
+    cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
+  } else if (currentDispleyWidth > 768) {
+    cardMarkupArray.splice(1, 0, `<li class="box-weather__item box "></li>`);
+  } else {
+    cardMarkupArray.splice(0, 0, `<li class="box-weather__item box "></li>`);
+  }
+
+  renderBoxNewMarkup(cardMarkupArray);
+
+  renderWeatherCard();
+
+
 }
 
 function hideSearchInput() {

@@ -6,6 +6,8 @@ import sprite from '/src/images/header-sprite.svg';
 
 let documentWidth = window.innerWidth;
 setCurrentPageUnderline();
+renderSearch()
+renderMenuButton()
 renderThemeToggler();
 setPageTheme();
 
@@ -13,7 +15,6 @@ const searchBtn = document.querySelector('.search-form__btn');
 const menuBtn = document.querySelector('.menu-btn');
 
 menuBtn.addEventListener('click', onMenuBtnClick);
-searchBtn.addEventListener('click', onSearchButtonClick);
 
 window.addEventListener(
   'resize',
@@ -31,6 +32,46 @@ function onResizeFunction() {
     setPageTheme();
   }
 }
+
+
+function createSearchMarkup () {
+  return `
+    <form class="search-form closed" id="search-form">
+      <input type="text" class="search-form__input" placeholder=".">
+      <button type="submit" class="search-form__btn">
+        <svg class="search-form__icon" width="20px" height="20px">
+          <use href="${sprite}#icon-search"></use>
+        </svg>
+      </button>
+      <span class="search-form__placeholder">Search</span>
+    </form>
+  `;
+}
+
+function renderSearch() {
+  if (getCurrentPagePath() !== '/index.html') {
+    return;
+  }
+  const headerContainer = document.querySelector('.header .container');
+  headerContainer.insertAdjacentHTML('beforeEnd', createSearchMarkup());
+}
+
+function renderMenuButton() {
+  if(window.innerWidth > 767) {
+    return
+  }
+  const headerContainer = document.querySelector('.header .container');
+  headerContainer.insertAdjacentHTML('beforeEnd', createMenuBtnMarkup());
+}
+
+function createMenuBtnMarkup() {
+  return `<button class="menu-btn">
+      <span class="menu-btn__line menu-btn__line--1"></span>
+      <span class="menu-btn__line menu-btn__line--2"></span>
+      <span class="menu-btn__line menu-btn__line--3"></span>
+    </button>`;
+}
+
 
 function checkResizeBreakpoint() {
   const newDocumentWidth = window.innerWidth;
@@ -52,7 +93,6 @@ export function getCurrentPagePath() {
 }
 
 function setCurrentPageUnderline() {
-  console.log(getCurrentPagePath());
   const currentPageNavLink = document.querySelector(
     `.nav__link[href="${getCurrentPagePath()}"]`
   );
@@ -70,41 +110,41 @@ function onMenuBtnClick(event) {
   document.body.classList.toggle('js-scrollBlock');
 }
 
-function getSearchForm() {
+export function getSearchForm() {
   return document.getElementById('search-form');
 }
 
-async function onSearchButtonClick(event) {
-  event.preventDefault();
+// async function onSearchButtonClick(event) {
+//   event.preventDefault();
 
-  const searchForm = getSearchForm();
+//   const searchForm = getSearchForm();
 
-  if (window.innerWidth < 768 && searchForm.classList.contains('closed')) {
-    searchForm.classList.remove('closed');
-    setTimeout(hideSearchInput, 5000);
-    return;
-  }
+//   if (window.innerWidth < 768 && searchForm.classList.contains('closed')) {
+//     searchForm.classList.remove('closed');
+//     setTimeout(hideSearchInput, 5000);
+//     return;
+//   }
 
-  if (!searchForm[0].value) {
-    console.log('field is empty');
-    return;
-  }
+//   if (!searchForm[0].value) {
+//     console.log('field is empty');
+//     return;
+//   }
 
-  if (getCurrentPagePath() !== '/index.html') {
-    window.location.href = '/index.html';
-  }
+//   if (getCurrentPagePath() !== '/index.html') {
+//     window.location.href = '/index.html';
+//   }
 
-  const searchArticles = await getSearchArticles(searchForm[0].value);
-  console.log(searchArticles);
-}
+//   const searchArticles = await getSearchArticles(searchForm[0].value);
+//   console.log(searchArticles);
+// }
 
-function hideSearchInput() {
-  const searchForm = getSearchForm();
-  if (!searchForm.classList.contains('closed') && !searchForm[0].value) {
-    searchForm.classList.add('closed');
-    return;
-  }
-}
+// function hideSearchInput() {
+//   const searchForm = getSearchForm();
+//   if (!searchForm.classList.contains('closed') && !searchForm[0].value) {
+//     searchForm.classList.add('closed');
+//     return;
+//   }
+// }
 
 //  Theme-toggler functions :
 
