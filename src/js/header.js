@@ -101,6 +101,7 @@ function setCurrentPageUnderline() {
   const currentPageNavLink = document.querySelector(
     `.nav__link[href="${getCurrentPagePath()}"]`
   );
+  console.log(currentPageNavLink)
   currentPageNavLink.classList.add('nav__link--current');
 }
 
