@@ -7,6 +7,8 @@ const box = document.querySelector('.box-news');
 const footerEl = document.querySelector('.footer');
 const headerEl = document.querySelector('.header');
 
+let noResultsText = 'The favorite news list is empty';
+
 box.addEventListener('click', onClick);
 
 function onClick(e) {
@@ -51,7 +53,6 @@ function cardsPerPage() {
     return 4;
   }
 }
-let noResultsText = 'The favorite news list is empty';
 
 // ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
 function displayItems(arr, page, perPage) {
