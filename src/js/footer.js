@@ -1,6 +1,6 @@
 import { exit } from 'process';
 import { loadAllFavorites } from './library';
-// import { loadReadStorage } from './read-library';
+import { loadReadStorage } from './read-library';
 
 //------------------
 import { setCurrentUser, setToFirebase, registerNewUser } from './firebase';
@@ -54,12 +54,13 @@ async function onLogOff(evt) {
   if (curUserEmail !== '') {
     //ищем профиль
     let curUser = false;
-    const colRef = collection(db, email);
+    const colRef = collection(db, curUserEmail);
     const docSnap = await getDocs(colRef);
     //.then(snap => {
     //let savedData = '';
     docSnap.docs.map(doc => {
       curUser = doc.data();
+      curPassword = curUser.DATA.password;
       // curUser = savedData;
     });
     console.log('ANS: ' + curUser);
@@ -72,6 +73,7 @@ async function onLogOff(evt) {
     }
     //сохраняем текущие данные в базу данных
     data = {
+      password: curPassword,
       favorit: loadAllFavorites(),
       read: loadReadStorage(),
       theme: localStorage.getItem(THEME_STORAGE_KEY),
@@ -117,7 +119,7 @@ async function onSubmit(evt) {
     answer = true;
   } else {
     //какято ошибка в данных
-    alert('Something went wrong... Ask our administrator for help.');
+    //просто не нашли! alert('Something went wrong... Ask our administrator for help.');
   }
   //--------------------
   if (answer === false) {
@@ -143,9 +145,9 @@ async function onSubmit(evt) {
 
         //скидуємо поточне сховище для новенького
 
-        localStorage.setItem(FAVORITE_STORAGE_KEY, '');
-        localStorage.setItem(READ_STORAGE_KEY, '');
-        localStorage.setItem(THEME_STORAGE_KEY, 'light');
+        // localStorage.setItem(FAVORITE_STORAGE_KEY, '');
+        // localStorage.setItem(READ_STORAGE_KEY, '');
+        // localStorage.setItem(THEME_STORAGE_KEY, 'light');
         //--------------------
         if (answer) {
           alert('You are registered! Welcome!');
@@ -165,13 +167,14 @@ async function onSubmit(evt) {
     let savedPass = savedData.password;
     //console.log(savedData.password);
     //let savedPass = curUser.data.passvord;
-    console.log(savedPass);
+    //console.log(savedPass);
 
     if (savedPass.trim() === password.trim()) {
       // 3б здраствуй юзер - все поднять из базы и установить в хранилище
-      localStorage.setItem(FAVORITE_STORAGE_KEY, savedData.favorite);
-      localStorage.setItem(READ_STORAGE_KEY, savedData.read);
-      localStorage.setItem(THEME_STORAGE_KEY, savedData.theme);
+      // localStorage.setItem(FAVORITE_STORAGE_KEY, savedData.favorite);
+      // localStorage.setItem(READ_STORAGE_KEY, savedData.read);
+      // localStorage.setItem(THEME_STORAGE_KEY, savedData.theme);
+      setCurrentUser(email);
       alert('Welcome to our site, user! ( ' + email + ' )');
     } else {
       //3а пароль не правильный
