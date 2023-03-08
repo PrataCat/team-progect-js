@@ -55,20 +55,20 @@
 
 // // arrow filters
 .filter__main-category-btn-icon {
-  display: none;
+  display: inline-block;
   width: 14px;
   height: 8px;
   margin-left: 10px;
 }
-// .blue-down {
-//   background-image: url(../images/orig-mini-n-z.svg);
-// }
-// .white-up {
-//   background-image: url(../images/orig-mini-bil-v-z.svg);
-// }
-// .white-down {
-//   background-image: url(../images/orig-mini-bil-n-z.svg);
-// }
+.blue-down {
+  background-image: url(../images/orig-mini-n-z.svg);
+}
+.white-up {
+  background-image: url(../images/orig-mini-bil-v-z.svg);
+}
+.white-down {
+  background-image: url(../images/orig-mini-bil-n-z.svg);
+}
 
 .filter__other-category-wrap {
   position: absolute;
@@ -101,7 +101,7 @@
 }
 
 .filter__others-category-list {
-  transform: translateY(-100%);
+  transform: translateY(-101%);
   transition: transform 0.4s;
 
   background-color: #f8f8f8;

@@ -27,8 +27,15 @@ mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
 window.addEventListener('resize', debounce(onReRender, 50));
 
-// mainCategoryList.addEventListener('click', changeArrow);
-// window.addEventListener('click', changeArrow);
+//-------------------------
+// const filterWrap = document.querySelector('.filter__wrap');
+// console.log(filterWrap);
+
+// filterWrap.addEventListener('click', changeArrow);
+mainCategoryList.addEventListener('click', changeArrow);
+window.addEventListener('click', changeArrow);
+
+//-----------------------------
 
 function onFetch() {
   onFetchCategories()
@@ -82,18 +89,18 @@ function createMarkupForCategories(
       markupForMainCategoryList += `<li class="filter__main-category-item"><button class="filter__main-category-btn">${display_name}  </button></li>`;
       return;
     }
-    markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}</button></li>`;
+    markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}<span class="filter__main-category-btn-icon" width="14" height="14"></span></button></li>`;
   });
   mainCategoryList.innerHTML = markupForMainCategoryList;
   mainCategoryList.insertAdjacentHTML(
     'beforeend',
-    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<svg class="filter__main-category-btn-icon"> <use href="../images/symbol-defs-mini.svg#icon-orig-mini-n-z"> </use> </svg>
+    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<span class="filter__main-category-btn-icon" width="14" height="14"></span>
 </button></li>`
   );
 
   othersCategoryList.innerHTML = markupForOthersCategoryList;
 
-  // changeArrow();
+  changeArrow();
 }
 
 function onChooseCategory(event) {
@@ -151,7 +158,7 @@ function onCloseOthersCategories(event) {
     othersCategoryList.classList.remove('visible');
     othersCategoryLisWrap.classList.remove('visible');
 
-    // changeArrow();
+    changeArrow();
 
     window.removeEventListener('click', onCloseOthersCategories);
   }
@@ -176,23 +183,37 @@ function onReRender() {
 
 //================== arrow filters ============
 
-// function changeArrow() {
-//   let othersCategoryLisWrapClass =
-//     othersCategoryLisWrap.classList.contains('visible');
+function changeArrow() {
+  let othersCategoryLisWrapClass =
+    othersCategoryLisWrap.classList.contains('visible');
+  // console.log(othersCategoryLisWrapClass);
 
-//   const otherBtn = mainCategoryList.lastChild.firstChild;
-//   let otherBtnClass = otherBtn.classList.contains('active');
+  const otherBtn = mainCategoryList.lastChild.firstChild;
+  // console.log(otherBtn);
+  let otherBtnClass = otherBtn.classList.contains('active');
+  // console.log(otherBtnClass);
 
-//   const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+  const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+  // console.log(mainCategoryBtnIcon);
 
-//   if (!othersCategoryLisWrapClass && !otherBtnClass) {
-//     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
-//     mainCategoryBtnIcon.classList.add('blue-down');
-//   } else if (othersCategoryLisWrapClass && otherBtnClass) {
-//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
-//     mainCategoryBtnIcon.classList.add('white-up');
-//   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
-//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
-//     mainCategoryBtnIcon.classList.add('white-down');
-//   }
-// }
+  //-------------------
+  // console.dir(othersCategoryList);
+  // console.dir(othersCategoryList.children);
+
+  // const mainCategoryBtnIcon = document.querySelectorAll(
+  //   '.filter__main-category-btn-icon'
+  // );
+  // console.log(mainCategoryBtnIcon);
+  //-------------------
+
+  if (!othersCategoryLisWrapClass && !otherBtnClass) {
+    mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
+    mainCategoryBtnIcon.classList.add('blue-down');
+  } else if (othersCategoryLisWrapClass && otherBtnClass) {
+    mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
+    mainCategoryBtnIcon.classList.add('white-up');
+  } else if (otherBtnClass && !othersCategoryLisWrapClass) {
+    mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
+    mainCategoryBtnIcon.classList.add('white-down');
+  }
+}
