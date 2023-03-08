@@ -86,13 +86,18 @@ function checkResizeBreakpoint() {
 }
 
 export function getCurrentPagePath() {
-  if(document.location.pathname === '/') {
+  const location = document.location.pathname.split('/');
+  const path = location[location.length - 1]
+
+  if(!path) {
     return '/index.html'
   }
-  return document.location.pathname;
+
+  return '/' + path;
 }
 
 function setCurrentPageUnderline() {
+  console.log(getCurrentPagePath())
   const currentPageNavLink = document.querySelector(
     `.nav__link[href="${getCurrentPagePath()}"]`
   );
