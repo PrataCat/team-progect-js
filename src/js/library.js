@@ -1,4 +1,4 @@
-const FAVORITE_STORAGE_KEY = 'Favorite';
+const FAVORITE_STORAGE_KEY = 'favorite';
 
 export function includeFavoriteNew(theNew) {
   try {
@@ -54,6 +54,7 @@ export function saveFavorites(arr) {
 export function loadAllFavorites() {
   try {
     const serializedState = localStorage.getItem(FAVORITE_STORAGE_KEY);
+    //console.log(serializedState);
     return serializedState === null ? undefined : JSON.parse(serializedState);
   } catch (error) {
     console.error(error.message);
