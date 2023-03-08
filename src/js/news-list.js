@@ -45,9 +45,9 @@ let options = {
       '<span class="tui-ico-{{type}} pag">{{type}}</span>' +
       '</a>',
     disabledMoveButton:
-      '<p class="tui-page-btn tui-is-disabled tui-{{type}} pag">' +
+      '<a class="tui-page-btn tui-is-disabled tui-{{type}} pag">' +
       '<span class="tui-ico-{{type}} pag">{{type}}</span>' +
-      '</p>',
+      '</a>',
     moreButton:
       '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip pag">' +
       '<span class="tui-ico-ellip pag">...</span>' +
