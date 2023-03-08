@@ -8,7 +8,7 @@ const URL = 'https://api.nytimes.com/svc/news/v3/content/section-list.json';
 
 let categoriesArray = [];
 let windowInnerWidth = window.innerWidth;
-let currentCategory = '';
+export let currentCategory = null;
 
 const mainCategoryList = document.querySelector('.filter__main-category-list');
 const othersCategoryList = document.querySelector(
@@ -26,6 +26,9 @@ mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
 window.addEventListener('resize', debounce(onReRender, 50));
+
+// mainCategoryList.addEventListener('click', changeArrow);
+// window.addEventListener('click', changeArrow);
 
 function onFetch() {
   onFetchCategories()
@@ -88,9 +91,9 @@ function createMarkupForCategories(
 </button></li>`
   );
 
-  // changeArrow();
-
   othersCategoryList.innerHTML = markupForOthersCategoryList;
+
+  // changeArrow();
 }
 
 function onChooseCategory(event) {
@@ -100,7 +103,7 @@ function onChooseCategory(event) {
     currentCategory = nameOfCategory.toLowerCase();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
-  console.log(currentCategory);
+  // console.log(currentCategory);
 }
 
 function toMarkCategoryBtn(event) {
@@ -136,7 +139,7 @@ function onSectionSelection(e) {
     currentCategory = section.toLowerCase();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
-  console.log(currentCategory);
+  // console.log(currentCategory);
 }
 
 function onCloseOthersCategories(event) {
@@ -147,6 +150,9 @@ function onCloseOthersCategories(event) {
   ) {
     othersCategoryList.classList.remove('visible');
     othersCategoryLisWrap.classList.remove('visible');
+
+    // changeArrow();
+
     window.removeEventListener('click', onCloseOthersCategories);
   }
 }
@@ -169,27 +175,24 @@ function onReRender() {
 }
 
 //================== arrow filters ============
-mainCategoryList.addEventListener('click', changeArrow);
 
-function changeArrow() {
-  let othersCategoryLisWrapClass =
-    othersCategoryLisWrap.classList.contains('visible');
+// function changeArrow() {
+//   let othersCategoryLisWrapClass =
+//     othersCategoryLisWrap.classList.contains('visible');
 
-  const otherBtn = mainCategoryList.lastChild.firstChild;
-  let otherBtnClass = otherBtn.classList.contains('active');
+//   const otherBtn = mainCategoryList.lastChild.firstChild;
+//   let otherBtnClass = otherBtn.classList.contains('active');
 
-  const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+//   const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
 
-  if (!othersCategoryLisWrapClass && !otherBtnClass) {
-    mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
-    mainCategoryBtnIcon.classList.add('blue-down');
-  } else if (othersCategoryLisWrapClass && otherBtnClass) {
-    mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
-    mainCategoryBtnIcon.classList.add('white-up');
-  } else if (otherBtnClass && !othersCategoryLisWrapClass) {
-    mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
-    mainCategoryBtnIcon.classList.add('white-down');
-  }
-
-  window.addEventListener('click', onCloseOthersCategories);
-}
+//   if (!othersCategoryLisWrapClass && !otherBtnClass) {
+//     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
+//     mainCategoryBtnIcon.classList.add('blue-down');
+//   } else if (othersCategoryLisWrapClass && otherBtnClass) {
+//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
+//     mainCategoryBtnIcon.classList.add('white-up');
+//   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
+//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
+//     mainCategoryBtnIcon.classList.add('white-down');
+//   }
+// }
