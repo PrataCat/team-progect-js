@@ -20,7 +20,7 @@ window.addEventListener('resize', onResize);
 let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
 let arrCurrentNews = []; // массива всех новостей полученных от АПИ
 let arrForMarkup = []; // массив для рендера на страницу
-// let page = 1;
+// let page = null;
 // let perPage = null; // текущая страница (для пагинации)
 
 // ------------------------ paginetion----------------------------
@@ -36,25 +36,26 @@ let options = {
   firstItemClassName: 'tui-first-child',
   lastItemClassName: 'tui-last-child',
   template: {
-    page: '<a href="#" class="tui-page-btn">{{page}}</a>',
+    page: '<a href="#" class="tui-page-btn pag">{{page}}</a>',
     currentPage:
-      '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
+      '<strong class="tui-page-btn tui-is-selected pag">{{page}}</strong>',
     moveButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}">' +
-      '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '<a href="#" class="tui-page-btn tui-{{type}} pag">' +
+      '<span class="tui-ico-{{type}} pag">{{type}}</span>' +
       '</a>',
     disabledMoveButton:
-      '<p class="tui-page-btn tui-is-disabled tui-{{type}}">' +
-      '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '<p class="tui-page-btn tui-is-disabled tui-{{type}} pag">' +
+      '<span class="tui-ico-{{type}} pag">{{type}}</span>' +
       '</p>',
     moreButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
-      '<span class="tui-ico-ellip">...</span>' +
+      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip pag">' +
+      '<span class="tui-ico-ellip pag">...</span>' +
       '</a>',
   },
 };
 
 const pag = new Pagination(container, options);
+console.log(pag);
 
 pag.on('beforeMove', event => {
   options.page = event.page;
@@ -108,7 +109,6 @@ export async function createNewsCollection(func, value) {
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
   renderWeatherCard();
-
   // turnPages();
 }
 
