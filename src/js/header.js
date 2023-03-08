@@ -86,6 +86,9 @@ function checkResizeBreakpoint() {
 }
 
 export function getCurrentPagePath() {
+  if(document.location.pathname === '/') {
+    return '/index.html'
+  }
   return document.location.pathname;
 }
 
