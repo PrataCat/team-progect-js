@@ -81,9 +81,7 @@ async function onSubmitSearchCity(e) {
     return alert('Поле повинно бути заповнено.');
   }
 
-  const valueCity = e.target.value;
-
-  const weatherCity = await fetchWeatherCity(valueCity);
+  const weatherCity = await fetchWeatherCity(e.target.value);
   if (weatherCity.cod !== 200) {
     e.target.value = '';
     return;
@@ -94,7 +92,7 @@ async function onSubmitSearchCity(e) {
   weatherBox.innerHTML = markup;
 }
 
-export { renderWeatherCard };
+export { renderWeatherCard, onSubmitSearchCity };
 
 // Vika--------
 

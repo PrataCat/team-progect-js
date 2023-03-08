@@ -1,9 +1,10 @@
 // ------------Lyosha, Yura, Dima--------------
+import debounce from 'lodash.debounce';
 import { getMostPopularArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
-import { renderWeatherCard } from './weather';
+import { renderWeatherCard, onSubmitSearchCity } from './weather';
 
 //-----------------------------
 import Pagination from 'tui-pagination';
@@ -109,6 +110,9 @@ export async function createNewsCollection(func, value) {
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
   renderWeatherCard();
+
+  const inputEl = document.querySelector('.box-weather__item');
+  inputEl.addEventListener('input', debounce(onSubmitSearchCity, 1000));
   // turnPages();
 }
 
