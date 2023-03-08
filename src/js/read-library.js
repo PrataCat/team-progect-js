@@ -36,5 +36,3 @@ export function writeReadStorage(object) {
 
   localStorage.setItem('read', JSON.stringify(readObj));
 }
-
-

@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 
 import {
@@ -52,13 +53,14 @@ const db = getFirestore();
 
 export async function setToFirebase(DATA_KEY, data) {
   // console.log('set');
+
   const colRef = doc(db, DATA_KEY, 'Document');
 
   await setDoc(colRef, { DATA: data });
 }
 
 export async function getFromFirebase(DATA_KEY) {
-  let result = [];
+  let result = false;
   try {
     const colRef = collection(db, DATA_KEY);
     const docSnap = await getDocs(colRef);
@@ -66,7 +68,7 @@ export async function getFromFirebase(DATA_KEY) {
     let savedData = '';
     docSnap.docs.map(doc => {
       savedData = doc.data();
-      result = savedData.DATA;
+      result = savedData;
     });
 
     //console.log('fffffffff');
@@ -75,6 +77,64 @@ export async function getFromFirebase(DATA_KEY) {
   } catch (error) {
     console.log(error);
     return result;
+  }
+}
+
+const FAVORITE_STORAGE_KEY = 'favorite';
+const READ_STORAGE_KEY = 'read';
+const THEME_STORAGE_KEY = 'theme';
+
+export async function registerNewUser(email, password) {
+  let result = false;
+
+  data = {
+    password: password,
+    favorite: '',
+    read: '',
+    theme: 'light',
+  };
+
+  setToFirebase(email, data);
+
+  setCurrentUser(email);
+
+  //скидуємо поточне сховище для новенького
+  localStorage.setItem(FAVORITE_STORAGE_KEY, '');
+  localStorage.setItem(READ_STORAGE_KEY, '');
+  localStorage.setItem(THEME_STORAGE_KEY, 'light');
+  return result;
+}
+
+export function setCurrentUser(email) {
+  setToFirebase('currentUser', { currentUser: email });
+}
+
+export function getCurrentUser() {
+  curUser = getFromFirebase('currentUser');
+  if (curUser) {
+    return curUser.currentUser;
+  } else {
+    return false;
+  }
+}
+
+export async function findUser(email) {
+  //curUser = getFromFirebase('currentUser');
+  let curUser = false;
+  const colRef = collection(db, email);
+  const docSnap = await getDocs(colRef);
+  //.then(snap => {
+  let savedData = '';
+  docSnap.docs.map(doc => {
+    savedData = doc.data();
+    result = savedData;
+  });
+
+  //console.log('Current user:  ' + curUser);
+  if (curUser) {
+    return true;
+  } else {
+    return false;
   }
 }
 

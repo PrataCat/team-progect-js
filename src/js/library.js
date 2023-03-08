@@ -1,4 +1,4 @@
-const FAVORITE_STORAGE_KEY = 'Favorite';
+const FAVORITE_STORAGE_KEY = 'favorite';
 
 export function includeFavoriteNew(theNew) {
   try {
