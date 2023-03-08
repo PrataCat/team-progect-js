@@ -40,8 +40,9 @@ function createWeatherCardMarcup(arr) {
   <div class="weather-city-group">
     <p class="weather-main">${arr.weather[0].main}</p>
     <form class="search-form">
-      <svg class="icon icon-carbon_location-filled" width="19" height="24">
-        <use href="./header-sprite.svg#icon-carbon_location-filled" width="19" height="24""></use></svg>
+      <svg class="icon-carbon_location" width="18" height="18">
+        <use href="${sprite}#icon-carbon_location"></use>
+      </svg>
       <input type="text" id="search-box" placeholder="${arr.name}"/>
     </form>
   </div>
