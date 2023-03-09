@@ -33,7 +33,7 @@ async function fetchWeatherCity(q) {
 
 // ============== CARD
 
-function createWeatherCardMarcup(arr) {
+function createWeatherCardMarkup(arr) {
   const d1 = new Date();
   return `<div class="weather__wrap">
   <p class="weather-temp">${Math.floor(arr.main.temp)}&deg</p>
@@ -68,15 +68,17 @@ function createWeatherCardMarcup(arr) {
 async function renderWeatherCard() {
   const weatherBox = document.querySelector('.box-weather__item');
   const defaultCity = await fetchWeatherCity('Kyiv');
-  weatherBox.innerHTML = createWeatherCardMarcup(defaultCity);
+  weatherBox.innerHTML = createWeatherCardMarkup(defaultCity);
 
   navigator.geolocation.getCurrentPosition(async position => {
     const data = await fetchWeather(
       position.coords.latitude,
       position.coords.longitude
     );
-    const geoMarkup = createWeatherCardMarcup(data);
+    const geoMarkup = createWeatherCardMarkup(data);
     weatherBox.innerHTML = geoMarkup;
+    const openForecastBtn = document.querySelector('.forecast__btn');
+    openForecastBtn.addEventListener('click', onOpenForecast);
   });
 }
 
@@ -85,8 +87,7 @@ async function insertWeather() {
   const inputEl = document.querySelector('.box-weather__item');
   inputEl.addEventListener('input', debounce(onSubmitSearchCity, 1000));
 
-  const openForecastBtn = inputEl.querySelector('.forecast__btn');
-  console.log('ррр', openForecastBtn);
+  const openForecastBtn = document.querySelector('.forecast__btn');
   openForecastBtn.addEventListener('click', onOpenForecast);
 }
 
@@ -101,20 +102,10 @@ async function onSubmitSearchCity(e) {
     return;
   }
 
-  const locationMarkup = createWeatherCardMarcup(weatherCity);
+  const locationMarkup = createWeatherCardMarkup(weatherCity);
   const weatherBox = document.querySelector('.box-weather__item');
   weatherBox.innerHTML = locationMarkup;
 }
-
-export {
-  renderWeatherCard,
-  onSubmitSearchCity,
-  createcurrentWeatherMarkup,
-  createForecastMarkup,
-  onOpenForecast,
-  onCloseForecast,
-  insertWeather,
-};
 
 // Vika-------------------------------------------------------------------------------------------------------
 
@@ -122,16 +113,12 @@ const URL_DEFAULT = `http://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=
 
 function onOpenForecast(evt) {
   const forecastDiv = evt.currentTarget;
-  console.log(evt.currentTarget.nextElementSibling);
   const forecastIsOpen = forecastDiv.querySelector('.forecast');
-  // console.log(forecastIsOpen);
   evt.target.nextElementSibling.classList.add('is-open');
-  const currentWeather = forecastDiv.querySelector('.current-weather');
-  const forecastList = forecastDiv.querySelector('.forecast__list');
+  const currentWeather = document.querySelector('.current-weather');
+  const forecastList = document.querySelector('.forecast__list');
   const firstStepGetCloseBtn = evt.target.nextElementSibling;
-  const closeForecastBtn = firstStepGetCloseBtn.querySelector(
-    '.forecast-close__btn'
-  );
+  const closeForecastBtn = document.querySelector('.forecast-close__btn');
 
   closeForecastBtn.addEventListener('click', onCloseForecast);
   fetchWeatherCity('Kyiv').then(data => {
@@ -166,9 +153,8 @@ function onOpenForecast(evt) {
 
 function onCloseForecast(evt) {
   const forecastClose = evt.currentTarget;
-  // const forecastCloseBtn = forecastClose.parentNode;
+
   const forecastCloseDiv = forecastClose.parentNode;
-  console.log(forecastCloseDiv);
 
   forecastCloseDiv.classList.remove('is-open');
 
@@ -223,7 +209,7 @@ function createcurrentWeatherMarkup(data) {
       <p class="current-weather__humidity">
         Humidity: ${Math.round(data.main.humidity)} %
         <span>Wind: ${data.wind.speed} m/s</span>
-        <span>Visibility: ${Math.round(data.visibility / 1000)} km
+        <span>Visibility: ${Math.round(data.visibility / 1000)} km</span>
       </p>`;
   return currentWeatherMarkup;
 }
@@ -258,3 +244,5 @@ function createForecastMarkup(data) {
     .join('');
   return forecastMarkup;
 }
+
+export { insertWeather };

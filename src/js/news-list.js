@@ -3,7 +3,7 @@ import { getMostPopularArticles, getSearchArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
-import { renderWeatherCard, insertWeather } from './weather';
+import { insertWeather } from './weather';
 import { getSearchForm } from './header';
 import Pagination from 'tui-pagination';
 
