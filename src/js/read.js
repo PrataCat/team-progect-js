@@ -27,7 +27,7 @@ function createReadMarkup() {
     headerEl.classList.add('header-margin');
     renderNoNews(noResultsText);
   } else {
-    for (date of keys) {
+    for (const date of keys) {
       // console.log(readObj[date]); // массивы объектов по датам
       // Удаление пустого массива из Л.С.
       if (readObj[date].length === 0) {
