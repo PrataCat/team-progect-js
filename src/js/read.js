@@ -23,7 +23,6 @@ function createReadMarkup() {
 
   // Проверка, если пустой объект, то заглушка.
   if (emptyreadObj) {
-    console.log('Пустой объект');
     footerEl.classList.add('footer-margin');
     headerEl.classList.add('header-margin');
     renderNoNews(noResultsText);

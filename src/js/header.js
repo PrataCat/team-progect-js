@@ -45,7 +45,10 @@ function createSearchMarkup() {
 }
 
 function renderSearch() {
-  if (getCurrentPagePath() !== '/index.html') {
+  if (
+    getCurrentPagePath().includes('favorite-main.html') ||
+    getCurrentPagePath().includes('read-main.html')
+  ) {
     return;
   }
   const headerContainer = document.querySelector('.header .container');
@@ -87,11 +90,9 @@ export function getCurrentPagePath() {
 }
 
 function setCurrentPageUnderline() {
-  console.log(document.location.pathname);
   const currentPageNavLink = document.querySelector(
     `.nav__link[href*="${document.location.pathname}"]`
   );
-  console.log(currentPageNavLink);
   currentPageNavLink.classList.add('nav__link--current');
 }
 
