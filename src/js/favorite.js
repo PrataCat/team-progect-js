@@ -77,7 +77,7 @@ function createPopularNewsCollection(arr) {
 
   let perPage = cardsPerPage(); // замеряем ширину вью порта
   const arrCurrentNews = loadAllFavorites();
-  const arrForMarkup = displayItems(arrCurrentNews, (page = 1), perPage); // массив для рендера на текущую страницу
+  const arrForMarkup = displayItems(arrCurrentNews, 1, perPage); // массив для рендера на текущую страницу
   if (arrForMarkup.length === 0) {
     footerEl.classList.add('footer-margin');
     headerEl.classList.add('header-margin');
