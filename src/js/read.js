@@ -115,7 +115,6 @@ function onButtonFavorite(e) {
     const favP = favButton.querySelector('.box-news__favorite-p');
     // svg
     const favSvg = favButton.querySelector('.box-news__favorite-svg');
-    console.log(favP);
 
     if (favButton.classList.contains('favorite')) {
       offColorBtn(favButton, favId, favP, favSvg);
@@ -132,9 +131,7 @@ function offColorBtn(favButton, favId, favP, favSvg) {
     if (el.id === favId) {
       const resultDel = excludeFavoriteNew(el.id);
 
-      // const resultDel = true;
       if (resultDel) {
-        console.log('Удалил');
         favButton.classList.remove('favorite');
         favP.classList.remove('favorite-p');
         favSvg.classList.remove('favorite-svg');
@@ -150,9 +147,7 @@ function onColorBtn(favButton, favId, favP, favSvg) {
     if (el.id === favId) {
       const resultAdd = includeFavoriteNew(el);
 
-      // const resultAdd = true;
       if (resultAdd) {
-        console.log('Добавил');
         favButton.classList.add('favorite');
         favP.classList.add('favorite-p');
         favSvg.classList.add('favorite-svg');

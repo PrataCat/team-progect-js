@@ -7,23 +7,21 @@ const box = document.querySelector('.box-news');
 const footerEl = document.querySelector('.footer');
 const headerEl = document.querySelector('.header');
 
-box.addEventListener('click', onClick);
+let noResultsText = 'The favorite news list is empty';
 
-function onClick(e) {
-  const curTargetClass = e.target.classList.value;
+box.addEventListener('click', onFavoriteBtnClick);
+box.addEventListener('click', onReadMoreBtnClick);
 
-  if (
-    curTargetClass === 'box-news__favorite-p' ||
-    curTargetClass === 'box-news__favorite-svg'
-  ) {
-    const favButton = e.target.closest('BUTTON');
-    const favId = favButton.closest('li').dataset.id;
-
+function onFavoriteBtnClick(e) {
+  if (e.target.closest('.box-news__favorite-btn')) {
+    const favId = e.target.closest('li').dataset.id;
     excludeFavoriteNew(favId);
     box.innerHTML = '';
     createPopularNewsCollection(loadAllFavorites());
-  }
-  //-----to Read
+  } return;
+}
+
+function onReadMoreBtnClick(e) {
   if (e.target.tagName === 'A') {
     let currentId = e.target.closest('li').dataset.id;
     let currentLi = e.target.closest('li');
@@ -37,6 +35,8 @@ function onClick(e) {
     }
   }
 }
+
+
 
 // ф-ци возвращае ширину вью порта
 function checkWidth() {
