@@ -27,14 +27,9 @@ mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
 window.addEventListener('resize', debounce(onReRender, 50));
 
-//-------------------------
-// const filterWrap = document.querySelector('.filter__wrap');
-// console.log(filterWrap);
-
-// filterWrap.addEventListener('click', changeArrow);
+// othersCategoryList.addEventListener('click', changeArrow);
 mainCategoryList.addEventListener('click', changeArrow);
 window.addEventListener('click', changeArrow);
-
 //-----------------------------
 
 function onFetch() {
@@ -110,7 +105,6 @@ function onChooseCategory(event) {
     currentCategory = nameOfCategory.toLowerCase();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
-  // console.log(currentCategory);
 }
 
 function toMarkCategoryBtn(event) {
@@ -144,9 +138,10 @@ function onSectionSelection(e) {
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
     currentCategory = section.toLowerCase();
+    console.log(currentCategory);
+    // resetOfCategoryBtnPadding();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
-  // console.log(currentCategory);
 }
 
 function onCloseOthersCategories(event) {
@@ -181,29 +176,20 @@ function onReRender() {
   }
 }
 
-//================== arrow filters ============
-
 function changeArrow() {
   let othersCategoryLisWrapClass =
     othersCategoryLisWrap.classList.contains('visible');
-  // console.log(othersCategoryLisWrapClass);
 
   const otherBtn = mainCategoryList.lastChild.firstChild;
-  // console.log(otherBtn);
   let otherBtnClass = otherBtn.classList.contains('active');
-  // console.log(otherBtnClass);
-
-  const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
-  // console.log(mainCategoryBtnIcon);
 
   //-------------------
-  // console.dir(othersCategoryList);
-  // console.dir(othersCategoryList.children);
-
-  // const mainCategoryBtnIcon = document.querySelectorAll(
-  //   '.filter__main-category-btn-icon'
-  // );
+  // const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
   // console.log(mainCategoryBtnIcon);
+
+  const mainCategoryBtnIcon = document.querySelector(
+    '.filter__main-category-btn-icon'
+  );
   //-------------------
 
   if (!othersCategoryLisWrapClass && !otherBtnClass) {
@@ -215,5 +201,18 @@ function changeArrow() {
   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
     mainCategoryBtnIcon.classList.add('white-down');
+  }
+
+  // console.log(otherBtnClass);
+  // if (!otherBtnClass) {
+  //   // createMarkupForCategories();
+  // }
+}
+
+function resetOfCategoryBtnPadding() {
+  const categoryBtn = document.querySelector('.others-btn');
+
+  if (currentCategory.length > 17 && windowInnerWidth < 768) {
+    categoryBtn.style.padding = '7px';
   }
 }
