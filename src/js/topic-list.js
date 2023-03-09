@@ -138,7 +138,7 @@ function onSectionSelection(e) {
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
     currentCategory = section.toLowerCase();
-    // resetOfCategoryBtnPadding();
+    resetOfCategoryBtnPadding();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
 }
