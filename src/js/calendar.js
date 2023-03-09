@@ -75,7 +75,7 @@ function appendWeatherBoxes(arrForMarkup) {
 const noResultsText = 'We haven’t found news for the selected date';
 
 function renderNoNews(noResultsText) {
-  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
 }
 

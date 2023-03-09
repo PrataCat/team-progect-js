@@ -7,8 +7,6 @@ const box = document.querySelector('.box-news');
 const footerEl = document.querySelector('.footer');
 const headerEl = document.querySelector('.header');
 
-let noResultsText = 'The favorite news list is empty';
-
 box.addEventListener('click', onClick);
 
 function onClick(e) {
@@ -66,12 +64,12 @@ function displayItems(arr, page, perPage) {
 }
 
 function renderNoNews(noResultsText) {
-  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
 }
 
 function createPopularNewsCollection(arr) {
-  renderNoNews(noResultsText);
+  renderNoNews('The favorite news list is empty');
 
   if (typeof arr !== 'object') {
     return;
@@ -84,8 +82,6 @@ function createPopularNewsCollection(arr) {
   const arrCurrentNews = loadAllFavorites();
   const arrForMarkup = displayItems(arrCurrentNews, 1, perPage); // массив для рендера на текущую страницу
   if (arrForMarkup.length === 0) {
-    footerEl.classList.add('footer-margin');
-    headerEl.classList.add('header-margin');
   } else {
     const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
 

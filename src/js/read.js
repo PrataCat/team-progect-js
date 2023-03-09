@@ -23,8 +23,6 @@ function createReadMarkup() {
 
   // Проверка, если пустой объект, то заглушка.
   if (emptyreadObj) {
-    footerEl.classList.add('footer-margin');
-    headerEl.classList.add('header-margin');
     renderNoNews(noResultsText);
   } else {
     for (const date of keys) {
@@ -175,6 +173,6 @@ function getArray() {
 
 // Функция для вызова заглушки
 function renderNoNews(noResultsText) {
-  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
 }
