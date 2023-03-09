@@ -75,7 +75,7 @@ function createPopularNewsCollection(arr) {
     return;
   }
 
-  perPage = cardsPerPage(); // замеряем ширину вью порта
+  let perPage = cardsPerPage(); // замеряем ширину вью порта
   const arrCurrentNews = loadAllFavorites();
   const arrForMarkup = displayItems(arrCurrentNews, (page = 1), perPage); // массив для рендера на текущую страницу
   if (arrForMarkup.length === 0) {
