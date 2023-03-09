@@ -14,7 +14,10 @@ box.addEventListener('click', onClick);
 function onClick(e) {
   const curTargetClass = e.target.classList.value;
 
-  if (curTargetClass === 'box-news__favorite-p' || 'box-news__favorite-svg') {
+  if (
+    curTargetClass === 'box-news__favorite-p' ||
+    curTargetClass === 'box-news__favorite-svg'
+  ) {
     const favButton = e.target.closest('BUTTON');
     const favId = favButton.closest('li').dataset.id;
 
