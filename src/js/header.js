@@ -2,14 +2,12 @@ import debounce from 'lodash.debounce';
 
 import sprite from '/src/images/header-sprite.svg';
 
-
 let documentWidth = window.innerWidth;
 setCurrentPageUnderline();
-renderSearch()
-renderMenuButton()
+renderSearch();
+renderMenuButton();
 renderThemeToggler();
 setPageTheme();
-
 
 const menuBtn = document.querySelector('.menu-btn');
 
@@ -24,7 +22,6 @@ window.addEventListener(
   }, 100)
 );
 
-
 function onResizeFunction() {
   if (!getCurrentToggler().parentElement !== getThemeTogglerOuterContainer()) {
     removeThemeToggler();
@@ -33,8 +30,7 @@ function onResizeFunction() {
   }
 }
 
-
-function createSearchMarkup () {
+function createSearchMarkup() {
   return `
     <form class="search-form closed" id="search-form">
       <input type="text" class="search-form__input" placeholder=".">
@@ -69,7 +65,6 @@ function createMenuBtnMarkup() {
     </button>`;
 }
 
-
 function checkResizeBreakpoint() {
   const newDocumentWidth = window.innerWidth;
 
@@ -92,11 +87,11 @@ export function getCurrentPagePath() {
 }
 
 function setCurrentPageUnderline() {
-  console.log(document.location.pathname)
+  console.log(document.location.pathname);
   const currentPageNavLink = document.querySelector(
-    `.nav__link[href="${document.location.pathname}"]`
+    `.nav__link[href*="${document.location.pathname}"]`
   );
-  console.log(currentPageNavLink)
+  console.log(currentPageNavLink);
   currentPageNavLink.classList.add('nav__link--current');
 }
 
@@ -114,7 +109,6 @@ function onMenuBtnClick(event) {
 export function getSearchForm() {
   return document.getElementById('search-form');
 }
-
 
 //  Theme-toggler functions :
 
