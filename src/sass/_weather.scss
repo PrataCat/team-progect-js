@@ -23,39 +23,30 @@
 
 .weather__wrap{
 display: flex;
-justify-content: start;
-margin: 32px 36px;
-height: 86px;
-gap: 12px;
- text-align: center;
-  
+justify-content: center;
+text-align: center;
+margin: 40px auto;
+height: 86px; 
 }
 .weather-temp {
+  display: inline-block;
   font-size: 64px;
   line-height: 75px;
+  text-align: center;
   color: var(--secondary-light-color);
-  border-right: 1px solid var(--secondary-light-color);
-  width: 96px;
+  padding-right: 8px;
    height: 84px;
   @media screen and (max-width: 767px) {
     font-size: 55px;
     line-height: 64px;
-    width: 60px;
     height: 64px;
   }
-  @media screen and (min-width: 768px) {
-    width: 83px;
-     height: 84px;
-  }
 }
-
-
 .weather-city-group {
-
+  border-left: 1px solid var(--secondary-light-color);
+  padding-left: 8px;
   height: 84px;
   @media screen and (max-width: 767px) {
-   
-    margin-bottom: 40px;
     height: 64px;
   }
 }
@@ -69,7 +60,6 @@ gap: 12px;
   line-height: 42px;
   color: var(--secondary-light-color);
   @media screen and (max-width: 767px) {
-   
     font-size: 24px;
     line-height: 28px;
     width: 66px;
@@ -120,7 +110,6 @@ gap: 12px;
   text-align: center;
   color: var(--secondary-light-color);
   @media screen and (max-width: 767px) {
-    // margin-left: 36px;
     margin-top: 352px;
     font-size: 28px;
     line-height: 33px;
@@ -214,7 +203,6 @@ gap: 12px;
   line-height: 1.19;
   color: var(--secondary-light-color);
   @media screen and (min-width: 768px) {
-    // right: 84px;
     bottom: 60px;
     width: 184px;
     height: 42px;
@@ -236,7 +224,6 @@ gap: 12px;
   right: 12px;
   visibility: collapse;
   pointer-events: none;
-//  transform: translateY(100%);
   transition: var(--timing-function);
   &.is-open {
     position: absolute;
@@ -255,7 +242,6 @@ gap: 12px;
     line-height: 1.17;
     opacity: 1;
     visibility: visible;
-    // transform: translateY(0);
      transition: all 0.25s ease-out 0.1s;
     pointer-events: all;
     @media screen and (min-width: 768px) {
@@ -263,15 +249,11 @@ gap: 12px;
     }
   }
 }
-.forecast-wrapper{
-
-}
-
 
 .forecast-close__btn {
   position: absolute;
   z-index: 2;
-  top: 16px;
+  top: -24px;
   right: 12px;
   display: flex;
   justify-content: center;
@@ -286,7 +268,7 @@ gap: 12px;
   transition: transform 3s ease-out 0.5s;
 
   @media screen and (min-width: 768px) {
-    top: 24px;
+    top: -8px;
   }
   &:hover,
   &:focus {
@@ -343,7 +325,7 @@ gap: 12px;
   line-height: 1.16;
   @media screen and (min-width: 768px) {
     height: 70px;
-    margin-right: 18px;
+    margin-right: 12px;
     margin-bottom: 16px;
   }
 }
