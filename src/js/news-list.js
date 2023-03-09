@@ -5,6 +5,7 @@ import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
 import { insertWeather } from './weather';
 import { getSearchForm } from './header';
+import { renderNoNews } from './calendar';
 import Pagination from 'tui-pagination';
 
 const box = document.querySelector('.box-news');
@@ -174,7 +175,16 @@ async function onSearchButtonClick(event) {
     return;
   }
 
-  arrCurrentNews = await getSearchArticles(searchForm[0].value);
+  try {
+    arrCurrentNews = await getSearchArticles(searchForm[0].value);
+  } catch(error) {
+    arrCurrentNews = [];
+  }
+
+  if (arrCurrentNews.length === 0) {
+    renderNoNews('Ooops.. We haven’t found news for your request.');
+    return;
+  }
 
   const searchArticlesCardsMarkup = arrCurrentNews.map(item =>
     creatCardMarkup(item)
