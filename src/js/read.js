@@ -40,7 +40,7 @@ function createReadMarkup() {
       createDateBox(date);
     }
 
-    for (date of Object.keys(readObj)) {
+    for (const date of Object.keys(readObj)) {
       const box = document.querySelector(`[data-date="${date}"]`);
       const wrapList = document.getElementById(`${date}`);
       const murkupForBox = createMurkupForBoxItem();
