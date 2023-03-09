@@ -9,7 +9,6 @@ const headerEl = document.querySelector('.header');
 
 let noResultsText = 'The favorite news list is empty';
 
-renderNoNews(noResultsText);
 box.addEventListener('click', onClick);
 
 function onClick(e) {
@@ -69,6 +68,8 @@ function renderNoNews(noResultsText) {
 }
 
 function createPopularNewsCollection(arr) {
+  renderNoNews(noResultsText);
+
   if (typeof arr !== 'object') {
     return;
   }
@@ -82,11 +83,10 @@ function createPopularNewsCollection(arr) {
   if (arrForMarkup.length === 0) {
     footerEl.classList.add('footer-margin');
     headerEl.classList.add('header-margin');
-    renderNoNews(noResultsText);
   } else {
     const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
 
-    box.insertAdjacentHTML('beforeend', cardMarkupArray.join(''));
+    box.innerHTML = cardMarkupArray.join('');
   }
 }
 
