@@ -115,51 +115,43 @@ async function getMostPopularArticles(days = 7) {
 // GET Search articles functions
 
 async function fetchSearchArticles(query, pub_date, page) {
-  try {
-    const pubDate = pub_date ? `&fq=pub_date:${pub_date}` : '';
-    const response = await fetch(
-      `${ArticleSearchEndpoint}?api-key=${API_KEY}&q=${query}&page=${page}${pubDate}`
-    );
-    const data = await response.json();
+  const pubDate = pub_date ? `&fq=pub_date:${pub_date}` : '';
+  const response = await fetch(
+    `${ArticleSearchEndpoint}?api-key=${API_KEY}&q=${query}&page=${page}${pubDate}`
+  );
+  const data = await response.json();
 
-    return data.response.docs;
-  } catch (error) {
-    console.log(error);
-  }
+  return data.response.docs;
 }
 
 async function getSearchArticles(query, pub_date, page = 0) {
-  try {
-    const data = await fetchSearchArticles(query, pub_date, page);
+  const data = await fetchSearchArticles(query, pub_date, page);
 
-    const normalizedData = data.map(item => {
-      const {
-        headline,
-        abstract,
-        pub_date,
-        web_url,
-        subsection_name,
-        multimedia,
-        uri,
-      } = item;
-      const resultObj = {
-        title: headline.main,
-        abstract,
-        published_date: dateFormat(pub_date),
-        url: web_url,
-        section: subsection_name,
-        image_url:
-          'https://static01.nyt.com/' +
-          multimedia.find(item => item.subtype === 'mediumThreeByTwo440').url,
-        id: uri.split('/')[3],
-      };
-      return resultObj;
-    });
-    // console.log(normalizedData)
-    return normalizedData;
-  } catch (error) {
-    console.log(error);
-  }
+  const normalizedData = data.map(item => {
+    const {
+      headline,
+      abstract,
+      pub_date,
+      web_url,
+      subsection_name,
+      multimedia,
+      uri,
+    } = item;
+    const resultObj = {
+      title: headline.main,
+      abstract,
+      published_date: dateFormat(pub_date),
+      url: web_url,
+      section: subsection_name ? subsection_name : 'Other',
+      image_url:
+        'https://static01.nyt.com/' +
+        multimedia.find(item => item.subtype === 'mediumThreeByTwo440').url,
+      id: uri.split('/')[3],
+    };
+    return resultObj;
+  });
+  // console.log(normalizedData)
+  return normalizedData;
 }
 
 function dateFormat(str) {
