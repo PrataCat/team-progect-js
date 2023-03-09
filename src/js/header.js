@@ -88,17 +88,13 @@ function checkResizeBreakpoint() {
 export function getCurrentPagePath() {
   const location = document.location.pathname;
 
-  if(!location) {
-    return '/index.html'
-  }
-
   return location;
 }
 
 function setCurrentPageUnderline() {
-  console.log(getCurrentPagePath())
+  console.log(document.location.pathname)
   const currentPageNavLink = document.querySelector(
-    `.nav__link[href="${getCurrentPagePath()}"]`
+    `.nav__link[href="${document.location.pathname}"]`
   );
   console.log(currentPageNavLink)
   currentPageNavLink.classList.add('nav__link--current');
