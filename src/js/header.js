@@ -33,13 +33,12 @@ function onResizeFunction() {
 function createSearchMarkup() {
   return `
     <form class="search-form closed" id="search-form">
-      <input type="text" class="search-form__input" placeholder=".">
+      <input type="text" class="search-form__input" placeholder="Search  |">
       <button type="submit" class="search-form__btn">
         <svg class="search-form__icon" width="20px" height="20px">
           <use href="${sprite}#icon-search"></use>
         </svg>
       </button>
-      <span class="search-form__placeholder">Search</span>
     </form>
   `;
 }
