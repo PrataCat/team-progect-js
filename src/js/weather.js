@@ -51,7 +51,7 @@ function createWeatherCardMarcup(arr) {
   }@2x.png" alt="${arr.title}">
   <p class= weather-day>${d1.toUTCString().slice(0, 3)}</p>
   <p class= weather-data>${d1.toUTCString().slice(5, 17)}</p>
-  <button  type="submit" class="forecast__btn">weather for 5 days</button>
+  <button type="button" class="forecast__btn">weather for 5 days</button>
   <div class="forecast">
     <button type="button" class="forecast-close__btn">
       <svg class="close__icon" width="22" height="22">
@@ -78,17 +78,16 @@ async function renderWeatherCard() {
     const geoMarkup = createWeatherCardMarcup(data);
     weatherBox.innerHTML = geoMarkup;
   });
+}
 
+async function insertWeather() {
+  const fetchWeather = await renderWeatherCard();
   const inputEl = document.querySelector('.box-weather__item');
   inputEl.addEventListener('input', debounce(onSubmitSearchCity, 1000));
 
-  const getForecastBtn = document.querySelector('.box-weather__item');
-  getForecastBtn.addEventListener('click', onOpenForecast);
-
-  const closeForecastBtn = document.querySelector('.forecast-close__btn');
-  if (closeForecastBtn) {
-    closeForecastBtn.addEventListener('click', onCloseForecast);
-  }
+  const openForecastBtn = inputEl.querySelector('.forecast__btn');
+  console.log('ррр', openForecastBtn);
+  openForecastBtn.addEventListener('click', onOpenForecast);
 }
 
 async function onSubmitSearchCity(e) {
@@ -114,6 +113,7 @@ export {
   createForecastMarkup,
   onOpenForecast,
   onCloseForecast,
+  insertWeather,
 };
 
 // Vika-------------------------------------------------------------------------------------------------------
@@ -121,8 +121,10 @@ export {
 const URL_DEFAULT = `http://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=40&appid=ff3d132454e086af9e5461615c5adce7&units=metric`;
 
 function onOpenForecast(evt) {
-  const forecastDiv = evt.target.nextElementSibling;
-
+  const forecastDiv = evt.currentTarget;
+  console.log(evt.currentTarget.nextElementSibling);
+  const forecastIsOpen = forecastDiv.querySelector('.forecast');
+  // console.log(forecastIsOpen);
   evt.target.nextElementSibling.classList.add('is-open');
   const currentWeather = forecastDiv.querySelector('.current-weather');
   const forecastList = forecastDiv.querySelector('.forecast__list');
@@ -131,7 +133,7 @@ function onOpenForecast(evt) {
     '.forecast-close__btn'
   );
 
-  firstStepGetCloseBtn.addEventListener('click', onCloseForecast);
+  closeForecastBtn.addEventListener('click', onCloseForecast);
   fetchWeatherCity('Kyiv').then(data => {
     createcurrentWeatherMarkup(data);
     currentWeather.innerHTML = createcurrentWeatherMarkup(data);
@@ -163,13 +165,14 @@ function onOpenForecast(evt) {
 }
 
 function onCloseForecast(evt) {
-  const forecastClose = evt.target;
-  const forecastCloseBtn = forecastClose.parentNode;
-  const forecastCloseDiv = forecastCloseBtn.parentNode;
+  const forecastClose = evt.currentTarget;
+  // const forecastCloseBtn = forecastClose.parentNode;
+  const forecastCloseDiv = forecastClose.parentNode;
+  console.log(forecastCloseDiv);
 
   forecastCloseDiv.classList.remove('is-open');
 
-  const forecastCloseNextElementSibling = forecastCloseBtn.nextElementSibling;
+  const forecastCloseNextElementSibling = forecastClose.nextElementSibling;
 
   const forecasWrapperFirstChild =
     forecastCloseNextElementSibling.firstElementChild;
@@ -178,6 +181,8 @@ function onCloseForecast(evt) {
   const forecasWrapperLastChild =
     forecastCloseNextElementSibling.lastElementChild;
   forecasWrapperLastChild.innerHTML = '';
+
+  forecastClose.removeEventListener('click', onCloseForecast);
 }
 
 async function fetchForecast(URL) {
@@ -246,7 +251,7 @@ function createForecastMarkup(data) {
           </svg> ${Math.round(item.pop * 100)} %
         </p>
         <p class="forecast__temp">${Math.round(item.main.temp)}&deg C</p>
-        
+
       </li>`;
       }
     })

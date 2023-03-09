@@ -3,7 +3,7 @@ import { getMostPopularArticles, getSearchArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
-import { renderWeatherCard } from './weather';
+import { renderWeatherCard, insertWeather } from './weather';
 import { getSearchForm } from './header';
 import Pagination from 'tui-pagination';
 
@@ -14,7 +14,6 @@ const paginationContainer = document.getElementById('tui-pagination-container');
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
 window.addEventListener('resize', onResize);
-
 
 let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
 let arrCurrentNews = []; // массива всех новостей полученных от АПИ
@@ -64,7 +63,6 @@ pagination.on('beforeMove', event => {
   });
 });
 
-
 createNewsCollection(getMostPopularArticles);
 
 searchBtn.addEventListener('click', onSearchButtonClick);
@@ -108,7 +106,7 @@ export async function createNewsCollection(func, value) {
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
   //рендер погоды
-  renderWeatherCard();
+  insertWeather();
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить
@@ -160,7 +158,6 @@ export function sendCurrentArray() {
 }
 /////////////////////////
 
-
 async function onSearchButtonClick(event) {
   event.preventDefault();
 
@@ -206,9 +203,7 @@ async function onSearchButtonClick(event) {
 
   renderBoxNewMarkup(cardMarkupArray);
 
-  renderWeatherCard();
-
-
+  insertWeather();
 }
 
 function hideSearchInput() {
