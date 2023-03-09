@@ -9,6 +9,7 @@ const headerEl = document.querySelector('.header');
 
 let noResultsText = 'The favorite news list is empty';
 
+renderNoNews(noResultsText);
 box.addEventListener('click', onClick);
 
 function onClick(e) {
