@@ -36,7 +36,7 @@ async function fetchWeatherCity(q) {
 function createWeatherCardMarcup(arr) {
   const d1 = new Date();
   return `<div class="weather__wrap">
-  <p class="weather-temp">${Math.floor(arr.main.temp)}°</p>
+  <p class="weather-temp">${Math.floor(arr.main.temp)}&deg</p>
   <div class="weather-city-group">
     <p class="weather-main">${arr.weather[0].main}</p>
     <form class="search-form">
@@ -208,7 +208,7 @@ function createcurrentWeatherMarkup(data) {
         alt="${data.weather[0].main}"
         class="current-weather__img"
       />
-      <p class="current-weather__temp">${Math.round(data.main.temp)}°</p>
+      <p class="current-weather__temp">${Math.round(data.main.temp)}&deg</p>
       <div class="current-weather__wrapp">
         <p class="current-weather__status">${data.weather[0].main}</p>
         <p class="current-weather__feels">Feels like: ${Math.round(
@@ -245,7 +245,7 @@ function createForecastMarkup(data) {
             </use>
           </svg> ${Math.round(item.pop * 100)} %
         </p>
-        <p class="forecast__temp">${Math.round(item.main.temp)}° C</p>
+        <p class="forecast__temp">${Math.round(item.main.temp)}&deg C</p>
         
       </li>`;
       }
