@@ -101,7 +101,7 @@ function createMarkupForCategories(
 function onChooseCategory(event) {
   toMarkCategoryBtn(event);
   const othersBtn = document.querySelector('.others-btn');
-  if (!othersBtn) {
+  if (!(event.target === othersBtn)) {
     const nameOfCategory = event.target.outerText;
     currentCategory = nameOfCategory.toLowerCase();
     createNewsCollection(getCategoryArticles, currentCategory);
