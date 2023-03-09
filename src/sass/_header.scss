@@ -255,7 +255,11 @@ body {
     border-color $themeTransitionTimeFunc;
 
   &::placeholder {
-    opacity: 0;
+    line-height: 30px;
+
+    font-family: 'Poppins400';
+    font-size: 14px;
+    line-height: calc(24 / 14);
   }
 
   &:hover,
@@ -311,36 +315,36 @@ body {
   }
 }
 
-.search-form__placeholder {
-  height: 20px;
-  padding-right: 8px;
+// .search-form__placeholder {
+//   height: 20px;
+//   padding-right: 8px;
 
-  position: absolute;
-  top: 5px;
-  left: 48px;
+//   position: absolute;
+//   top: 5px;
+//   left: 48px;
 
-  pointer-events: none;
+//   pointer-events: none;
 
-  display: flex;
-  align-items: center;
+//   display: flex;
+//   align-items: center;
 
-  color: $placeholderColor;
-  background-color: transparent;
+//   color: $placeholderColor;
+//   background-color: transparent;
 
-  border-right: 1px solid $placeholderColor;
+//   border-right: 1px solid $placeholderColor;
 
-  transition: opacity $basicTransitionTimeFunc 500ms;
+//   transition: opacity $basicTransitionTimeFunc 500ms;
 
-  @media screen and (max-width: 767px) {
-    .search-form.closed & {
-      opacity: 0;
-    }
-  }
+//   @media screen and (max-width: 767px) {
+//     .search-form.closed & {
+//       opacity: 0;
+//     }
+//   }
 
-  .search-form__input:not(:placeholder-shown) ~ & {
-    display: none;
-  }
-}
+//   .search-form__input:not(:placeholder-shown) ~ & {
+//     display: none;
+//   }
+// }
 
 /*  ----------------------  Theme-toggler  -----------------------  */
 
