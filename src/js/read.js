@@ -43,7 +43,7 @@ function createReadMarkup() {
     for (const date of Object.keys(readObj)) {
       const box = document.querySelector(`[data-date="${date}"]`);
       const wrapList = document.getElementById(`${date}`);
-      const murkupForBox = createMurkupForBoxItem();
+      const murkupForBox = createMurkupForBoxItem(date);
 
       wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(''));
     }
@@ -64,7 +64,7 @@ function createDateBox(date) {
   return;
 }
 // Массив разметки.
-function createMurkupForBoxItem() {
+function createMurkupForBoxItem(date) {
   const readObj = loadReadStorage();
   const getKeyValue = readObj[date]; //массив из объектов
 
