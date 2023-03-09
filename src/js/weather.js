@@ -245,4 +245,4 @@ function createForecastMarkup(data) {
   return forecastMarkup;
 }
 
-export { insertWeather };
+export { insertWeather, renderWeatherCard };
