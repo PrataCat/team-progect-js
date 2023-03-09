@@ -24,6 +24,7 @@ new AirDatepicker('#date-picker', {
   // функція виконується при кліку по даті:
 
   onSelect: function onSelect({ date, formattedDate, datepicker }) {
+    let filteredPopularNewsMarkUp = '';
     box.innerHTML = '';
     paginatedEl.classList.add('visually-hidden');
     footerEl.classList.add('footer-margin');
