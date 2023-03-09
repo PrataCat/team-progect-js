@@ -10,11 +10,11 @@ import Pagination from 'tui-pagination';
 const box = document.querySelector('.box-news');
 const searchBtn = document.querySelector('.search-form__btn');
 const paginationContainer = document.getElementById('tui-pagination-container');
+const loader = document.querySelector('.socket');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
 window.addEventListener('resize', onResize);
-
 
 let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
 let arrCurrentNews = []; // массива всех новостей полученных от АПИ
@@ -64,7 +64,6 @@ pagination.on('beforeMove', event => {
   });
 });
 
-
 createNewsCollection(getMostPopularArticles);
 
 searchBtn.addEventListener('click', onSearchButtonClick);
@@ -109,6 +108,8 @@ export async function createNewsCollection(func, value) {
   renderBoxNewMarkup(cardMarkupArray);
   //рендер погоды
   renderWeatherCard();
+
+  loader.classList.add('is-hidden');
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить
@@ -160,7 +161,6 @@ export function sendCurrentArray() {
 }
 /////////////////////////
 
-
 async function onSearchButtonClick(event) {
   event.preventDefault();
 
@@ -207,8 +207,6 @@ async function onSearchButtonClick(event) {
   renderBoxNewMarkup(cardMarkupArray);
 
   renderWeatherCard();
-
-
 }
 
 function hideSearchInput() {

@@ -6,6 +6,7 @@ import { writeReadStorage } from './read-library';
 const box = document.querySelector('.box-news');
 const footerEl = document.querySelector('.footer');
 const headerEl = document.querySelector('.header');
+const loader = document.querySelector('.socket');
 
 let noResultsText = 'The favorite news list is empty';
 
@@ -13,8 +14,7 @@ box.addEventListener('click', onClick);
 
 function onClick(e) {
   const curTargetClass = e.target.classList.value;
-
-  if (curTargetClass === 'box-news__favorite-p') {
+  if (curTargetClass === 'box-news__favorite-p' || 'box-news__favorite-svg') {
     const favButton = e.target.closest('BUTTON');
     const favId = favButton.closest('li').dataset.id;
 
@@ -90,3 +90,4 @@ function createPopularNewsCollection(arr) {
 }
 
 createPopularNewsCollection(loadAllFavorites());
+loader.classList.add('is-hidden');

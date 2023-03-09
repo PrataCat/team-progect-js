@@ -13,6 +13,7 @@ let noResultsText = 'The read news list is empty';
 const footerEl = document.querySelector('.footer');
 const headerEl = document.querySelector('.header');
 const box = document.querySelector('.wrap-box ');
+const loader = document.querySelector('.socket');
 
 createReadMarkup();
 
@@ -50,6 +51,8 @@ function createReadMarkup() {
     }
   }
 }
+
+loader.classList.add('is-hidden');
 
 function createDateBox(date) {
   const wrapBox = document.querySelector('.wrap-box');
