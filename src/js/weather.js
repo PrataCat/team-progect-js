@@ -46,7 +46,7 @@ function createWeatherCardMarkup(arr) {
       <input type="text" id="search-box" placeholder="${arr.name}"/>
     </form>
   </div></div>
-  <img class="weather-icon" src=" http://openweathermap.org/img/wn/${
+  <img class="weather-icon" src=" https://openweathermap.org/img/wn/${
     arr.weather[0].icon
   }@2x.png" alt="${arr.title}">
   <p class= weather-day>${d1.toUTCString().slice(0, 3)}</p>
@@ -109,7 +109,7 @@ async function onSubmitSearchCity(e) {
 
 // Vika-------------------------------------------------------------------------------------------------------
 
-const URL_DEFAULT = `http://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=40&appid=ff3d132454e086af9e5461615c5adce7&units=metric`;
+const URL_DEFAULT = `https://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=40&appid=ff3d132454e086af9e5461615c5adce7&units=metric`;
 
 function onOpenForecast(evt) {
   const forecastDiv = evt.currentTarget;
