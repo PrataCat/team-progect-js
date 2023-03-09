@@ -37,7 +37,7 @@ async function fetchCategoryArticles(category, limit, offset) {
   }
 }
 
-async function getCategoryArticles(category, limit = 150, offset = 0) {
+async function getCategoryArticles(category, limit = 100, offset = 0) {
   try {
     const data = await fetchCategoryArticles(category, limit, offset);
 
