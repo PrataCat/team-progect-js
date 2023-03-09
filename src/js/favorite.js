@@ -18,7 +18,8 @@ function onFavoriteBtnClick(e) {
     excludeFavoriteNew(favId);
     box.innerHTML = '';
     createPopularNewsCollection(loadAllFavorites());
-  } return;
+  }
+  return;
 }
 
 function onReadMoreBtnClick(e) {
@@ -35,8 +36,6 @@ function onReadMoreBtnClick(e) {
     }
   }
 }
-
-
 
 // ф-ци возвращае ширину вью порта
 function checkWidth() {
@@ -81,8 +80,7 @@ function createPopularNewsCollection(arr) {
   let perPage = cardsPerPage(); // замеряем ширину вью порта
   const arrCurrentNews = loadAllFavorites();
   const arrForMarkup = displayItems(arrCurrentNews, 1, perPage); // массив для рендера на текущую страницу
-  if (arrForMarkup.length === 0) {
-  } else {
+  if (arrForMarkup.length !== 0) {
     const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
 
     box.innerHTML = cardMarkupArray.join('');
