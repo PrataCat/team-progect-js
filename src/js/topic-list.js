@@ -138,7 +138,6 @@ function onSectionSelection(e) {
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
     currentCategory = section.toLowerCase();
-    console.log(currentCategory);
     // resetOfCategoryBtnPadding();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
