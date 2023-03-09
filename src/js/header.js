@@ -102,8 +102,13 @@ function getMobileMenu() {
 function onMenuBtnClick(event) {
   event.currentTarget.classList.toggle('isOpen');
   getMobileMenu().classList.toggle('isOpen');
-  getSearchForm().classList.toggle('isHidden');
   document.body.classList.toggle('js-scrollBlock');
+  if (
+    !(getCurrentPagePath().includes('favorite-main.html') ||
+    getCurrentPagePath().includes('read-main.html'))
+  ) {
+    getSearchForm().classList.toggle('isHidden');
+  }
 }
 
 export function getSearchForm() {
