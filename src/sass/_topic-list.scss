@@ -47,9 +47,13 @@
     padding: 0px 14px;
     min-width: 112px;
   }
+
+  &:hover,
+  &:focus {
+    box-shadow: 5px 5px 8px 2px rgba(77, 126, 182, 0.3);
+  }
 }
 
-// // arrow filters
 .filter__main-category-btn-icon {
   display: inline-block;
   width: 14px;
@@ -140,8 +144,6 @@
     cursor: pointer;
   }
 }
-
-// Sveta add styles for calendar input
 
 .calendar__label {
   width: 151px;
