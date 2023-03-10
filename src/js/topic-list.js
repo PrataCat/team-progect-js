@@ -1,4 +1,3 @@
-// ------------Misa & Stas--------------
 import { createNewsCollection } from './news-list';
 import { getCategoryArticles } from './newsApiService';
 
@@ -126,10 +125,6 @@ function onShowOthersCategories(event) {
 
     window.addEventListener('click', onCloseOthersCategories);
   }
-  // let otherBtn = mainCategoryList.lastChild.firstChild;
-  // if (!event.target.classList.contains('others-btn')) {
-  //   otherBtn.textContent = 'Others';
-  // }
 }
 
 function onSectionSelection(e) {
@@ -183,7 +178,6 @@ function changeArrow() {
   const otherBtn = mainCategoryList.lastChild.firstChild;
   let otherBtnClass = otherBtn.classList.contains('active');
 
-  // const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
   const mainCategoryBtnIcon = document.querySelector(
     '.filter__main-category-btn-icon'
   );
