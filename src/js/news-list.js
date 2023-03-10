@@ -7,11 +7,13 @@ import { insertWeather } from './weather';
 import { getSearchForm } from './header';
 import { renderNoNews } from './calendar';
 import Pagination from 'tui-pagination';
+import { loadReadStorage } from './read-library';
 
 const box = document.querySelector('.box-news');
 const searchBtn = document.querySelector('.search-form__btn');
 const paginationContainer = document.getElementById('tui-pagination-container');
 const calendarInputEl = document.querySelector('#date-picker');
+const loader = document.querySelector('.loader-container');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
@@ -109,6 +111,9 @@ export async function createNewsCollection(func, value) {
   renderBoxNewMarkup(cardMarkupArray);
   //рендер погоды
   insertWeather();
+  setTimeout(() => {
+    loader.classList.add('is-hidden');
+  }, 700);
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить
