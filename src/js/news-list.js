@@ -178,22 +178,18 @@ async function onSearchButtonClick(event) {
 
   let calendarInputValue = calendarInputEl.value.trim();
 
-  if (calendarInputValue.length !== 0)
-    try {
-      searchData = await getSearchArticles(searchForm[0].value);
+  try {
+    searchData = await getSearchArticles(searchForm[0].value);
 
+    if (calendarInputValue.length !== 0) {
       arrCurrentNews = searchData.filter(
         item => item.published_date === calendarInputValue
       );
-    } catch (error) {
-      arrCurrentNews = [];
+    } else {
+      arrCurrentNews = searchData;
     }
-  else {
-    try {
-      arrCurrentNews = await getSearchArticles(searchForm[0].value);
-    } catch (error) {
-      arrCurrentNews = [];
-    }
+  } catch (error) {
+    arrCurrentNews = [];
   }
 
   if (arrCurrentNews.length === 0) {
