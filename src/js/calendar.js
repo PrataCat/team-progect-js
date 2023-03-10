@@ -4,7 +4,6 @@ import { sendCurrentArray } from './news-list';
 import { creatCardMarkup } from './creatCardMarkup';
 import { renderWeatherCard } from './weather';
 
-//Підключення і налаштування календаря з бібліотеки:
 import AirDatepicker from 'air-datepicker';
 import localeEn from 'air-datepicker/locale/en';
 import 'air-datepicker/air-datepicker.css';
@@ -21,8 +20,6 @@ new AirDatepicker('#date-picker', {
   position: 'bottom right',
   maxDate: Date.now(),
 
-  // функція виконується при кліку по даті:
-
   onSelect: function onSelect({ date, formattedDate, datepicker }) {
     let filteredPopularNewsMarkUp = '';
     box.innerHTML = '';
@@ -32,7 +29,7 @@ new AirDatepicker('#date-picker', {
     let filteredPopularNews = filterPopularNewsByDate(formattedDate);
 
     if (filteredPopularNews.length === 0) {
-      renderNoNews(noResultsText);
+      renderNoNews("We haven't found news for the selected date");
     } else {
       filteredPopularNewsMarkUp =
         appendWeatherBoxes(filteredPopularNews).join('');
@@ -43,22 +40,27 @@ new AirDatepicker('#date-picker', {
   },
 });
 
-// функція повертає масив обєктів відфільтрованих по вибраній даті:
+/**
+ * @param {string | string[]} formattedDate
+ */
 
 function filterPopularNewsByDate(formattedDate) {
   const popularNewsData = sendCurrentArray();
-  const filteredPopularNewsData = popularNewsData.filter(popularNews => {
-    return popularNews.published_date === formattedDate;
-  });
+  const filteredPopularNewsData = popularNewsData.filter(
+    popularNews => popularNews.published_date === formattedDate
+  );
 
   return filteredPopularNewsData;
 }
 
-function appendWeatherBoxes(arrForMarkup) {
-  let currentDisplayWidth = window.innerWidth; //текущая ширина вью порта
+/**
+ * @param {any[]} arrForMarkup
+ */
 
-  // готовим массив разметки для рендера текущих товостей
+function appendWeatherBoxes(arrForMarkup) {
+  let currentDisplayWidth = window.innerWidth;
   const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el));
+
   if (currentDisplayWidth > 1280) {
     cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
   } else if (currentDisplayWidth > 768) {
@@ -70,9 +72,9 @@ function appendWeatherBoxes(arrForMarkup) {
   return cardMarkupArray;
 }
 
-// функція малює розмітку, якщо новини по вибраній даті не знайдені:
-
-const noResultsText = 'We haven’t found news for the selected date';
+/**
+ * @param {string} noResultsText
+ */
 
 function renderNoNews(noResultsText) {
   const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
