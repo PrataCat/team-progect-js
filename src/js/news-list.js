@@ -11,6 +11,7 @@ import Pagination from 'tui-pagination';
 const box = document.querySelector('.box-news');
 const searchBtn = document.querySelector('.search-form__btn');
 const paginationContainer = document.getElementById('tui-pagination-container');
+const calendarInputEl = document.querySelector('#date-picker');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
@@ -175,10 +176,24 @@ async function onSearchButtonClick(event) {
     return;
   }
 
-  try {
-    arrCurrentNews = await getSearchArticles(searchForm[0].value);
-  } catch(error) {
-    arrCurrentNews = [];
+  let calendarInputValue = calendarInputEl.value.trim();
+
+  if (calendarInputValue.length !== 0)
+    try {
+      searchData = await getSearchArticles(searchForm[0].value);
+
+      arrCurrentNews = searchData.filter(
+        item => item.published_date === calendarInputValue
+      );
+    } catch (error) {
+      arrCurrentNews = [];
+    }
+  else {
+    try {
+      arrCurrentNews = await getSearchArticles(searchForm[0].value);
+    } catch (error) {
+      arrCurrentNews = [];
+    }
   }
 
   if (arrCurrentNews.length === 0) {
