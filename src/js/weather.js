@@ -33,7 +33,7 @@ async function fetchWeatherCity(q) {
 
 // ============== CARD
 
-function createWeatherCardMarcup(arr) {
+function createWeatherCardMarkup(arr) {
   const d1 = new Date();
   return `<div class="weather__wrap">
   <p class="weather-temp">${Math.floor(arr.main.temp)}&deg</p>
@@ -46,12 +46,12 @@ function createWeatherCardMarcup(arr) {
       <input type="text" id="search-box" placeholder="${arr.name}"/>
     </form>
   </div></div>
-  <img class="weather-icon" src=" http://openweathermap.org/img/wn/${
+  <img class="weather-icon" src=" https://openweathermap.org/img/wn/${
     arr.weather[0].icon
   }@2x.png" alt="${arr.title}">
   <p class= weather-day>${d1.toUTCString().slice(0, 3)}</p>
   <p class= weather-data>${d1.toUTCString().slice(5, 17)}</p>
-  <button  type="submit" class="forecast__btn">weather for 5 days</button>
+  <button type="button" class="forecast__btn">weather for 5 days</button>
   <div class="forecast">
     <button type="button" class="forecast-close__btn">
       <svg class="close__icon" width="22" height="22">
@@ -68,27 +68,27 @@ function createWeatherCardMarcup(arr) {
 async function renderWeatherCard() {
   const weatherBox = document.querySelector('.box-weather__item');
   const defaultCity = await fetchWeatherCity('Kyiv');
-  weatherBox.innerHTML = createWeatherCardMarcup(defaultCity);
+  weatherBox.innerHTML = createWeatherCardMarkup(defaultCity);
 
   navigator.geolocation.getCurrentPosition(async position => {
     const data = await fetchWeather(
       position.coords.latitude,
       position.coords.longitude
     );
-    const geoMarkup = createWeatherCardMarcup(data);
+    const geoMarkup = createWeatherCardMarkup(data);
     weatherBox.innerHTML = geoMarkup;
+    const openForecastBtn = document.querySelector('.forecast__btn');
+    openForecastBtn.addEventListener('click', onOpenForecast);
   });
+}
 
+async function insertWeather() {
+  const fetchWeather = await renderWeatherCard();
   const inputEl = document.querySelector('.box-weather__item');
   inputEl.addEventListener('input', debounce(onSubmitSearchCity, 1000));
 
-  const getForecastBtn = document.querySelector('.box-weather__item');
-  getForecastBtn.addEventListener('click', onOpenForecast);
-
-  const closeForecastBtn = document.querySelector('.forecast-close__btn');
-  if (closeForecastBtn) {
-    closeForecastBtn.addEventListener('click', onCloseForecast);
-  }
+  const openForecastBtn = document.querySelector('.forecast__btn');
+  openForecastBtn.addEventListener('click', onOpenForecast);
 }
 
 async function onSubmitSearchCity(e) {
@@ -102,36 +102,25 @@ async function onSubmitSearchCity(e) {
     return;
   }
 
-  const locationMarkup = createWeatherCardMarcup(weatherCity);
+  const locationMarkup = createWeatherCardMarkup(weatherCity);
   const weatherBox = document.querySelector('.box-weather__item');
   weatherBox.innerHTML = locationMarkup;
 }
 
-export {
-  renderWeatherCard,
-  onSubmitSearchCity,
-  createcurrentWeatherMarkup,
-  createForecastMarkup,
-  onOpenForecast,
-  onCloseForecast,
-};
-
 // Vika-------------------------------------------------------------------------------------------------------
 
-const URL_DEFAULT = `http://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=40&appid=ff3d132454e086af9e5461615c5adce7&units=metric`;
+const URL_DEFAULT = `https://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=40&appid=ff3d132454e086af9e5461615c5adce7&units=metric`;
 
 function onOpenForecast(evt) {
-  const forecastDiv = evt.target.nextElementSibling;
-
+  const forecastDiv = evt.currentTarget;
+  const forecastIsOpen = forecastDiv.querySelector('.forecast');
   evt.target.nextElementSibling.classList.add('is-open');
-  const currentWeather = forecastDiv.querySelector('.current-weather');
-  const forecastList = forecastDiv.querySelector('.forecast__list');
+  const currentWeather = document.querySelector('.current-weather');
+  const forecastList = document.querySelector('.forecast__list');
   const firstStepGetCloseBtn = evt.target.nextElementSibling;
-  const closeForecastBtn = firstStepGetCloseBtn.querySelector(
-    '.forecast-close__btn'
-  );
+  const closeForecastBtn = document.querySelector('.forecast-close__btn');
 
-  firstStepGetCloseBtn.addEventListener('click', onCloseForecast);
+  closeForecastBtn.addEventListener('click', onCloseForecast);
   fetchWeatherCity('Kyiv').then(data => {
     createcurrentWeatherMarkup(data);
     currentWeather.innerHTML = createcurrentWeatherMarkup(data);
@@ -163,13 +152,13 @@ function onOpenForecast(evt) {
 }
 
 function onCloseForecast(evt) {
-  const forecastClose = evt.target;
-  const forecastCloseBtn = forecastClose.parentNode;
-  const forecastCloseDiv = forecastCloseBtn.parentNode;
+  const forecastClose = evt.currentTarget;
+
+  const forecastCloseDiv = forecastClose.parentNode;
 
   forecastCloseDiv.classList.remove('is-open');
 
-  const forecastCloseNextElementSibling = forecastCloseBtn.nextElementSibling;
+  const forecastCloseNextElementSibling = forecastClose.nextElementSibling;
 
   const forecasWrapperFirstChild =
     forecastCloseNextElementSibling.firstElementChild;
@@ -178,6 +167,8 @@ function onCloseForecast(evt) {
   const forecasWrapperLastChild =
     forecastCloseNextElementSibling.lastElementChild;
   forecasWrapperLastChild.innerHTML = '';
+
+  forecastClose.removeEventListener('click', onCloseForecast);
 }
 
 async function fetchForecast(URL) {
@@ -218,7 +209,7 @@ function createcurrentWeatherMarkup(data) {
       <p class="current-weather__humidity">
         Humidity: ${Math.round(data.main.humidity)} %
         <span>Wind: ${data.wind.speed} m/s</span>
-        <span>Visibility: ${Math.round(data.visibility / 1000)} km
+        <span>Visibility: ${Math.round(data.visibility / 1000)} km</span>
       </p>`;
   return currentWeatherMarkup;
 }
@@ -246,10 +237,12 @@ function createForecastMarkup(data) {
           </svg> ${Math.round(item.pop * 100)} %
         </p>
         <p class="forecast__temp">${Math.round(item.main.temp)}&deg C</p>
-        
+
       </li>`;
       }
     })
     .join('');
   return forecastMarkup;
 }
+
+export { insertWeather, renderWeatherCard };

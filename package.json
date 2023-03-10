@@ -1,15 +1,15 @@
 {
-  "name": "team-progect-js",
+  "name": "team-project-js",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://PrataCat.github.io/team-progect-js",
+  "homepage": "https://PrataCat.github.io/team-project-js",
   "scripts": {
     "start": "parcel src/*.html --open",
-    "build": "parcel build src/*.html --public-url /team-progect-js/"
+    "build": "parcel build src/*.html --public-url /team-project-js/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PrataCat/team-progect-js.git"
+    "url": "git+https://github.com/PrataCat/team-project-js.git"
   },
   "keywords": [],
   "author": "Alexander Repeta <alexander.repeta@gmail.com>",

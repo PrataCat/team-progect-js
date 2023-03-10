@@ -3,14 +3,16 @@ import { getMostPopularArticles, getSearchArticles } from './newsApiService';
 import { creatCardMarkup } from './creatCardMarkup';
 import { onButtonFavorite } from './favorite-btn-action';
 import { onClickReadMore } from './readmore-action';
-import { renderWeatherCard } from './weather';
+import { insertWeather } from './weather';
 import { getSearchForm } from './header';
+import { renderNoNews } from './calendar';
 import Pagination from 'tui-pagination';
 
 const box = document.querySelector('.box-news');
 const searchBtn = document.querySelector('.search-form__btn');
 const paginationContainer = document.getElementById('tui-pagination-container');
 const loader = document.querySelector('.socket');
+const calendarInputEl = document.querySelector('#date-picker');
 
 box.addEventListener('click', onButtonFavorite);
 box.addEventListener('click', onClickReadMore);
@@ -107,9 +109,11 @@ export async function createNewsCollection(func, value) {
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
   //рендер погоды
-  renderWeatherCard();
+
+  insertWeather();
 
   loader.classList.add('is-hidden');
+
 }
 
 // замеряем ширину вью порта и определяем сколько рендрерить
@@ -177,7 +181,26 @@ async function onSearchButtonClick(event) {
     return;
   }
 
-  arrCurrentNews = await getSearchArticles(searchForm[0].value);
+  let calendarInputValue = calendarInputEl.value.trim();
+
+  try {
+    searchData = await getSearchArticles(searchForm[0].value);
+
+    if (calendarInputValue.length !== 0) {
+      arrCurrentNews = searchData.filter(
+        item => item.published_date === calendarInputValue
+      );
+    } else {
+      arrCurrentNews = searchData;
+    }
+  } catch (error) {
+    arrCurrentNews = [];
+  }
+
+  if (arrCurrentNews.length === 0) {
+    renderNoNews('Ooops.. We haven’t found news for your request.');
+    return;
+  }
 
   const searchArticlesCardsMarkup = arrCurrentNews.map(item =>
     creatCardMarkup(item)
@@ -206,7 +229,7 @@ async function onSearchButtonClick(event) {
 
   renderBoxNewMarkup(cardMarkupArray);
 
-  renderWeatherCard();
+  insertWeather();
 }
 
 function hideSearchInput() {

@@ -27,8 +27,10 @@ mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
 window.addEventListener('resize', debounce(onReRender, 50));
 
-// mainCategoryList.addEventListener('click', changeArrow);
-// window.addEventListener('click', changeArrow);
+// othersCategoryList.addEventListener('click', changeArrow);
+mainCategoryList.addEventListener('click', changeArrow);
+window.addEventListener('click', changeArrow);
+//-----------------------------
 
 function onFetch() {
   onFetchCategories()
@@ -82,28 +84,28 @@ function createMarkupForCategories(
       markupForMainCategoryList += `<li class="filter__main-category-item"><button class="filter__main-category-btn">${display_name}  </button></li>`;
       return;
     }
-    markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}</button></li>`;
+    markupForOthersCategoryList += `<li class="filter__others-category-item"><button class="filter__others-category-btn">${display_name}<span class="filter__main-category-btn-icon" width="14" height="14"></span></button></li>`;
   });
   mainCategoryList.innerHTML = markupForMainCategoryList;
   mainCategoryList.insertAdjacentHTML(
     'beforeend',
-    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<svg class="filter__main-category-btn-icon"> <use href="../images/symbol-defs-mini.svg#icon-orig-mini-n-z"> </use> </svg>
+    `<li class="filter__other-category-item"><button class="filter__main-category-btn others-btn">${nameForOthersBtn}<span class="filter__main-category-btn-icon" width="14" height="14"></span>
 </button></li>`
   );
 
   othersCategoryList.innerHTML = markupForOthersCategoryList;
 
-  // changeArrow();
+  changeArrow();
 }
 
 function onChooseCategory(event) {
   toMarkCategoryBtn(event);
-  const nameOfCategory = event.target.outerText;
-  if (!(nameOfCategory === 'Others') && !(nameOfCategory === 'Categories')) {
+  const othersBtn = document.querySelector('.others-btn');
+  if (!(event.target === othersBtn)) {
+    const nameOfCategory = event.target.outerText;
     currentCategory = nameOfCategory.toLowerCase();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
-  // console.log(currentCategory);
 }
 
 function toMarkCategoryBtn(event) {
@@ -137,9 +139,9 @@ function onSectionSelection(e) {
     const otherBtn = othersLi.firstChild;
     otherBtn.textContent = section;
     currentCategory = section.toLowerCase();
+    resetOfCategoryBtnPadding();
     createNewsCollection(getCategoryArticles, currentCategory);
   }
-  // console.log(currentCategory);
 }
 
 function onCloseOthersCategories(event) {
@@ -151,7 +153,7 @@ function onCloseOthersCategories(event) {
     othersCategoryList.classList.remove('visible');
     othersCategoryLisWrap.classList.remove('visible');
 
-    // changeArrow();
+    changeArrow();
 
     window.removeEventListener('click', onCloseOthersCategories);
   }
@@ -174,25 +176,43 @@ function onReRender() {
   }
 }
 
-//================== arrow filters ============
+function changeArrow() {
+  let othersCategoryLisWrapClass =
+    othersCategoryLisWrap.classList.contains('visible');
 
-// function changeArrow() {
-//   let othersCategoryLisWrapClass =
-//     othersCategoryLisWrap.classList.contains('visible');
+  const otherBtn = mainCategoryList.lastChild.firstChild;
+  let otherBtnClass = otherBtn.classList.contains('active');
 
-//   const otherBtn = mainCategoryList.lastChild.firstChild;
-//   let otherBtnClass = otherBtn.classList.contains('active');
+  //-------------------
+  // const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+  // console.log(mainCategoryBtnIcon);
 
-//   const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
+  const mainCategoryBtnIcon = document.querySelector(
+    '.filter__main-category-btn-icon'
+  );
+  //-------------------
 
-//   if (!othersCategoryLisWrapClass && !otherBtnClass) {
-//     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
-//     mainCategoryBtnIcon.classList.add('blue-down');
-//   } else if (othersCategoryLisWrapClass && otherBtnClass) {
-//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
-//     mainCategoryBtnIcon.classList.add('white-up');
-//   } else if (otherBtnClass && !othersCategoryLisWrapClass) {
-//     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
-//     mainCategoryBtnIcon.classList.add('white-down');
-//   }
-// }
+  if (!othersCategoryLisWrapClass && !otherBtnClass) {
+    mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
+    mainCategoryBtnIcon.classList.add('blue-down');
+  } else if (othersCategoryLisWrapClass && otherBtnClass) {
+    mainCategoryBtnIcon.classList.remove('blue-down', 'white-down');
+    mainCategoryBtnIcon.classList.add('white-up');
+  } else if (otherBtnClass && !othersCategoryLisWrapClass) {
+    mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
+    mainCategoryBtnIcon.classList.add('white-down');
+  }
+
+  // console.log(otherBtnClass);
+  // if (!otherBtnClass) {
+  //   // createMarkupForCategories();
+  // }
+}
+
+function resetOfCategoryBtnPadding() {
+  const categoryBtn = document.querySelector('.others-btn');
+
+  if (currentCategory.length > 17 && windowInnerWidth < 768) {
+    categoryBtn.style.padding = '7px';
+  }
+}

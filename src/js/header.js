@@ -33,19 +33,21 @@ function onResizeFunction() {
 function createSearchMarkup() {
   return `
     <form class="search-form closed" id="search-form">
-      <input type="text" class="search-form__input" placeholder=".">
+      <input type="text" class="search-form__input" placeholder="Search  |">
       <button type="submit" class="search-form__btn">
         <svg class="search-form__icon" width="20px" height="20px">
           <use href="${sprite}#icon-search"></use>
         </svg>
       </button>
-      <span class="search-form__placeholder">Search</span>
     </form>
   `;
 }
 
 function renderSearch() {
-  if (getCurrentPagePath() !== '/index.html') {
+  if (
+    getCurrentPagePath().includes('favorite-main.html') ||
+    getCurrentPagePath().includes('read-main.html')
+  ) {
     return;
   }
   const headerContainer = document.querySelector('.header .container');
@@ -87,11 +89,9 @@ export function getCurrentPagePath() {
 }
 
 function setCurrentPageUnderline() {
-  console.log(document.location.pathname);
   const currentPageNavLink = document.querySelector(
     `.nav__link[href*="${document.location.pathname}"]`
   );
-  console.log(currentPageNavLink);
   currentPageNavLink.classList.add('nav__link--current');
 }
 
@@ -102,8 +102,13 @@ function getMobileMenu() {
 function onMenuBtnClick(event) {
   event.currentTarget.classList.toggle('isOpen');
   getMobileMenu().classList.toggle('isOpen');
-  getSearchForm().classList.toggle('isHidden');
   document.body.classList.toggle('js-scrollBlock');
+  if (
+    !(getCurrentPagePath().includes('favorite-main.html') ||
+    getCurrentPagePath().includes('read-main.html'))
+  ) {
+    getSearchForm().classList.toggle('isHidden');
+  }
 }
 
 export function getSearchForm() {

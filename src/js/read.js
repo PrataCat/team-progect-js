@@ -24,12 +24,9 @@ function createReadMarkup() {
 
   // Проверка, если пустой объект, то заглушка.
   if (emptyreadObj) {
-    console.log('Пустой объект');
-    footerEl.classList.add('footer-margin');
-    headerEl.classList.add('header-margin');
     renderNoNews(noResultsText);
   } else {
-    for (date of keys) {
+    for (const date of keys) {
       // console.log(readObj[date]); // массивы объектов по датам
       // Удаление пустого массива из Л.С.
       if (readObj[date].length === 0) {
@@ -42,10 +39,10 @@ function createReadMarkup() {
       createDateBox(date);
     }
 
-    for (date of Object.keys(readObj)) {
+    for (const date of Object.keys(readObj)) {
       const box = document.querySelector(`[data-date="${date}"]`);
       const wrapList = document.getElementById(`${date}`);
-      const murkupForBox = createMurkupForBoxItem();
+      const murkupForBox = createMurkupForBoxItem(date);
 
       wrapList.insertAdjacentHTML('beforeend', murkupForBox.join(''));
     }
@@ -68,7 +65,7 @@ function createDateBox(date) {
   return;
 }
 // Массив разметки.
-function createMurkupForBoxItem() {
+function createMurkupForBoxItem(date) {
   const readObj = loadReadStorage();
   const getKeyValue = readObj[date]; //массив из объектов
 
@@ -121,7 +118,6 @@ function onButtonFavorite(e) {
     const favP = favButton.querySelector('.box-news__favorite-p');
     // svg
     const favSvg = favButton.querySelector('.box-news__favorite-svg');
-    console.log(favP);
 
     if (favButton.classList.contains('favorite')) {
       offColorBtn(favButton, favId, favP, favSvg);
@@ -138,9 +134,7 @@ function offColorBtn(favButton, favId, favP, favSvg) {
     if (el.id === favId) {
       const resultDel = excludeFavoriteNew(el.id);
 
-      // const resultDel = true;
       if (resultDel) {
-        console.log('Удалил');
         favButton.classList.remove('favorite');
         favP.classList.remove('favorite-p');
         favSvg.classList.remove('favorite-svg');
@@ -156,9 +150,7 @@ function onColorBtn(favButton, favId, favP, favSvg) {
     if (el.id === favId) {
       const resultAdd = includeFavoriteNew(el);
 
-      // const resultAdd = true;
       if (resultAdd) {
-        console.log('Добавил');
         favButton.classList.add('favorite');
         favP.classList.add('favorite-p');
         favSvg.classList.add('favorite-svg');
@@ -179,6 +171,6 @@ function getArray() {
 
 // Функция для вызова заглушки
 function renderNoNews(noResultsText) {
-  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
 }

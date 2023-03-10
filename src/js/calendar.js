@@ -24,6 +24,7 @@ new AirDatepicker('#date-picker', {
   // функція виконується при кліку по даті:
 
   onSelect: function onSelect({ date, formattedDate, datepicker }) {
+    let filteredPopularNewsMarkUp = '';
     box.innerHTML = '';
     paginatedEl.classList.add('visually-hidden');
     footerEl.classList.add('footer-margin');
@@ -74,7 +75,7 @@ function appendWeatherBoxes(arrForMarkup) {
 const noResultsText = 'We haven’t found news for the selected date';
 
 function renderNoNews(noResultsText) {
-  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
 }
 

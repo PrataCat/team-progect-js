@@ -10,19 +10,20 @@ const loader = document.querySelector('.socket');
 
 let noResultsText = 'The favorite news list is empty';
 
-box.addEventListener('click', onClick);
+box.addEventListener('click', onFavoriteBtnClick);
+box.addEventListener('click', onReadMoreBtnClick);
 
-function onClick(e) {
-  const curTargetClass = e.target.classList.value;
-  if (curTargetClass === 'box-news__favorite-p' || 'box-news__favorite-svg') {
-    const favButton = e.target.closest('BUTTON');
-    const favId = favButton.closest('li').dataset.id;
-
+function onFavoriteBtnClick(e) {
+  if (e.target.closest('.box-news__favorite-btn')) {
+    const favId = e.target.closest('li').dataset.id;
     excludeFavoriteNew(favId);
     box.innerHTML = '';
     createPopularNewsCollection(loadAllFavorites());
   }
-  //-----to Read
+  return;
+}
+
+function onReadMoreBtnClick(e) {
   if (e.target.tagName === 'A') {
     let currentId = e.target.closest('li').dataset.id;
     let currentLi = e.target.closest('li');
@@ -63,11 +64,13 @@ function displayItems(arr, page, perPage) {
 }
 
 function renderNoNews(noResultsText) {
-  const noNewsMarkUp = `<div class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></div>`;
+  const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
 }
 
 function createPopularNewsCollection(arr) {
+  renderNoNews('The favorite news list is empty');
+
   if (typeof arr !== 'object') {
     return;
   }
@@ -75,17 +78,13 @@ function createPopularNewsCollection(arr) {
     return;
   }
 
-  perPage = cardsPerPage(); // замеряем ширину вью порта
+  let perPage = cardsPerPage(); // замеряем ширину вью порта
   const arrCurrentNews = loadAllFavorites();
-  const arrForMarkup = displayItems(arrCurrentNews, (page = 1), perPage); // массив для рендера на текущую страницу
-  if (arrForMarkup.length === 0) {
-    footerEl.classList.add('footer-margin');
-    headerEl.classList.add('header-margin');
-    renderNoNews(noResultsText);
-  } else {
+  const arrForMarkup = displayItems(arrCurrentNews, 1, perPage); // массив для рендера на текущую страницу
+  if (arrForMarkup.length !== 0) {
     const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
 
-    box.insertAdjacentHTML('beforeend', cardMarkupArray.join(''));
+    box.innerHTML = cardMarkupArray.join('');
   }
 }
 
