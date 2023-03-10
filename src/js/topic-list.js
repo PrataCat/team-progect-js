@@ -20,17 +20,12 @@ const othersCategoryLisWrap = document.querySelector(
 
 onFetch();
 
-// createNewsCollection(getCategoryArticles, 'books');
-
 mainCategoryList.addEventListener('click', onChooseCategory);
 mainCategoryList.addEventListener('click', onShowOthersCategories);
 othersCategoryList.addEventListener('click', onSectionSelection);
 window.addEventListener('resize', debounce(onReRender, 50));
-
-// othersCategoryList.addEventListener('click', changeArrow);
 mainCategoryList.addEventListener('click', changeArrow);
 window.addEventListener('click', changeArrow);
-//-----------------------------
 
 function onFetch() {
   onFetchCategories()
@@ -57,6 +52,7 @@ function createCategories(categoriesArray, windowInnerWidth) {
   let nameForOthersBtn = '';
   if (windowInnerWidth >= 1280) {
     amountOfMainCategories = 6;
+    console.log(amountOfMainCategories);
     nameForOthersBtn = 'Others';
   } else if (windowInnerWidth > 767 && windowInnerWidth < 1280) {
     amountOfMainCategories = 4;
@@ -130,6 +126,10 @@ function onShowOthersCategories(event) {
 
     window.addEventListener('click', onCloseOthersCategories);
   }
+  // let otherBtn = mainCategoryList.lastChild.firstChild;
+  // if (!event.target.classList.contains('others-btn')) {
+  //   otherBtn.textContent = 'Others';
+  // }
 }
 
 function onSectionSelection(e) {
@@ -183,14 +183,10 @@ function changeArrow() {
   const otherBtn = mainCategoryList.lastChild.firstChild;
   let otherBtnClass = otherBtn.classList.contains('active');
 
-  //-------------------
   // const mainCategoryBtnIcon = mainCategoryList.lastChild.firstChild.children[0];
-  // console.log(mainCategoryBtnIcon);
-
   const mainCategoryBtnIcon = document.querySelector(
     '.filter__main-category-btn-icon'
   );
-  //-------------------
 
   if (!othersCategoryLisWrapClass && !otherBtnClass) {
     mainCategoryBtnIcon.classList.remove('white-up', 'white-down');
@@ -202,11 +198,6 @@ function changeArrow() {
     mainCategoryBtnIcon.classList.remove('blue-down', 'white-up');
     mainCategoryBtnIcon.classList.add('white-down');
   }
-
-  // console.log(otherBtnClass);
-  // if (!otherBtnClass) {
-  //   // createMarkupForCategories();
-  // }
 }
 
 function resetOfCategoryBtnPadding() {
