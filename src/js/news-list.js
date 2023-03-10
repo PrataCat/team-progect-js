@@ -179,7 +179,7 @@ async function onSearchButtonClick(event) {
   let calendarInputValue = calendarInputEl.value.trim();
 
   try {
-    searchData = await getSearchArticles(searchForm[0].value);
+    let searchData = await getSearchArticles(searchForm[0].value);
 
     if (calendarInputValue.length !== 0) {
       arrCurrentNews = searchData.filter(
