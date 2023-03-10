@@ -6,6 +6,7 @@ import { writeReadStorage } from './read-library';
 const box = document.querySelector('.box-news');
 const footerEl = document.querySelector('.footer');
 const headerEl = document.querySelector('.header');
+const loader = document.querySelector('.loader-container');
 
 let noResultsText = 'The favorite news list is empty';
 
@@ -65,6 +66,9 @@ function displayItems(arr, page, perPage) {
 function renderNoNews(noResultsText) {
   const noNewsMarkUp = `<li class="no-results-wrap"><p class="no-results-text">${noResultsText}</p><span class="no-results-bgr"></span></li>`;
   box.innerHTML = noNewsMarkUp;
+  setTimeout(() => {
+    loader.classList.add('is-hidden');
+  }, 1000);
 }
 
 function createPopularNewsCollection(arr) {
