@@ -7,7 +7,6 @@ import {
 
 import { creatCardMarkup } from './creatCardMarkup';
 import { includeFavoriteNew, excludeFavoriteNew } from './library';
-// import { onButtonFavorite } from './favorite-btn-action';
 
 let noResultsText = 'The read news list is empty';
 const footerEl = document.querySelector('.footer');
@@ -27,7 +26,7 @@ function createReadMarkup() {
     renderNoNews(noResultsText);
   } else {
     for (const date of keys) {
-      // console.log(readObj[date]); // массивы объектов по датам
+      // массивы объектов по датам readObj[date]
       // Удаление пустого массива из Л.С.
       if (readObj[date].length === 0) {
         delete readObj[date];
@@ -72,7 +71,7 @@ function createMurkupForBoxItem(date) {
 
   const createMurkup = getKeyValue.map(el => {
     const { abstract, title, url, published_date, image_url, section, id } = el;
-    // const foto = media[0] ? media[0]['media-metadata'][2].url : '';
+
     const data = published_date.split('-').reverse().join('/');
 
     return creatCardMarkup(el);
@@ -80,8 +79,6 @@ function createMurkupForBoxItem(date) {
 
   return createMurkup;
 }
-
-// console.log(createMurkupForBoxItem());
 
 const dateSpans = document.querySelectorAll('.date-span');
 dateSpans.forEach(dateSpan => {
@@ -93,16 +90,9 @@ dateSpans.forEach(dateSpan => {
     const arrow = dateSpan.querySelector('.arrow');
     arrow.classList.toggle('arrow-bot');
     list.classList.toggle('open');
-    // Змінити стиль елемента <ul>, щоб його приховати або показати(без анімації)
-    // if (list.classList.contains('active')) {
-    //   list.classList.remove('active');
-    // } else {
-    //   list.classList.add('active');
-    // }
   });
 });
 
-// console.log(box);
 box.addEventListener('click', onButtonFavorite);
 
 // ----------------------------------------------------------

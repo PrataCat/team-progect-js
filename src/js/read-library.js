@@ -34,7 +34,3 @@ export function removeFromReadStorage(obj) {
 export function getCurrentDate() {
   return new Date().toLocaleString().slice(0, 10).split('.').join('/');
 }
-
-// Прописать вместо ф-ций loadReadStorage, writeReadStorage функции Леши,
-//  которые работают с БД вместо localStorage.
-// Делаем инастал библиотеки npm install firebase
