@@ -47,6 +47,11 @@
     padding: 0px 14px;
     min-width: 112px;
   }
+
+  &:hover,
+  &:focus {
+    box-shadow: 5px 5px 8px 2px rgba(77, 126, 182, 0.3);
+  }
 }
 
 .filter__main-category-btn-icon {
