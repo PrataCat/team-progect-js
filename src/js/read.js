@@ -49,7 +49,7 @@ function createReadMarkup() {
 }
 setTimeout(() => {
   loader.classList.add('is-hidden');
-}, 1000);
+}, 500);
 
 function createDateBox(date) {
   const wrapBox = document.querySelector('.wrap-box');

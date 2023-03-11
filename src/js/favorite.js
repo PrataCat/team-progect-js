@@ -2,13 +2,10 @@
 import { excludeFavoriteNew, loadAllFavorites } from './library.js';
 import { creatCardMarkup } from './creatCardMarkup';
 import { writeReadStorage } from './read-library';
+import { displayItems } from './utils/arrayCarsToRander';
 
 const box = document.querySelector('.box-news');
-const footerEl = document.querySelector('.footer');
-const headerEl = document.querySelector('.header');
 const loader = document.querySelector('.loader-container');
-
-let noResultsText = 'The favorite news list is empty';
 
 box.addEventListener('click', onFavoriteBtnClick);
 box.addEventListener('click', onReadMoreBtnClick);
@@ -38,29 +35,14 @@ function onReadMoreBtnClick(e) {
   }
 }
 
-// ф-ци возвращае ширину вью порта
-function checkWidth() {
-  return document.documentElement.clientWidth;
-}
-
-function cardsPerPage() {
-  const width = checkWidth();
-
-  if (width > 1280) {
+function quantityPerPage() {
+  if (window.innerWidth > 1280) {
     return 8;
-  } else if (width > 768) {
+  } else if (window.innerWidth > 768) {
     return 7;
   } else {
     return 4;
   }
-}
-
-// ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
-function displayItems(arr, page, perPage) {
-  const start = (page - 1) * perPage;
-  const end = start + perPage;
-  const paginatedEl = arr.slice(start, end);
-  return paginatedEl;
 }
 
 function renderNoNews(noResultsText) {
@@ -68,7 +50,7 @@ function renderNoNews(noResultsText) {
   box.innerHTML = noNewsMarkUp;
   setTimeout(() => {
     loader.classList.add('is-hidden');
-  }, 1000);
+  }, 500);
 }
 
 function createPopularNewsCollection(arr) {
@@ -81,7 +63,7 @@ function createPopularNewsCollection(arr) {
     return;
   }
 
-  let perPage = cardsPerPage(); // замеряем ширину вью порта
+  let perPage = quantityPerPage(); 
   const arrCurrentNews = loadAllFavorites();
   const arrForMarkup = displayItems(arrCurrentNews, 1, perPage); // массив для рендера на текущую страницу
   if (arrForMarkup.length !== 0) {
