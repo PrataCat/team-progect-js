@@ -7,7 +7,6 @@ import { insertWeather } from './weather';
 import { getSearchForm } from './header';
 import { renderNoNews } from './calendar';
 import Pagination from 'tui-pagination';
-import { loadReadStorage } from './read-library';
 
 const box = document.querySelector('.box-news');
 const searchBtn = document.querySelector('.search-form__btn');
@@ -22,12 +21,10 @@ window.addEventListener('resize', onResize);
 let currentDispleyWidth = window.innerWidth; //текущая ширина вью порта
 let arrCurrentNews = []; // массива всех новостей полученных от АПИ
 let searchArticles = []; // массив новостей полученых по поиску
-let arrForMarkup = []; // массив для рендера на страницу
+let arrForMarkup = []; // массив для рендера на текущую страницу
 
 // настройки пагинатора
 let options = {
-  // below default value of options
-  // totalItems: arrCurrentNews.length,
   itemsPerPage: cardsPerPage(),
   visiblePages: 4,
   page: 1,
@@ -88,17 +85,16 @@ export async function createNewsCollection(func, value) {
   options.totalItems = arrCurrentNews.length;
   pagination.reset(options.totalItems);
 
+  // вырезали часть масива новостей для рендера текущей страницы
   arrForMarkup = displayItems(
     arrCurrentNews,
     options.page,
     options.itemsPerPage
   );
 
-  // вырезали часть масива новостей для рендера текущей страницы
-
-  // готовим массив разметки для рендера текущих товостей
-  // и погоды
+  // готовим массив разметки для рендера текущих товостей и погоды
   const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
+  
   if (currentDispleyWidth > 1280) {
     cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
   } else if (currentDispleyWidth > 768) {
@@ -109,8 +105,11 @@ export async function createNewsCollection(func, value) {
 
   // рендер текущих новостей
   renderBoxNewMarkup(cardMarkupArray);
+
   //рендер погоды
   insertWeather();
+
+  // loader
   setTimeout(() => {
     loader.classList.add('is-hidden');
   }, 700);
@@ -146,7 +145,7 @@ function onResize() {
 }
 
 // ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
-function displayItems(arr, page, perPage) {
+export function displayItems(arr, page, perPage) {
   const start = (page - 1) * perPage;
   const end = start + perPage;
   const paginatedEl = arr.slice(start, end);
@@ -156,7 +155,6 @@ function displayItems(arr, page, perPage) {
 // ф-ция рендера текущих карточек на страницу и изменение кнопок
 function renderBoxNewMarkup(arr) {
   box.innerHTML = arr.join('');
-  // box.insertAdjacentHTML('beforeend', );
 }
 
 // ф-ция возвращает текущий массив новостей

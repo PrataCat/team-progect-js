@@ -21,7 +21,6 @@
   transition: transform 250ms linear;
 }
 
-// -------------------------------------------
 .tui-pagination.pag {
   margin: 40px 0 60px;
   display: flex;
@@ -64,7 +63,6 @@
 .tui-pagination > .tui-page-btn.tui-prev.pag,
 .tui-pagination > .tui-page-btn.tui-next.pag {
   font-family: 'Manrope500', sans-serif;
-  // background-color: var(--primary-light-color);
   text-transform: capitalize;
   color: initial;
   font-size: 14px;
@@ -72,7 +70,6 @@
   width: 72px;
   height: 28px;
   transition: transform 250ms linear;
-  // margin: 0;
   border: 1px solid var(--accent-primary-color);
   @media screen and (min-width: 768px) {
     font-size: 16px;
@@ -90,7 +87,6 @@
   text-transform: capitalize;
   font-size: 16px;
   line-height: 1.38;
-  // background-color: var(--primary-light-color);
   border: 1px solid var(--accent-secondary-color);
   border-radius: 2px;
   width: 82px;
@@ -119,40 +115,49 @@
   transform: translateX(8px);
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.pag.tui-is-disabled:hover .tui-ico-next::after {
   content: '>';
   transform: translateX(0px);
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.pag:hover .tui-ico-prev::before {
   content: '<';
   transform: translateX(-8px);
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.pag.tui-is-disabled:hover .tui-ico-prev::before {
   content: '<';
   transform: translateX(0px);
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.pag:focus {
   transform: scale(1.05);
   transition: transform 250ms linear;
   background-color: rgba(254, 254, 255, 0.6);
 }
+
 .tui-page-btn.pag.tui-is-selected:hover {
   transform: scale(1);
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.pag.tui-is-selected:focus {
   transform: scale(1);
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.pag {
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.tui-last {
   transition: transform 250ms linear;
 }
+
 .tui-page-btn.tui-first {
   transition: transform 250ms linear;
 }
@@ -161,10 +166,12 @@
   transform: scale(1);
   background-color: var(--primary-light-color);
 }
+
 .tui-page-btn.pag:focus.tui-is-disabled {
   transform: scale(1);
   background-color: var(--primary-light-color);
 }
+
 .tui-pagination > .tui-page-btn.pag.tui-is-disabled {
   cursor: default;
   background-color: rgba(219, 219, 219, 0.426);

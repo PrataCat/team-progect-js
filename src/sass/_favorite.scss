@@ -4,31 +4,25 @@
 
 .box-news__btn {
   position: absolute;
-  // width: 162px;
-  width: auto;
-  height: 28px;
   top: 355px;
   right: 12px;
-
+  width: auto;
+  height: 28px;
   padding-left: 12px;
-  gap: 4px;
   display: flex;
   align-items: center;
-
+  gap: 4px;
   border-radius: 20px;
-
-  background-color: #f4f4f4;
-  color: #111321;
-  font-family: 'Manrope';
-  font-weight: 500;
-  font-size: 12px;
-  text-align: center;
   border: none;
   cursor: pointer;
+  color: var(--primary-dark-color);
+  background-color: var(--primary-light-color);
+  font-family: 'Manrope500', sans-serif;
+  font-size: 12px;
+  text-align: center;
 }
 
 .box-news__btn-icon {
   color: currentColor;
-  // background-color: lightgrey;
   background-image: url(../images/akar-icons_heart-filled.svg);
 }
