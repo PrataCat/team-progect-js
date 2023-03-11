@@ -7,6 +7,7 @@ import { insertWeather } from './weather';
 import { getSearchForm } from './header';
 import { renderNoNews } from './calendar';
 import Pagination from 'tui-pagination';
+import { displayItems } from './utils/arrayCarsToRander';
 
 const box = document.querySelector('.box-news');
 const searchBtn = document.querySelector('.search-form__btn');
@@ -144,15 +145,7 @@ function onResize() {
   }
 }
 
-// ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
-export function displayItems(arr, page, perPage) {
-  const start = (page - 1) * perPage;
-  const end = start + perPage;
-  const paginatedEl = arr.slice(start, end);
-  return paginatedEl;
-}
-
-// ф-ция рендера текущих карточек на страницу и изменение кнопок
+// ф-ция рендера текущих карточек на страницу
 function renderBoxNewMarkup(arr) {
   box.innerHTML = arr.join('');
 }

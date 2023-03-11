@@ -2,6 +2,7 @@
 import { excludeFavoriteNew, loadAllFavorites } from './library.js';
 import { creatCardMarkup } from './creatCardMarkup';
 import { writeReadStorage } from './read-library';
+import { displayItems } from './utils/arrayCarsToRander';
 
 const box = document.querySelector('.box-news');
 const loader = document.querySelector('.loader-container');
@@ -42,14 +43,6 @@ function quantityPerPage() {
   } else {
     return 4;
   }
-}
-
-// ф-ция возвращает массив карточек для рендера на текущую страницу (из текущуго массива arrCurrentNews)
-function displayItems(arr, page, perPage) {
-  const start = (page - 1) * perPage;
-  const end = start + perPage;
-  const paginatedEl = arr.slice(start, end);
-  return paginatedEl;
 }
 
 function renderNoNews(noResultsText) {
