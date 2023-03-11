@@ -95,7 +95,7 @@ export async function createNewsCollection(func, value) {
 
   // готовим массив разметки для рендера текущих товостей и погоды
   const cardMarkupArray = arrForMarkup.map(el => creatCardMarkup(el)); // массив готовой разметки карточек для рендера на текущую страницу
-  
+
   if (currentDispleyWidth > 1280) {
     cardMarkupArray.splice(2, 0, `<li class="box-weather__item box "></li>`);
   } else if (currentDispleyWidth > 768) {
@@ -221,6 +221,8 @@ async function onSearchButtonClick(event) {
   renderBoxNewMarkup(cardMarkupArray);
 
   insertWeather();
+  const inputSearch = document.querySelector('.search-form');
+  inputSearch.reset();
 }
 
 function hideSearchInput() {
