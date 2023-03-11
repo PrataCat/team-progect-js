@@ -4,8 +4,7 @@ import sprite from '/src/images/weather-sprite.svg';
 const WEATHER_API = `https://api.openweathermap.org/data/2.5/`;
 const API_KEY = 'e2ab9bb084f395e2b419fd57d1bf78fc';
 
-// ===========  по геолокации
-
+let q = 'Kyiv'
 async function fetchWeather(lat, lon) {
   const URL = `${WEATHER_API}weather?appid=${API_KEY}&lat=${lat}&lon=${lon}&units=metric`;
   const response = await fetch(URL);
@@ -15,8 +14,6 @@ async function fetchWeather(lat, lon) {
   const data = await response.json();
   return data;
 }
-
-//  ============== по городу
 
 async function fetchWeatherCity(q) {
   const URL = `${WEATHER_API}weather?appid=${API_KEY}&q=${q}&units=metric`;
@@ -30,8 +27,6 @@ async function fetchWeatherCity(q) {
     console.log(error);
   }
 }
-
-// ============== CARD
 
 function createWeatherCardMarkup(arr) {
   const d1 = new Date();
@@ -91,39 +86,56 @@ async function insertWeather() {
   openForecastBtn.addEventListener('click', onOpenForecast);
 }
 
+const URL_DEFAULT = `${WEATHER_API}forecast?q=${q}&cnt=40&appid=${API_KEY}&units=metric`;
+
 async function onSubmitSearchCity(e) {
-  if (!e.target.value.trim()) {
+  let q = e.target.value;
+  if (!q.trim()) {
     return alert('Поле повинно бути заповнено.');
   }
 
-  const weatherCity = await fetchWeatherCity(e.target.value);
+  const weatherCity = await fetchWeatherCity(q);
   if (weatherCity.cod !== 200) {
-    e.target.value = '';
+    q = '';
     return;
   }
 
   const locationMarkup = createWeatherCardMarkup(weatherCity);
   const weatherBox = document.querySelector('.box-weather__item');
   weatherBox.innerHTML = locationMarkup;
-}
 
-// Vika-------------------------------------------------------------------------------------------------------
+  const openForecastBtn = document.querySelector('.forecast__btn');
+  openForecastBtn.addEventListener('click', onOpenForecastCity);
 
-const URL_DEFAULT = `https://api.openweathermap.org/data/2.5/forecast?q=Kyiv&cnt=40&appid=ff3d132454e086af9e5461615c5adce7&units=metric`;
 
-function onOpenForecast(evt) {
-  const forecastDiv = evt.currentTarget;
-  const forecastIsOpen = forecastDiv.querySelector('.forecast');
+function onOpenForecastCity(evt){
   evt.target.nextElementSibling.classList.add('is-open');
   const currentWeather = document.querySelector('.current-weather');
   const forecastList = document.querySelector('.forecast__list');
-  const firstStepGetCloseBtn = evt.target.nextElementSibling;
   const closeForecastBtn = document.querySelector('.forecast-close__btn');
 
   closeForecastBtn.addEventListener('click', onCloseForecast);
-  fetchWeatherCity('Kyiv').then(data => {
-    createcurrentWeatherMarkup(data);
-    currentWeather.innerHTML = createcurrentWeatherMarkup(data);
+  fetchWeatherCity(q).then(data => {
+    createCurrentWeatherMarkup(data);
+    currentWeather.innerHTML = createCurrentWeatherMarkup(data);
+  });
+
+  fetchForecast(URL_DEFAULT).then(data => {
+    forecastList.insertAdjacentHTML('beforeend', createForecastMarkup(data));
+  });
+}
+}
+
+function onOpenForecast(evt) {
+  evt.target.nextElementSibling.classList.add('is-open');
+  const currentWeather = document.querySelector('.current-weather');
+  const forecastList = document.querySelector('.forecast__list');
+  const closeForecastBtn = document.querySelector('.forecast-close__btn');
+
+  closeForecastBtn.addEventListener('click', onCloseForecast);
+  fetchWeatherCity(q).then(data => {
+    createCurrentWeatherMarkup(data);
+    currentWeather.innerHTML = createCurrentWeatherMarkup(data);
   });
 
   fetchForecast(URL_DEFAULT).then(data => {
@@ -134,11 +146,11 @@ function onOpenForecast(evt) {
     if (position.coords) {
       const { latitude, longitude } = position.coords;
       fetchWeather(latitude, longitude).then(data => {
-        currentWeather.innerHTML = createcurrentWeatherMarkup(data);
+        currentWeather.innerHTML = createCurrentWeatherMarkup(data);
       });
 
       fetchForecast(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=ff3d132454e086af9e5461615c5adce7&units=metric`
+        `${WEATHER_API}forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
       ).then(data => {
         createForecastMarkup(data);
         forecastList.innerHTML = '';
@@ -184,7 +196,7 @@ async function fetchForecast(URL) {
   }
 }
 
-function createcurrentWeatherMarkup(data) {
+function createCurrentWeatherMarkup(data) {
   const currentWeatherMarkup = `<p class="current-weather__location">
         <svg width="20" height="20">
           <use
