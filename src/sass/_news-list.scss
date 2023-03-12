@@ -17,6 +17,9 @@
   position: relative;
   height: 675px;
   overflow: hidden;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12),
+  0px 4px 4px rgba(0, 0, 0, 0.06), 1px 4px 6px rgba(0, 0, 0, 0.16);
+
   @media screen and (max-width: 767px) {
     height: 630px;
     margin-bottom: 28px;
@@ -57,24 +60,28 @@ li.show .box-news___wrap-reading {
   display: block;
   opacity: 1;
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 40px;
+  right: 0;
+  min-width: 112px;
+  height: 24px;
+  padding: 4px 8px;
+  display: inline-block;
+  border-radius: 4px 0 0 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 4px;
-  background-color: transparent;
+  background-color: var(--accent-card-btn-bg-color);
   z-index: 9;
   @media screen and (min-width: 768px) {
-    top: 20px;
-    right: 20px;
+    top: 44px;
   }
 }
 
 .box-news__reading {
-  color: var(--read-color);
-  font-family: 'Manrope700', sans-serif;
-  font-size: 14px;
+  color: var(--secondary-light-color);
+  font-family: 'Manrope500', sans-serif;
+  font-size: 12px;
   line-height: 1, 36;
 }
 
@@ -103,6 +110,7 @@ li.show .box-news___wrap-reading {
 }
 
 .box-news__titel {
+  padding: 0 4px;
   font-family: 'Manrope700', sans-serif;
   font-size: 24px;
   line-height: 1.38;
@@ -123,6 +131,7 @@ li.show .box-news___wrap-reading {
 }
 
 .box-news__text {
+  padding: 0 4px;
   font-family: 'Manrope400', sans-serif;
   font-size: 14px;
   line-height: 1.36;
@@ -142,6 +151,7 @@ li.show .box-news___wrap-reading {
   font-family: 'Manrope400', sans-serif;
   font-size: 14px;
   line-height: 1.36;
+  padding-left: 4px;
   @media screen and (min-width: 768px) {
     font-style: 16px;
     line-height: 1.36;
@@ -153,6 +163,7 @@ li.show .box-news___wrap-reading {
   font-family: 'Manrope400', sans-serif;
   font-size: 14px;
   line-height: 1.36;
+  padding-right: 4px;
   @media screen and (min-width: 768px) {
     font-style: 16px;
     line-height: 1.36;
@@ -190,6 +201,7 @@ li.show .overlay {
   border: none;
   background: var(--secondary-light-color);
 }
+
 .box-news__favorite-btn.favorite .box-news__favorite-p {
   padding-left: 6px;
 }
