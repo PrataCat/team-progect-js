@@ -51,7 +51,6 @@ function createCategories(categoriesArray, windowInnerWidth) {
   let nameForOthersBtn = '';
   if (windowInnerWidth >= 1280) {
     amountOfMainCategories = 6;
-    console.log(amountOfMainCategories);
     nameForOthersBtn = 'Others';
   } else if (windowInnerWidth > 767 && windowInnerWidth < 1280) {
     amountOfMainCategories = 4;

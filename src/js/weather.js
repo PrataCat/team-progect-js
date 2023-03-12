@@ -3,8 +3,11 @@ import sprite from '/src/images/weather-sprite.svg';
 
 const WEATHER_API = `https://api.openweathermap.org/data/2.5/`;
 const API_KEY = 'e2ab9bb084f395e2b419fd57d1bf78fc';
+let q = 'Kyiv';
+const URL_DEFAULT = `${WEATHER_API}forecast?q=${q}&cnt=40&appid=${API_KEY}&units=metric`;
+let dataGeo = {};
 
-let q = 'Kyiv'
+// погода по геолокации, return obj по geolocation
 async function fetchWeather(lat, lon) {
   const URL = `${WEATHER_API}weather?appid=${API_KEY}&lat=${lat}&lon=${lon}&units=metric`;
   const response = await fetch(URL);
@@ -15,35 +18,159 @@ async function fetchWeather(lat, lon) {
   return data;
 }
 
+//  по городу текущая, return obj по input
 async function fetchWeatherCity(q) {
   const URL = `${WEATHER_API}weather?appid=${API_KEY}&q=${q}&units=metric`;
   try {
     const res = await fetch(URL);
-
     const data = await res.json();
-
     return data;
   } catch (error) {
     console.log(error);
   }
 }
 
-function createWeatherCardMarkup(arr) {
+// по городу на 40 дней, return obj на 40 days
+async function fetchForecast(URL) {
+  try {
+    const response = await fetch(URL);
+    if (!response.ok) {
+      throw new Error('Error');
+    }
+    const data = await response.json();
+    return data;
+  } catch {
+    error => console.log('ERROR' + error);
+  }
+}
+
+// главная ф-ция
+async function insertWeather() {
+  const fetchWeather = await renderWeatherCard();
+  const inputEl = document.querySelector('.box-weather__item');
+  inputEl.addEventListener('input', debounce(onInputSearchCity, 1000));
+}
+
+// рендер главной страницы погоды
+async function renderWeatherCard() {
+  const weatherBox = document.querySelector('.box-weather__item');
+  const defaultCity = await fetchWeatherCity('Kyiv');
+  weatherBox.innerHTML = createWeatherCardMarkup(defaultCity);
+
+  navigator.geolocation.getCurrentPosition(async position => {
+    dataGeo = await fetchWeather(
+      position.coords.latitude,
+      position.coords.longitude
+    );
+    weatherBox.innerHTML = createWeatherCardMarkup(dataGeo);
+    addClickToBtn();
+  });
+  addClickToBtn();
+}
+
+// обработка инпута
+async function onInputSearchCity(e) {
+  dataGeo = {};
+  q = e.target.value.trim();
+  if (!q) {
+    return alert('Поле повинно бути заповнено.');
+  }
+
+  console.log(q);
+
+  const weatherCity = await fetchWeatherCity(q);
+  if (weatherCity.cod !== 200) {
+    alert('Такого міста не існує.');
+    q = '';
+    cleaningInput();
+    cleaningPlaceholder();
+    removeClickToBtn();
+
+    return;
+  }
+
+  // находим li и рендерим в нее разметку погоды выбранного города
+  const weatherBox = document.querySelector('.box-weather__item');
+  weatherBox.innerHTML = createWeatherCardMarkup(weatherCity);
+
+  // находим кнопку 5 дней и вешаем на нее клик
+  addClickToBtn();
+}
+
+async function onOpenForecast(evt) {
+  evt.target.nextElementSibling.classList.add('is-open');
+  const currentWeather = document.querySelector('.current-weather');
+  const forecastList = document.querySelector('.forecast__list');
+  const closeForecastBtn = document.querySelector('.forecast-close__btn');
+
+  if (Object.keys(dataGeo).length) {
+    renderWeatherForecastByGeo(currentWeather, forecastList);
+  } else {
+    renderWeatherForecastByCity(currentWeather, forecastList);
+  }
+
+  closeForecastBtn.addEventListener('click', onCloseForecast);
+}
+
+// рендер погоды на 5 дней (по городу)
+async function renderWeatherForecastByCity(elTop, elBottom) {
+  const dataHeader = await fetchWeatherCity(q);
+  elTop.innerHTML = createCurrentWeatherMarkup(dataHeader);
+
+  const dataBody = await fetchForecast(URL_DEFAULT);
+  elBottom.insertAdjacentHTML('beforeend', createForecastMarkup(dataBody));
+}
+
+// погода по геолокации на  40дней
+async function renderWeatherForecastByGeo(elTop, elBottom) {
+  const { lon, lat } = dataGeo.coord;
+  const dataHeader = await fetchWeather(lat, lon);
+
+  elTop.innerHTML = createCurrentWeatherMarkup(dataHeader);
+
+  const dataBody = await fetchForecast(
+    `${WEATHER_API}forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+  );
+
+  elBottom.innerHTML = '';
+  elBottom.insertAdjacentHTML('beforeend', createForecastMarkup(dataBody));
+  removeClickToBtn();
+}
+
+// закрытие прогноза и др.
+function onCloseForecast(evt) {
+  const forecastClose = evt.currentTarget;
+  const forecastCloseDiv = forecastClose.parentNode;
+  forecastCloseDiv.classList.remove('is-open');
+  const forecastCloseNextElementSibling = forecastClose.nextElementSibling;
+  const forecasWrapperFirstChild =
+    forecastCloseNextElementSibling.firstElementChild;
+  forecasWrapperFirstChild.innerHTML = '';
+  const forecasWrapperLastChild =
+    forecastCloseNextElementSibling.lastElementChild;
+  forecasWrapperLastChild.innerHTML = '';
+  forecastClose.removeEventListener('click', onCloseForecast);
+  // removeClickToBtn();
+  cleaningInput();
+}
+
+// разметка главной страницы погоды
+function createWeatherCardMarkup(obj) {
   const d1 = new Date();
   return `<div class="weather__wrap">
-  <p class="weather-temp">${Math.floor(arr.main.temp)}&deg</p>
+  <p class="weather-temp">${Math.floor(obj.main.temp)}&deg</p>
   <div class="weather-city-group">
-    <p class="weather-main">${arr.weather[0].main}</p>
+    <p class="weather-main">${obj.weather[0].main}</p>
     <form class="search-form">
       <svg class="icon-carbon_location" width="18" height="18">
         <use href="${sprite}#icon-carbon_location"></use>
       </svg>
-      <input type="text" id="search-box" placeholder="${arr.name}"/>
+      <input type="text" id="search-box" placeholder="${obj.name}"/>
     </form>
   </div></div>
   <img class="weather-icon" src=" https://openweathermap.org/img/wn/${
-    arr.weather[0].icon
-  }@2x.png" alt="${arr.title}">
+    obj.weather[0].icon
+  }@2x.png" alt="${obj.title}">
   <p class= weather-day>${d1.toUTCString().slice(0, 3)}</p>
   <p class= weather-data>${d1.toUTCString().slice(5, 17)}</p>
   <button type="button" class="forecast__btn">weather for 5 days</button>
@@ -60,142 +187,7 @@ function createWeatherCardMarkup(arr) {
   </div>`;
 }
 
-async function renderWeatherCard() {
-  const weatherBox = document.querySelector('.box-weather__item');
-  const defaultCity = await fetchWeatherCity('Kyiv');
-  weatherBox.innerHTML = createWeatherCardMarkup(defaultCity);
-
-  navigator.geolocation.getCurrentPosition(async position => {
-    const data = await fetchWeather(
-      position.coords.latitude,
-      position.coords.longitude
-    );
-    const geoMarkup = createWeatherCardMarkup(data);
-    weatherBox.innerHTML = geoMarkup;
-    const openForecastBtn = document.querySelector('.forecast__btn');
-    openForecastBtn.addEventListener('click', onOpenForecast);
-  });
-}
-
-async function insertWeather() {
-  const fetchWeather = await renderWeatherCard();
-  const inputEl = document.querySelector('.box-weather__item');
-  inputEl.addEventListener('input', debounce(onSubmitSearchCity, 1000));
-
-  const openForecastBtn = document.querySelector('.forecast__btn');
-  openForecastBtn.addEventListener('click', onOpenForecast);
-}
-
-const URL_DEFAULT = `${WEATHER_API}forecast?q=${q}&cnt=40&appid=${API_KEY}&units=metric`;
-
-async function onSubmitSearchCity(e) {
-  let q = e.target.value;
-  if (!q.trim()) {
-    return alert('Поле повинно бути заповнено.');
-  }
-
-  const weatherCity = await fetchWeatherCity(q);
-  if (weatherCity.cod !== 200) {
-    q = '';
-    return;
-  }
-
-  const locationMarkup = createWeatherCardMarkup(weatherCity);
-  const weatherBox = document.querySelector('.box-weather__item');
-  weatherBox.innerHTML = locationMarkup;
-
-  const openForecastBtn = document.querySelector('.forecast__btn');
-  openForecastBtn.addEventListener('click', onOpenForecastCity);
-
-
-function onOpenForecastCity(evt){
-  evt.target.nextElementSibling.classList.add('is-open');
-  const currentWeather = document.querySelector('.current-weather');
-  const forecastList = document.querySelector('.forecast__list');
-  const closeForecastBtn = document.querySelector('.forecast-close__btn');
-
-  closeForecastBtn.addEventListener('click', onCloseForecast);
-  fetchWeatherCity(q).then(data => {
-    createCurrentWeatherMarkup(data);
-    currentWeather.innerHTML = createCurrentWeatherMarkup(data);
-  });
-
-  fetchForecast(URL_DEFAULT).then(data => {
-    forecastList.insertAdjacentHTML('beforeend', createForecastMarkup(data));
-  });
-}
-}
-
-function onOpenForecast(evt) {
-  evt.target.nextElementSibling.classList.add('is-open');
-  const currentWeather = document.querySelector('.current-weather');
-  const forecastList = document.querySelector('.forecast__list');
-  const closeForecastBtn = document.querySelector('.forecast-close__btn');
-
-  closeForecastBtn.addEventListener('click', onCloseForecast);
-  fetchWeatherCity(q).then(data => {
-    createCurrentWeatherMarkup(data);
-    currentWeather.innerHTML = createCurrentWeatherMarkup(data);
-  });
-
-  fetchForecast(URL_DEFAULT).then(data => {
-    forecastList.insertAdjacentHTML('beforeend', createForecastMarkup(data));
-  });
-
-  navigator.geolocation.getCurrentPosition(position => {
-    if (position.coords) {
-      const { latitude, longitude } = position.coords;
-      fetchWeather(latitude, longitude).then(data => {
-        currentWeather.innerHTML = createCurrentWeatherMarkup(data);
-      });
-
-      fetchForecast(
-        `${WEATHER_API}forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
-      ).then(data => {
-        createForecastMarkup(data);
-        forecastList.innerHTML = '';
-        forecastList.insertAdjacentHTML(
-          'beforeend',
-          createForecastMarkup(data)
-        );
-      });
-    }
-  });
-}
-
-function onCloseForecast(evt) {
-  const forecastClose = evt.currentTarget;
-
-  const forecastCloseDiv = forecastClose.parentNode;
-
-  forecastCloseDiv.classList.remove('is-open');
-
-  const forecastCloseNextElementSibling = forecastClose.nextElementSibling;
-
-  const forecasWrapperFirstChild =
-    forecastCloseNextElementSibling.firstElementChild;
-  forecasWrapperFirstChild.innerHTML = '';
-
-  const forecasWrapperLastChild =
-    forecastCloseNextElementSibling.lastElementChild;
-  forecasWrapperLastChild.innerHTML = '';
-
-  forecastClose.removeEventListener('click', onCloseForecast);
-}
-
-async function fetchForecast(URL) {
-  try {
-    const response = await fetch(URL);
-    if (!response.ok) {
-      throw new Error('Error');
-    }
-    const data = await response.json();
-    return data;
-  } catch {
-    error => console.log('ERROR' + error);
-  }
-}
-
+// разметка хэдэра прогноза 5 дней
 function createCurrentWeatherMarkup(data) {
   const currentWeatherMarkup = `<p class="current-weather__location">
         <svg width="20" height="20">
@@ -226,6 +218,7 @@ function createCurrentWeatherMarkup(data) {
   return currentWeatherMarkup;
 }
 
+// разметка боди прогноза 5 дней
 function createForecastMarkup(data) {
   const forecastMarkup = data.list
     .map(item => {
@@ -257,4 +250,27 @@ function createForecastMarkup(data) {
   return forecastMarkup;
 }
 
-export { insertWeather, renderWeatherCard };
+function cleaningInput() {
+  const searchBox = document.getElementById('search-box');
+  searchBox.value = '';
+  // searchBox.placeholder = '';
+}
+
+function cleaningPlaceholder() {
+  const searchBox = document.getElementById('search-box');
+  searchBox.placeholder = '';
+}
+
+// вешаем клик на кнопку
+function addClickToBtn() {
+  const openForecastBtn = document.querySelector('.forecast__btn');
+  openForecastBtn.addEventListener('click', onOpenForecast);
+}
+
+// снимаем клик на кнопку
+function removeClickToBtn() {
+  const openForecastBtn = document.querySelector('.forecast__btn');
+  openForecastBtn.removeEventListener('click', onOpenForecast);
+}
+
+export { insertWeather };
